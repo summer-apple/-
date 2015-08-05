@@ -1,0 +1,48 @@
+package com.zjlh.villa.action;
+
+import net.sf.json.JSONObject;
+
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.zjlh.villa.service.FuckService;
+import com.zjlh.villa.service.util.WeixinUtilService;
+@Namespace("/fuck")
+@Controller
+public class FuckAction extends ActionSupport {
+
+	@Autowired
+	private FuckService fuckService;
+	
+	@Autowired
+	private WeixinUtilService weixinUtilService;
+	
+
+
+	@Action("/fuck/fuck")
+	public String fuck() {
+		System.out.println("Fuck Action...");
+//		JSONObject jsonObject=new JSONObject();
+//		jsonObject.put("city", "杭州");
+//		jsonObject.put("country","中国");
+//		jsonObject.put("headimgurl","http://wx.qlogo.cn/mmopen/kXQeGr6u5Mqf5vAe5ahjn2pYZic4OtvFP0j5jM02AcaXINYGhfM6Y65vNSHWqriaBxuD610QIwnOkT0f8gPXPgFaEia9xhvMCZF/0");
+//		jsonObject.put("language","zh_CN");
+//		jsonObject.put("nickname","五花肉");
+//		jsonObject.put("openid","oDVwktxzxJPXEGgXh1RHX47QX6Pw");
+//		jsonObject.put("province","浙江");
+//		jsonObject.put("remark","");
+//		jsonObject.put("sex",1);
+//		jsonObject.put("subscribe",1);
+//		jsonObject.put("subscribeTime",1438788246);
+//		
+//		weixinUtilService.moni(jsonObject);
+		
+		fuckService.fuck();
+		
+		return SUCCESS;
+	}
+	
+}

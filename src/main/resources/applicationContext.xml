@@ -16,7 +16,7 @@
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
 	<!-- 设置自动搜索目录 -->
-	<context:component-scan base-package="com.zhejianglehua.rzf" />
+	<context:component-scan base-package="com.zjlh.villa" />
 	
 	<!-- 事务管理器配置,单数据源事务 -->
 	<bean id="transactionManager"
@@ -30,7 +30,7 @@
 	<!-- 定义数据源Bean，使用C3P0数据源实现，并注入数据源的必要信息 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
-		p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/rzf" p:user="summer" p:password="summer"
+		p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/villa?useUnicode=true&amp;characterEncoding=utf-8" p:user="summer" p:password="summer"
 		p:maxPoolSize="40" p:minPoolSize="2" p:initialPoolSize="2"
 		p:maxIdleTime="30" />
 
@@ -42,7 +42,7 @@
 		<property name="annotatedClasses">
 			<list>
 				<!-- 以下用来列出所有的PO类 -->
-				<!-- <value>com.gmc.entity.User</value> -->
+				<value>com.zjlh.villa.entity.Member</value>
 			</list>
 		</property>
 		<!-- 定义Hibernate SessionFactory的属性 -->

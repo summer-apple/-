@@ -7,15 +7,10 @@
   <listener>
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
-  <listener>
-    <listener-class>com.zhejianglehua.rzf.action.util.GetAccessTokenAction</listener-class>
-  </listener>
-  <listener>
-    <listener-class>com.zhejianglehua.rzf.action.util.AAA</listener-class>
-  </listener>
+ 
   <filter>
     <filter-name>EcodingFilter</filter-name>
-    <filter-class>com.zhejianglehua.rzf.filter.EcodingFilter</filter-class>
+    <filter-class>com.zjlh.villa.filter.EcodingFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>EcodingFilter</filter-name>
