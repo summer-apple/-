@@ -43,6 +43,18 @@
 			<list>
 				<!-- 以下用来列出所有的PO类 -->
 				<value>com.zjlh.villa.entity.Member</value>
+				<value>com.zjlh.villa.entity.Comment</value>
+				<value>com.zjlh.villa.entity.CommentImg</value>
+				<value>com.zjlh.villa.entity.Facility</value>
+				<value>com.zjlh.villa.entity.Img</value>
+				<value>com.zjlh.villa.entity.Orders</value>
+				<value>com.zjlh.villa.entity.Service</value>
+				<value>com.zjlh.villa.entity.Store</value>
+				<value>com.zjlh.villa.entity.Villa</value>
+				<value>com.zjlh.villa.entity.VillaImg</value>
+				<value>com.zjlh.villa.entity.VillaService</value>
+				<value>com.zjlh.villa.entity.VillaFacility</value>
+				
 			</list>
 		</property>
 		<!-- 定义Hibernate SessionFactory的属性 -->

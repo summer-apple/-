@@ -18,12 +18,12 @@ public class Facility implements java.io.Serializable {
 
 	private Integer id;
 	private String content;
-	private String type;
+	private int type;
 
 	public Facility() {
 	}
 
-	public Facility(String content, String type) {
+	public Facility(String content, int type) {
 		this.content = content;
 		this.type = type;
 	}
@@ -49,11 +49,11 @@ public class Facility implements java.io.Serializable {
 	}
 
 	@Column(name = "type", length = 45)
-	public String getType() {
+	public int getType() {
 		return this.type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 

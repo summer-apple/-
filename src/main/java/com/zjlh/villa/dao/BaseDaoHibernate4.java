@@ -14,8 +14,8 @@ import javax.transaction.Transactional;
 @Transactional
 public class BaseDaoHibernate4<T> implements BaseDao<T> {
 	// DAO组件进行持久化操作底层依赖的SessionFactory组件
-	//@Resource(name="sessionFactory")
-	
+	// @Resource(name="sessionFactory")
+
 	private SessionFactory sessionFactory;
 
 	// 依赖注入SessionFactory所需的setter方法
@@ -33,25 +33,53 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 	public T get(Class<T> entityClazz, Serializable id) {
 		return (T) getSessionFactory().getCurrentSession().get(entityClazz, id);
 	}
-	
-	//根据字段加载实体类
+
+	// 根据字段加载实体类
 	@SuppressWarnings("unchecked")
-	public T get(Class<T> entityClazz,String key,Object value){
-		
-System.out.println(entityClazz.getSimpleName());
-		
-		String hql = "FROM "+entityClazz.getSimpleName()+" WHERE "+key+"=?0";
+	public T get(Class<T> entityClazz, String key, Object value) {
+
+		System.out.println(entityClazz.getSimpleName());
+
+		String hql = "FROM " + entityClazz.getSimpleName() + " WHERE " + key
+				+ "=?0";
 		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 		query.setParameter(0 + "", value);
-		List<T> list= (List<T>) query.list();
-		if (list.size()>0) {
+		List<T> list = (List<T>) query.list();
+		if (list.size() > 0) {
 			return list.get(0);
-		}else {
+		} else {
 			return null;
 		}
-		
+
 	}
-	
+
+	// 根据ID判断是否存在
+	@SuppressWarnings("unchecked")
+	public boolean exist(Class<T> entityClazz, Serializable id) {
+		T t = (T) getSessionFactory().getCurrentSession().get(entityClazz, id);
+		if (t != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// 根据字段判断是否存在
+	@SuppressWarnings("unchecked")
+	public boolean exist(Class<T> entityClazz, String key, Object value) {
+
+		String hql = "FROM " + entityClazz.getSimpleName() + " WHERE " + key
+				+ "=?0";
+		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+		query.setParameter(0 + "", value);
+		List<T> list = (List<T>) query.list();
+		if (list.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 
 	// 保存实体
 	public Serializable save(T entity) {
