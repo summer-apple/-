@@ -98,7 +98,7 @@ public class ImageAction extends ActionSupport {
 		System.out.println(folder);
 		
 		String path = ServletActionContext.getServletContext().getRealPath(
-				"/resources/image/"+folder);
+				"/resources/images/"+folder);
 
 		System.out.println(path);
 
@@ -111,7 +111,7 @@ public class ImageAction extends ActionSupport {
 		// 循环将批量上传的文件保存到本地
 		for (int i = 0; i < upload.size(); i++) {
 			
-			String url = "resources/image/"+folder+"/"+uploadFileName.get(i);
+			String url = "resources/images/"+folder+"/"+uploadFileName.get(i);
 			
 			if (!is.verifyImg(url)) {//不存在
 				FileUtils.copyFile(upload.get(i),new File(file, uploadFileName.get(i)));
