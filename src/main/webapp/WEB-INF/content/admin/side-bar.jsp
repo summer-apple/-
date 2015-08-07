@@ -9,9 +9,9 @@
 			<!-- logo -->
 			<div class="logo">
 				<a href="dashboard-1.html" class="logo-expanded"> <img
-					src="assets/images/logo@2x.png" width="80" alt="" />
+					src="../resources/images/logo@2x.png" width="80" alt="" />
 				</a> <a href="dashboard-1.html" class="logo-collapsed"> <img
-					src="assets/images/logo-collapsed@2x.png" width="40" alt="" />
+					src="../resources/images/logo-collapsed@2x.png" width="40" alt="" />
 				</a>
 			</div>
 

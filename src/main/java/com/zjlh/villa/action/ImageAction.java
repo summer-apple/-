@@ -4,12 +4,15 @@ package com.zjlh.villa.action;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionSupport;
 import com.zjlh.villa.entity.Img;
 import com.zjlh.villa.service.ImgService;
+import com.zjlh.villa.service.util.AlgorithmService;
 
 //@ParentPackage("default")
 @Namespace("/img")
@@ -42,6 +46,10 @@ public class ImageAction extends ActionSupport {
 	private HttpServletRequest request;
 	@Autowired
 	private HttpServletResponse response;
+	@Autowired
+	private AlgorithmService as;
+	
+	
 	private List<File> upload;
 
 	public List<File> getUpload() {
@@ -93,16 +101,17 @@ public class ImageAction extends ActionSupport {
 			
 		
 		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
 		
 		String folder = request.getParameter("folder");
-		System.out.println(folder);
+System.out.println(folder);
 		
 		String path = ServletActionContext.getServletContext().getRealPath(
 				"/resources/images/"+folder);
 
-		System.out.println(path);
+System.out.println(path);
 
-		System.out.println(upload);
+System.out.println(upload);
 
 		File file = new File(path);
 		if (!file.exists()) {
@@ -111,31 +120,49 @@ public class ImageAction extends ActionSupport {
 		// 循环将批量上传的文件保存到本地
 		for (int i = 0; i < upload.size(); i++) {
 			
-			String url = "resources/images/"+folder+"/"+uploadFileName.get(i);
+			String filename = null;			
+			Date date = new Date();	
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+			filename = sdf.format(date);
+			filename += as.getMD5(uploadFileName.get(i));date.toString();
+			filename += uploadFileName.get(i).substring(uploadFileName.get(i).lastIndexOf("."));
 			
-			if (!is.verifyImg(url)) {//不存在
-				FileUtils.copyFile(upload.get(i),new File(file, uploadFileName.get(i)));
-				is.addImg(url);
-			}
 			
+System.out.println(filename);
+			
+			
+			String url = "resources/images/"+folder+"/"+filename;
+			
+		
+			FileUtils.copyFile(upload.get(i),new File(file, filename));
+			int id = is.addImg(url);
+			JSONObject object = new JSONObject();
+			object.put("id", id);
+			object.put("url", url);
+System.out.println(object);			
+			PrintWriter out = response.getWriter();
+			out.print(object);
+			out.close();
 		}
-
-		result = "上传成功！";
-
+		
 		return null;
 		}
 	}
 	
 	
 	@Action("/img/delImg")
-	public void delImg(){
+	public void delImg() throws IOException{
 		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
 		int id = Integer.parseInt(request.getParameter("id"));
-		
+		PrintWriter out = response.getWriter();
 		if (is.verifyImg(id)) {//存在
 			is.delImg(id);
+			out.print(true);
+		}else {
+			out.print(false);
 		}
-		
+		out.close();
 	}
 	
 	@Action("/img/qryImg")

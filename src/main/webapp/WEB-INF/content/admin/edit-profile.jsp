@@ -15,7 +15,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<base href="<%=basePath%>">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -26,7 +25,6 @@
 <title>Xenon - Dashboard</title>
 
 <%@include file="css.jsp"%>
-<script src="resources/js/jquery-1.11.1.min.js"></script>
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -50,7 +48,7 @@
 		<%@ include file="side-bar.jsp"%>
 		<div class="main-content">
 
-			
+			<%@ include file="top-bar.jsp"%>
 
 			<div class="page-title">
 
@@ -80,7 +78,7 @@
 						<div class="user-info-sidebar">
 
 							<a href="#" class="user-img"> <img
-								src="resources/images/user-4.png" alt="user-img"
+								src="../resources/images/user-4.png" alt="user-img"
 								class="img-cirlce img-responsive img-thumbnail" width="150px" />
 							</a>
 
@@ -435,7 +433,7 @@
 
 
 	<%@ include file="script.jsp"%>
-	<script src="resources/js/datepicker/bootstrap-datepicker.js"></script>
+	<script src="../resources/js/datepicker/bootstrap-datepicker.js"></script>
 	<script type="text/javascript">
 		(function() {
 

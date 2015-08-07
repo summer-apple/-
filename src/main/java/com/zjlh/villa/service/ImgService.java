@@ -14,9 +14,10 @@ public class ImgService {
 	@Autowired
 	private ImgDaoHibernate4 dao;
 	
-	public void addImg(String url){
+	public int addImg(String url){
 		Img img = new Img(url);
 		dao.save(img);
+		return img.getId();
 	}
 	
 	

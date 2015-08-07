@@ -37,7 +37,8 @@
             'simUploadLimit'  : 10,                  // The maximum number of files to upload at once
             'uploadLimit'     : 100,                  // The maximum number of files you can upload
 	        'onUploadComplete' : function(file, data) { //文件上传成功后执行 
-	        	$("body").append("<img src='resources/images/"+ "gallery/" + file.name + "'>");
+		        var img = $.parseJSON(data);
+	        	$("body").append("<a href='img/delImg?id=" + img.id + "'>删除</a> id:" + img.id +" <img src='" + img.url + "'>");//删除改为异步
 					}
 				});
 	})
