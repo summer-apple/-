@@ -50,8 +50,20 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 		} else {
 			return null;
 		}
-
 	}
+	
+	// 根据字段加载实体类List
+		@SuppressWarnings("unchecked")
+		public List<T> getList(Class<T> entityClazz, String key, Object value) {
+			String hql = "FROM " + entityClazz.getSimpleName() + " WHERE " + key
+					+ "=?0";
+			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+			query.setParameter(0 + "", value);
+			List<T> list = (List<T>) query.list();
+			return list;
+		
+
+		}
 
 	// 根据ID判断是否存在
 	@SuppressWarnings("unchecked")
@@ -79,6 +91,35 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 			return false;
 		}
 
+	}
+
+	// 多参数判断是否存在
+	@SuppressWarnings("unchecked")
+	public boolean exist(String table, List<String> keys, Object... params) {
+		// 创建查询
+		String hql = "FROM " + table + " WHERE ";
+
+		for (int i = 0; i < keys.size(); i++) {
+			if (i < keys.size() - 1) {
+				hql = hql + keys.get(i) + "=?" + i + " and ";
+			} else {
+				hql = hql +keys.get(i) + "=?" + i;
+			}
+		}
+
+		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+		// 为包含占位符的HQL语句设置参数
+		for (int i = 0, len = params.length; i < len; i++) {
+			query.setParameter(i + "", params[i]);
+		}
+	
+		List<T> list = (List<T>) query.list();
+	
+		if (list.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	// 保存实体
@@ -137,6 +178,40 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 		// 为包含占位符的HQL语句设置参数
 		for (int i = 0, len = params.length; i < len; i++) {
 			query.setParameter(i + "", params[i]);
+		}
+		return (List<T>) query.list();
+	}
+
+	// 多参数查询实体
+	@SuppressWarnings("unchecked")
+	public List<T> find(String table, List<String> keys, Object... params) {
+		// 创建查询
+		String hql = "FROM " + table + " WHERE ";
+
+		for (int i = 0; i < keys.size(); i++) {
+			if (i < keys.size() - 1) {
+				hql = hql + keys.get(i) + "=?" + i + " and ";
+			} else {
+				hql = hql +keys.get(i) + "=?" + i;
+			}
+		}
+
+		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+		// 为包含占位符的HQL语句设置参数
+		for (int i = 0, len = params.length; i < len; i++) {
+			query.setParameter(i + "", params[i]);
+		}
+		return (List<T>) query.list();
+	}
+
+	// 多参数查询实体hql List<String> keys List<Object> values
+	@SuppressWarnings("unchecked")
+	public List<T> execute(String hql, List<String> keys ,List<Object> values) {
+		// 创建查询
+		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+		// 为包含占位符的HQL语句设置参数
+		for (int i = 0;i < values.size(); i++) {
+			query.setParameter(i + "", values.get(i));
 		}
 		return (List<T>) query.list();
 	}

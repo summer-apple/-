@@ -48,11 +48,11 @@
 				<value>com.zjlh.villa.entity.Facility</value>
 				<value>com.zjlh.villa.entity.Img</value>
 				<value>com.zjlh.villa.entity.Orders</value>
-				<value>com.zjlh.villa.entity.Service</value>
+				<value>com.zjlh.villa.entity.Svs</value>
 				<value>com.zjlh.villa.entity.Store</value>
 				<value>com.zjlh.villa.entity.Villa</value>
 				<value>com.zjlh.villa.entity.VillaImg</value>
-				<value>com.zjlh.villa.entity.VillaService</value>
+				<value>com.zjlh.villa.entity.VillaSvs</value>
 				<value>com.zjlh.villa.entity.VillaFacility</value>
 				
 			</list>

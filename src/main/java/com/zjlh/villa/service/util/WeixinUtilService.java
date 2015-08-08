@@ -280,8 +280,8 @@ System.out.println(subscribeTime);
 
 		String remark = jsonObject.getString("remark");
 	
-		Member member = new Member(openid, nickname, sex, city, country, province, language, headimgurl, subscribe, subscribeTime, remark);
 		
+		Member member = new Member(openid, nickname, sex, city, country, province, language, headimgurl, subscribe, subscribeTime, remark, null, null, null, null, 1);
 		Member member2 = memberDao.get(Member.class, "openid", openid);//查询数据库看该用户是否存在
 		
 		if (member2==null) {
@@ -323,8 +323,8 @@ System.out.println(subscribeTime);
 
 		String remark = jsonObject.getString("remark");
 	
-		Member member = new Member(openid, nickname, sex, city, country, province, language, headimgurl, subscribe, subscribeTime, remark);
-		
+		//Member member = new Member(openid, nickname, sex, city, country, province, language, headimgurl, subscribe, subscribeTime, remark);
+		Member member = new Member(openid, nickname, sex, city, country, province, language, headimgurl, subscribe, subscribeTime, remark, null, null, null, null, 1);
 		
 		
 	}

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -36,19 +36,19 @@ public class FacilityAction extends ActionSupport {
 		request = ServletActionContext.getRequest();
 		response = ServletActionContext.getResponse();
 		
-		String content = request.getParameter("content");
-		int type = Integer.parseInt(request.getParameter("type"));
+		String data = request.getParameter("data");
+
 		
 		
 		
-		if (content==null) {
+		if (data==null) {
 			return INPUT;
 		}else {
 			PrintWriter out = response.getWriter();
-			Facility facility = new Facility(content, type);
+			JSONObject obj = JSONObject.fromObject(data);
+			Facility facility = (Facility)JSONObject.toBean(obj,Facility.class);
 			
-			
-			boolean flag = fs.verifyFacility(content);
+			boolean flag = fs.verifyFacility(facility.getContent());
 			
 			if (!flag) {
 				fs.addFacility(facility);
