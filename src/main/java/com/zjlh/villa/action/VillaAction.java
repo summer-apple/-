@@ -125,7 +125,7 @@ public class VillaAction extends ActionSupport {
 			
 			ss.delSvsList(id);
 			fs.delFacilityList(id);
-			is.delImgList(id);
+			//is.delImgList(id);
 			
 			
 			

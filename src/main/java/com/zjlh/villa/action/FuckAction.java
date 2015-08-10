@@ -1,7 +1,13 @@
 package com.zjlh.villa.action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONObject;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +26,16 @@ public class FuckAction extends ActionSupport {
 	@Autowired
 	private WeixinUtilService weixinUtilService;
 	
+	@Autowired
+	private HttpServletResponse response;
 
 
 	@Action("/fuck/fuck")
-	public String fuck() {
+	public String fuck() throws IOException {
+		
+		response = ServletActionContext.getResponse();
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/javascript; charset=utf-8");
 		System.out.println("Fuck Action...");
 //		JSONObject jsonObject=new JSONObject();
 //		jsonObject.put("city", "杭州");
@@ -39,10 +51,11 @@ public class FuckAction extends ActionSupport {
 //		jsonObject.put("subscribeTime",1438788246);
 //		
 //		weixinUtilService.moni(jsonObject);
+		PrintWriter out = response.getWriter();
+		out.print(fuckService.fuck());
+		out.close();
 		
-		fuckService.fuck();
-		
-		return SUCCESS;
+		return null;
 	}
 	
 }

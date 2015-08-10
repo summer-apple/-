@@ -5,6 +5,7 @@ package com.zjlh.villa.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Transient;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -24,10 +25,8 @@ public class Svs implements java.io.Serializable {
 	private Integer id;
 	private String content;
 	private Integer type;
-
+	private String typeValue;
 	
-	@Formula("(SELECT * FROM Svs s join Dictionary d on s.type=d.code and d.key='svs_type')")
-	private String typevalue;
 	
 	public Svs() {
 	}
@@ -65,13 +64,14 @@ public class Svs implements java.io.Serializable {
 	public void setType(Integer type) {
 		this.type = type;
 	}
-
-	public String getTypevalue() {
-		return typevalue;
+	
+	@Formula("(SELECT d.value from Svs s join Dictionary d on s.type = d.code where d.key = 'svs_type' and s.id = id)")
+	public String getTypeValue() {
+		return typeValue;
 	}
 
-	public void setTypevalue(String typevalue) {
-		this.typevalue = typevalue;
+	public void setTypeValue(String typeValue) {
+		this.typeValue = typeValue;
 	}
 
 	
