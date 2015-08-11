@@ -37,13 +37,12 @@ public class SvsService {
 	 * @param type
 	 * @return
 	 */
-	public List<Svs> qrySvs(String content, int type) {
+	public List<Svs> qrySvs(String content, String type) {
 		
-		if (StringUtils.isBlank(content) && type==9) {
+		if (StringUtils.isBlank(content) && StringUtils.isBlank(type)) {
 			return dao.findAll(Svs.class);
 		}else {
 			
-			List<String> keys = new ArrayList<String>();
 			List<Object> values = new ArrayList<Object>();
 			
 			String hql = "From Svs Where 1=1";
@@ -52,19 +51,19 @@ public class SvsService {
 			if (StringUtils.isNotBlank(content)) {		
 				content = "%"+ content +"%";
 				hql += " and content like ?"+String.valueOf(i);
-				keys.add("content");
+				
 				values.add(content);
 				i++;
 			}
 			
-			if (type!=9) {
+			if (StringUtils.isBlank(type)) {
 				hql += " and type = ?"+String.valueOf(i);
-				keys.add("type");
+				
 				values.add(type);
 				i++;
 			}
 			
-			return dao.execute(hql, keys,values);
+			return dao.execute(hql,values);
 		}
 	
 	}
@@ -148,7 +147,7 @@ public class SvsService {
 	 * @return
 	 */
 	public List<Svs> qrySvs(int villaid) {
-		return dao.find("Svs", new String[] { "villa" }, villaid);
+		return dao.getList(Svs.class,"villa", villaid);
 	}
 
 	/**
