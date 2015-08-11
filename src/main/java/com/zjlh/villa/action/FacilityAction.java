@@ -88,7 +88,11 @@ public class FacilityAction extends ActionSupport {
 	@Action("/facility/qryFacility")
 	public void qryFacility() throws IOException{
 		response = ServletActionContext.getResponse();
-		List<Facility> list = fs.qryFacility();
+		request = ServletActionContext.getRequest();
+		
+		String content = request.getParameter("content");
+		String type = request.getParameter("type");
+		List<Facility> list = fs.qryFacility(content,type);
 		
 		JSONArray array = JSONArray.fromObject(list);
 		PrintWriter out = response.getWriter();

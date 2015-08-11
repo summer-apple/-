@@ -34,7 +34,7 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 		return (T) getSessionFactory().getCurrentSession().get(entityClazz, id);
 	}
 
-	// 根据字段加载实体类
+	// 根据一个字段加载实体类
 	@SuppressWarnings("unchecked")
 	public T get(Class<T> entityClazz, String key, Object value) {
 
@@ -52,7 +52,7 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 		}
 	}
 	
-	// 根据字段加载实体类List
+	// 根据一个字段加载实体类List
 		@SuppressWarnings("unchecked")
 		public List<T> getList(Class<T> entityClazz, String key, Object value) {
 			String hql = "FROM " + entityClazz.getSimpleName() + " WHERE " + key
@@ -163,6 +163,29 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 		return 0;
 	}
 
+	
+	//带参数查询总数
+	public long findCount(String hql ,List<Object> values){
+
+			// 创建查询
+			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+			// 为包含占位符的HQL语句设置参数
+			for (int i = 0;i < values.size(); i++) {
+				query.setParameter(i + "", values.get(i));
+			}
+
+			List<?> l = query.list();
+			// 返回查询得到的实体总数
+			if (l != null && l.size() == 1) {
+				return (Long) l.get(0);
+			}
+			return 0;
+	}
+	
+	
+	
+	
+	
 	// 根据HQL语句查询实体
 	@SuppressWarnings("unchecked")
 	public List<T> find(String hql) {
@@ -184,9 +207,9 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 
 	// 多参数查询实体
 	@SuppressWarnings("unchecked")
-	public List<T> find(String table, List<String> keys, Object... params) {
+	public List<T> find(Class<T> entityClazz, List<String> keys, Object... params) {
 		// 创建查询
-		String hql = "FROM " + table + " WHERE ";
+		String hql = "FROM " + entityClazz.getSimpleName() + " WHERE ";
 
 		for (int i = 0; i < keys.size(); i++) {
 			if (i < keys.size() - 1) {
@@ -206,7 +229,7 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 
 	// 多参数查询实体hql List<String> keys List<Object> values
 	@SuppressWarnings("unchecked")
-	public List<T> execute(String hql, List<String> keys ,List<Object> values) {
+	public List<T> execute(String hql,List<Object> values) {
 		// 创建查询
 		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 		// 为包含占位符的HQL语句设置参数
@@ -228,7 +251,7 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 	 * @return 当前页的所有记录
 	 */
 	@SuppressWarnings("unchecked")
-	protected List<T> findByPage(String hql, int pageNo, int pageSize) {
+	public List<T> findByPage(String hql, int pageNo, int pageSize) {
 		// 创建查询
 		return getSessionFactory().getCurrentSession().createQuery(hql)
 				// 执行分页
@@ -236,27 +259,16 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 				.setMaxResults(pageSize).list();
 	}
 
-	/**
-	 * 使用hql 语句进行分页查询操作
-	 * 
-	 * @param hql
-	 *            需要查询的hql语句
-	 * @param params
-	 *            如果hql带占位符参数，params用于传入占位符参数
-	 * @param pageNo
-	 *            查询第pageNo页的记录
-	 * @param pageSize
-	 *            每页需要显示的记录数
-	 * @return 当前页的所有记录
-	 */
+
+	
+	//带参数分页查询
 	@SuppressWarnings("unchecked")
-	protected List<T> findByPage(String hql, int pageNo, int pageSize,
-			Object... params) {
-		// 创建查询
+	public List<T> findByPage(String hql, int pageNo, int pageSize,
+			List<Object> values) {
 		Query query = getSessionFactory().getCurrentSession().createQuery(hql);
 		// 为包含占位符的HQL语句设置参数
-		for (int i = 0, len = params.length; i < len; i++) {
-			query.setParameter(i + "", params[i]);
+		for (int i = 0;i < values.size(); i++) {
+			query.setParameter(i + "", values.get(i));
 		}
 		// 执行分页，并返回查询结果
 		return query.setFirstResult((pageNo - 1) * pageSize)

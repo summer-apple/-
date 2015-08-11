@@ -18,7 +18,7 @@ public class Img implements java.io.Serializable {
 
 	private Integer id;
 	private String url;
-
+	
 	public Img() {
 	}
 
