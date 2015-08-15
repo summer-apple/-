@@ -2,9 +2,12 @@ package com.zjlh.villa.service;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,12 +81,6 @@ public class VillaService {
 		dao.delete(Villa.class, id);
 	}
 	
-	public int getPageCount(){
-		
-		
-		return 1;
-		
-	}
 	
 /**
  * 分页查询别墅	
@@ -95,39 +92,46 @@ public class VillaService {
  * @param pageSize 每页别墅数量
  * @return
  */
-	public List<Villa> qryVilla(String province,String highPrice,String lowPrice,String bedroom, int pageNo,int pageSize){
+	public Map<String,Object> qryVilla(String province,String highPrice,String lowPrice,String bedroom, int pageNo,int pageSize){
 		
 		List<Object> values = new ArrayList<Object>();
-		String hql = "From Villa Where 1=1 ";
+		String hql = "FROM Villa WHERE 1=1 ";
+		//String hql = "FROM Villa  WHERE 1=1 ";
 		int i=0;
+		StrBuilder sb = new StrBuilder(hql);
 		
 		if (StringUtils.isNotBlank(province)) {		
-			hql += " and province = ?"+String.valueOf(i);
+			sb.append(" and province = ?"+String.valueOf(i));
 			
 			values.add(province);
 			i++;
 		}
 		
 		if (StringUtils.isNotBlank(highPrice)) {		
-			hql += " and normal_price < ?"+String.valueOf(i);
+			sb.append(" and normal_price < ?"+String.valueOf(i));
 			
-			values.add(province);
+			values.add(highPrice);
 			i++;
 		}
 		if (StringUtils.isNotBlank(lowPrice)) {		
-			hql += " and narmal_price > ?"+String.valueOf(i);
+			sb.append(" and narmal_price > ?"+String.valueOf(i));
 			
 			values.add(lowPrice);
 			i++;
 		}
 		if (StringUtils.isNotBlank(bedroom)) {		
-			hql += " and bedroom = ?"+String.valueOf(i);
-			
-			values.add(bedroom);
+			sb.append(" and bedroom = ?"+String.valueOf(i));
+			values.add(Integer.parseInt(bedroom));
 			i++;
 		}
-
-		return dao.findByPage(hql, pageNo, pageSize, values);
+		
+		sb.append(" order by weight desc");
+		List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
+		int amount = dao.findCount(sb.toString(), values);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("amount", amount);
+		return map;
 	}
 }
 

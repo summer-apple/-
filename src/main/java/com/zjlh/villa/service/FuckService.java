@@ -2,8 +2,10 @@ package com.zjlh.villa.service;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,42 +41,54 @@ public class FuckService {
 	@Autowired
 	private ImgDaoHibernate4 imgDao;
 	
+	@Autowired
+	private VillaService villaService;
+	
+	@Autowired
+	private StoreService storeService;
+	
 	public String fuck() {
-
-for (int i = 0; i < 111; i++) {
-	Villa villa= villaDao.get(Villa.class, 11);
-	villa.getSvs().add(svsDao.get(Svs.class, 1));
-	villa.getSvs().add(svsDao.get(Svs.class, 2));
-	villa.getSvs().add(svsDao.get(Svs.class, 3));
-	villa.getSvs().add(svsDao.get(Svs.class, 4));
-	villa.getSvs().add(svsDao.get(Svs.class, 5));
-	villa.getSvs().add(svsDao.get(Svs.class, 6));
-	
-	
-	
-	
-	
-	villa.getFacility().add(facilityDao.get(Facility.class, 1));
-	villa.getFacility().add(facilityDao.get(Facility.class, 2));
-	villa.getFacility().add(facilityDao.get(Facility.class, 3));
-	villa.getFacility().add(facilityDao.get(Facility.class, 4));
-	villa.getFacility().add(facilityDao.get(Facility.class, 5));
-	villa.getFacility().add(facilityDao.get(Facility.class, 6));
-	
-	
-	villa.getImg().add(imgDao.get(Img.class, 1));
-	villa.getImg().add(imgDao.get(Img.class, 2));
-	villa.getImg().add(imgDao.get(Img.class, 3));
-	villa.getImg().add(imgDao.get(Img.class, 4));
-	villa.getImg().add(imgDao.get(Img.class, 5));
-	villa.getImg().add(imgDao.get(Img.class, 6));
-	
-	
-	villa.setName("Villa-"+String.valueOf(i));
-	
-	villaDao.save(villa);
-	
-}
+		Map<String, Object> map = villaService.qryVilla("", "100", "", "", 1, 10);
+		//villaService.qryVilla(province, highPrice, lowPrice, bedroom, pageNo, pageSize)
+		//Map<String, Object> map = storeService.qryStore("", "s", "", 0, 10);
+		JSONObject obj = JSONObject.fromObject(map);
+		
+		System.out.println(obj);
+		
+//for (int i = 0; i < 111; i++) {
+//	Villa villa= villaDao.get(Villa.class, 11);
+//	villa.getSvs().add(svsDao.get(Svs.class, 1));
+//	villa.getSvs().add(svsDao.get(Svs.class, 2));
+//	villa.getSvs().add(svsDao.get(Svs.class, 3));
+//	villa.getSvs().add(svsDao.get(Svs.class, 4));
+//	villa.getSvs().add(svsDao.get(Svs.class, 5));
+//	villa.getSvs().add(svsDao.get(Svs.class, 6));
+//	
+//	
+//	
+//	
+//	
+//	villa.getFacility().add(facilityDao.get(Facility.class, 1));
+//	villa.getFacility().add(facilityDao.get(Facility.class, 2));
+//	villa.getFacility().add(facilityDao.get(Facility.class, 3));
+//	villa.getFacility().add(facilityDao.get(Facility.class, 4));
+//	villa.getFacility().add(facilityDao.get(Facility.class, 5));
+//	villa.getFacility().add(facilityDao.get(Facility.class, 6));
+//	
+//	
+//	villa.getImg().add(imgDao.get(Img.class, 1));
+//	villa.getImg().add(imgDao.get(Img.class, 2));
+//	villa.getImg().add(imgDao.get(Img.class, 3));
+//	villa.getImg().add(imgDao.get(Img.class, 4));
+//	villa.getImg().add(imgDao.get(Img.class, 5));
+//	villa.getImg().add(imgDao.get(Img.class, 6));
+//	
+//	
+//	villa.setName("Villa-"+String.valueOf(i));
+//	
+//	villaDao.save(villa);
+//	
+//}
 		
 		
 		
@@ -123,7 +137,7 @@ for (int i = 0; i < 111; i++) {
 //		System.out.println(obj);
 //		return obj.toString();
 		
-		return null;
+		return obj.toString();
 		
 	}
 }

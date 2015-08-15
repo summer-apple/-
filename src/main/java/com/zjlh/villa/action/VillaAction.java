@@ -3,6 +3,7 @@ package com.zjlh.villa.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.zjlh.villa.entity.Facility;
+import com.zjlh.villa.entity.Img;
+import com.zjlh.villa.entity.Svs;
 import com.zjlh.villa.entity.Villa;
 import com.zjlh.villa.entity.VillaFacility;
 import com.zjlh.villa.entity.VillaImg;
@@ -45,68 +49,95 @@ public class VillaAction extends ActionSupport {
 	private HttpServletResponse response;
 
 	@Action("/villa/addVilla")
-	public String addVilla() throws IOException {
+	public void addVilla() throws IOException {
 		request = ServletActionContext.getRequest();
 		response = ServletActionContext.getResponse();
 
 		String data = request.getParameter("data");
-		String svslist = request.getParameter("svslist");
-		String facilitylist = request.getParameter("facilitylist");
-		String imglist = request.getParameter("imglist");
-
-		JSONArray svsarray = JSONArray.fromObject(svslist);
-		JSONArray facilityarray = JSONArray.fromObject(facilitylist);
-		JSONArray imgarray = JSONArray.fromObject(imglist);
+		
 
 		boolean addFlag = false;// 是否需要新增服务、设施、图片
 
-		if (data == null) {
-			return INPUT;
-		} else {
+		
 			PrintWriter out = response.getWriter();
 
 			JSONObject obj = JSONObject.fromObject(data);
 			Villa villa = (Villa) JSONObject.toBean(obj, Villa.class);
-
+			
+			List<Svs> svslist = (List<Svs>) villa.getSvs();
+			List<Facility> facilitylist =  (List<Facility>) villa.getFacility();
+			List<Img> imglist = (List<Img>) villa.getImg();
+			
 			int villaid = 0;
 
-			if (villa.getId() == null) {// 新增
-				if (!vs.verifyVilla(villa.getStore(), villa.getName())) {// 同一商户下不存在相同名称的别墅
+			if (!vs.verifyVilla(villa.getStore(), villa.getName())) {// 同一商户下不存在相同名称的别墅
 					villaid = vs.addVilla(villa);// 保存villa并获得ID
 					addFlag = true;
-				}
-			} else {// 编辑
-
-				villaid = villa.getId();
-
-				List<Villa> villalist = vs.findVillaByName(villa.getName());
-
-				if (villalist.size() == 1) {// 存在该名称的别墅
-					if (villalist.get(0).getId() == villaid) {// 该名称别墅即为本别墅
-						vs.updateVilla(villa);
-						addFlag = true;
-					}
-				} else {
-					vs.updateVilla(villa);
-					addFlag = true;
-				}
 			}
-
+		
 			if (addFlag) {
-				ss.addVillaSvslist(svsarray, villaid);
-				fs.addVillaFacilityList(facilityarray, villaid);
-				is.addVillaImgList(imgarray, villaid);
-				out.print(true);
+				ss.addVillaSvslist(svslist, villaid);
+				fs.addVillaFacilityList(facilitylist, villaid);
+				is.addVillaImgList(imglist, villaid);
+				out.print(villaid);
 			} else {
 				out.print(false);
 			}
 			out.close();
 
-			return null;
+		}// addVilla end
+
+	
+	
+	@Action("/villa/updateVilla")
+	public void updateVilla() throws IOException{
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+
+		String data = request.getParameter("data");
+		
+		JSONObject obj = JSONObject.fromObject(data);
+		
+		Villa villa = (Villa) JSONObject.toBean(obj, Villa.class);
+		
+		List<Svs> svslist = (List<Svs>) villa.getSvs();
+		List<Facility> facilitylist =  (List<Facility>) villa.getFacility();
+		List<Img> imglist = (List<Img>) villa.getImg();
+		
+		
+		PrintWriter out = response.getWriter();
+		int villaid = villa.getId();
+		boolean addFlag = false;// 是否需要新增服务、设施、图片
+		
+		List<Villa> villalist = vs.findVillaByName(villa.getName());
+
+		if (villalist.size() == 1) {// 存在该名称的别墅
+			if (villalist.get(0).getId() == villaid) {// 该名称别墅即为本别墅
+				vs.updateVilla(villa);
+				addFlag = true;
+			}
+		} else {
+			vs.updateVilla(villa);
+			addFlag = true;
 		}
-
-	}// addVilla end
-
+		
+		if (addFlag) {
+			ss.addVillaSvslist(svslist, villaid);
+			fs.addVillaFacilityList(facilitylist, villaid);
+			is.addVillaImgList(imglist, villaid);
+			out.print(true);
+		} else {
+			out.print(false);
+		}
+		out.close();
+		
+	}
+	
+	
+	
+	
+	
+	
 	@Action("/villa/delVilla")
 	public void delVilla() throws IOException {
 
@@ -140,15 +171,15 @@ public class VillaAction extends ActionSupport {
 		String data = request.getParameter("data");
 		JSONObject object = JSONObject.fromObject(data);
 
-		List<Villa> list = vs.qryVilla(object.getString("province"),
+		Map<String,Object> map = vs.qryVilla(object.getString("province"),
 				object.getString("highPrice"), object.getString("lowPrice"),
 				object.getString("bedroom"),
 				Integer.parseInt(object.getString("pageNo")),
 				Integer.parseInt(object.getString("pageSize")));
 
-		JSONArray array = JSONArray.fromObject(list);
+		JSONObject obj = JSONObject.fromObject(map);
 		PrintWriter out = response.getWriter();
-		out.print(array);
+		out.print(obj);
 		out.close();
 	}
 }

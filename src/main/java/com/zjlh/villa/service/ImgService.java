@@ -67,9 +67,9 @@ public class ImgService {
 	 * @param array
 	 * @param villaid
 	 */
-	public void addVillaImgList(JSONArray array, int villaid) {
-		for (int i = 0; i < array.size(); i++) {// 遍历服务id
-			int imgid = (int) array.get(i);
+	public void addVillaImgList(List<Img> imglist, int villaid) {
+		for (int i = 0; i < imglist.size(); i++) {// 遍历服务id
+			int imgid = imglist.get(i).getId();
 			if (!verifyVillaImg(villaid, imgid)) {// 验证该别墅是否存在该服务
 				VillaImg villaImg = new VillaImg(villaid, imgid);// 实例化别墅服务
 				addVillaImg(villaImg);// 保存别墅服务

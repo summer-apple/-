@@ -165,7 +165,7 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 
 	
 	//带参数查询总数
-	public long findCount(String hql ,List<Object> values){
+	public int findCount(String hql ,List<Object> values){
 
 			// 创建查询
 			Query query = getSessionFactory().getCurrentSession().createQuery(hql);
@@ -174,12 +174,9 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 				query.setParameter(i + "", values.get(i));
 			}
 
-			List<?> l = query.list();
-			// 返回查询得到的实体总数
-			if (l != null && l.size() == 1) {
-				return (Long) l.get(0);
-			}
-			return 0;
+			return query.list().size();
+		
+			
 	}
 	
 	

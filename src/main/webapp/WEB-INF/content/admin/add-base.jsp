@@ -29,8 +29,8 @@
 			<!-- profile-env -->
 			<section class="profile-env">
 				<div class="row">
-					<div class="col-sm-2"></div>
-					<div class="col-sm-8">
+					<div class="col-sm-1"></div>
+					<div class="col-sm-10">
 						<div class="panel panel-default user-profile"><h4><strong>新增服务&设施</strong></h4></div>
 						<div class="panel panel-default user-profile">
 							<form id="fm" class="form-horizontal" action="" method="post">
@@ -95,16 +95,16 @@
 	<script src="../resources/js/datepicker/bootstrap-datepicker.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			$("#main-menu>li:eq(0)").addClass("active opened");
 			$("#addservicebtn").click(function(){
                 var params = $("#fm").serializeArray();
                 var j = {};
                 for (var item in params) {
                     j[params[item].name] = params[item].value;
                 }
-
                 $.ajax({
                     url:'../svs/addSvs',
-                    data: {data:JSON.stringify(j)},
+                    data: JSON.stringify(j),
                     type:'post',
                     dataType:'json',
                     success:function(){
@@ -123,14 +123,10 @@
                     j[params[item].name] = params[item].value;
                 }
                 $.ajax({
-                    url:'../svs/addFalicity',
+                    url:'../service/addFalicity',
                     data: JSON.stringify(j),
                     type:'post',
                     dataType:'json',
-                    headers:{
-                        Accept:"application/json",
-                        "Content-Type":"application/json"
-                    },
                     success:function(){
                       alert("数据传送成功");
                     }

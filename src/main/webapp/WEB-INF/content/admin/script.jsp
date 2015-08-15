@@ -5,7 +5,8 @@
 <script src="../resources/js/joinable.js"></script>
 <script src="../resources/js/xenon-api.js"></script>
 <script src="../resources/js/xenon-toggles.js"></script>
-
+<script src="../resources/js/jquery-validate/jquery.validate.min.js"></script>
+<script src="../resources/js/toastr/toastr.min.js"></script>
 
 <!-- Imported scripts on this page -->
 <script src="../resources/js/xenon-widgets.js"></script>

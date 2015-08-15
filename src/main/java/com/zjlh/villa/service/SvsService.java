@@ -116,9 +116,9 @@ public class SvsService {
 	 * @param array
 	 * @param villaid
 	 */
-	public void addVillaSvslist(JSONArray array, int villaid) {
-		for (int i = 0; i < array.size(); i++) {// 遍历服务id
-			int serviceid = (int) array.get(i);
+	public void addVillaSvslist(List<Svs> svslist, int villaid) {
+		for (int i = 0; i < svslist.size(); i++) {// 遍历服务id
+			int serviceid = svslist.get(i).getId();
 			if (!verifyVillaSvs(villaid, serviceid)) {// 验证该别墅是否存在该服务
 				VillaSvs villaSvs = new VillaSvs(villaid, serviceid);// 实例化别墅服务
 				addVillaSvs(villaSvs);// 保存别墅服务

@@ -6,6 +6,7 @@ import java.util.List;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,23 +46,24 @@ public class FacilityService {
 			
 			List<Object> values = new ArrayList<Object>();
 			
-			String hql = "From Facility Where 1=1";
+			String hql = "FROM Facility WHERE 1=1";
 			int i=0;
+			StrBuilder sb = new StrBuilder(hql);
 			
 			if (StringUtils.isNotBlank(content)) {		
 				content = "%"+ content +"%";
-				hql += " and content like ?"+String.valueOf(i);
+				sb.append(" and content like ?"+String.valueOf(i));
 				values.add(content);
 				i++;
 			}
 			
 			if (StringUtils.isBlank(type)) {
-				hql += " and type = ?"+String.valueOf(i);
+				sb.append(" and type = ?"+String.valueOf(i));
 				values.add(type);
 				i++;
 			}
 			
-			return dao.execute(hql,values);
+			return dao.execute(sb.toString(),values);
 		}
 	
 	}
@@ -114,9 +116,9 @@ public class FacilityService {
 	 * @param array
 	 * @param villaid
 	 */
-	public void addVillaFacilityList(JSONArray array, int villaid) {
-		for (int i = 0; i < array.size(); i++) {// 遍历设施id
-			int serviceid = (int) array.get(i);
+	public void addVillaFacilityList(List<Facility> facilitylist, int villaid) {
+		for (int i = 0; i < facilitylist.size(); i++) {// 遍历设施id
+			int serviceid = facilitylist.get(i).getId();
 			if (!verifyVillaFacility(villaid, serviceid)) {// 验证该别墅是否存在该设施
 				VillaFacility villaFacility = new VillaFacility(villaid, serviceid);// 实例化别墅设施
 				addVillaFacility(villaFacility);// 保存别墅设施
