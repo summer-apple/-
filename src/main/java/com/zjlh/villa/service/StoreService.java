@@ -118,7 +118,8 @@ public class StoreService {
 		}
 		
 		List<Store> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
-		int amount = (int) dao.findCount(sb.toString(), values);
+		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		map.put("amount", amount);

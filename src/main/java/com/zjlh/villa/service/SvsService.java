@@ -6,6 +6,7 @@ import java.util.List;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,23 +48,22 @@ public class SvsService {
 			
 			String hql = "From Svs Where 1=1";
 			int i=0;
+			StrBuilder sb = new StrBuilder(hql);
 			
 			if (StringUtils.isNotBlank(content)) {		
 				content = "%"+ content +"%";
 				hql += " and content like ?"+String.valueOf(i);
-				
 				values.add(content);
 				i++;
 			}
 			
 			if (StringUtils.isBlank(type)) {
-				hql += " and type = ?"+String.valueOf(i);
-				
+				hql += " and type = ?"+String.valueOf(i);	
 				values.add(type);
 				i++;
 			}
 			
-			return dao.execute(hql,values);
+			return dao.execute(sb.toString(),values);
 		}
 	
 	}

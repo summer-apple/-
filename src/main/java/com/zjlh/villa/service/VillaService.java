@@ -127,7 +127,7 @@ public class VillaService {
 		
 		sb.append(" order by weight desc");
 		List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
-		int amount = dao.findCount(sb.toString(), values);
+		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 		map.put("amount", amount);

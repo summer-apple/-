@@ -50,7 +50,7 @@ public class FuckService {
 	public String fuck() {
 		Map<String, Object> map = villaService.qryVilla("", "100", "", "", 1, 10);
 		//villaService.qryVilla(province, highPrice, lowPrice, bedroom, pageNo, pageSize)
-		//Map<String, Object> map = storeService.qryStore("", "s", "", 0, 10);
+		//Map<String, Object> map = storeService.qryStore("", "", "", 0, 10);
 		JSONObject obj = JSONObject.fromObject(map);
 		
 		System.out.println(obj);
