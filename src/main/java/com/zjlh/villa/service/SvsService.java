@@ -98,7 +98,40 @@ public class SvsService {
 	public boolean verifySvs(String content) {
 		return dao.exist(Svs.class, "content", content);
 	}
-
+/**
+ * 根据ID获取一项服务
+ * @param id
+ * @return
+ */
+	public Svs getSvs(int id){
+		return dao.get(Svs.class, id);
+	}
+	
+/**
+ * 根据ID列表获取服务列表	
+ * @param args
+ * @return
+ */
+	public List<Svs> getSvsByIDs(String[] args){
+		List<Svs> svslist = new ArrayList<Svs>();
+		
+		for (int i = 0; i < args.length; i++) {
+			int id = Integer.parseInt(args[i]);
+			Svs svs = getSvs(id);
+			svslist.add(svs);
+		}
+		
+		return svslist;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 以上svs
 
 	// 以下villa_svs
@@ -118,7 +151,7 @@ public class SvsService {
 	 * @param array
 	 * @param villaid
 	 */
-	public void addVillaSvslist(List<Svs> svslist, int villaid) {
+	public void addVillaSvsList(List<Svs> svslist, int villaid) {
 		for (int i = 0; i < svslist.size(); i++) {// 遍历服务id
 			int serviceid = svslist.get(i).getId();
 			if (!verifyVillaSvs(villaid, serviceid)) {// 验证该别墅是否存在该服务
@@ -128,6 +161,21 @@ public class SvsService {
 		}
 	}
 
+/**
+ * 更新多条别墅服务记录	
+ * @param svslist
+ * @param villaid
+ */
+	public void updateVillaSvsList(List<Svs> svslist,int villaid) {
+		String sql = "DELETE FROM VillaSvs WHERE villa="+villaid;
+		vdao.sql(sql);		
+		addVillaSvsList(svslist, villaid);
+	}
+	
+	
+	
+	
+	
 	/**
 	 * 根据别墅ID和服务ID判断是否存在
 	 * 
@@ -148,8 +196,8 @@ public class SvsService {
 	 * @param villaid
 	 * @return
 	 */
-	public List<Svs> qrySvs(int villaid) {
-		return dao.getList(Svs.class,"villa", villaid);
+	public List<VillaSvs> qryVillaSvs(int villaid) {
+		return vdao.getList(VillaSvs.class,"villa", villaid);
 	}
 
 	/**
@@ -158,9 +206,9 @@ public class SvsService {
 	 * @param villaid
 	 */
 	public void delSvsList(int villaid) {
-		List<Svs> list = qrySvs(villaid);
+		List<VillaSvs> list = qryVillaSvs(villaid);
 		for (int i = 0; i < list.size(); i++) {
-			dao.delete(list.get(i));
+			vdao.delete(list.get(i));
 		}
 	}
 }

@@ -3,6 +3,7 @@ package com.zjlh.villa.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
@@ -10,6 +11,7 @@ import net.sf.json.JSONObject;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
+import org.junit.runner.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -28,6 +30,9 @@ public class FuckAction extends ActionSupport {
 	
 	@Autowired
 	private HttpServletResponse response;
+	
+	@Autowired
+	private HttpServletRequest request;
 
 
 	@Action("/fuck/fuck")
@@ -56,6 +61,23 @@ public class FuckAction extends ActionSupport {
 		out.close();
 		
 		return null;
+	}
+	
+	
+	@Action("/fuck/fuckVilla")
+	public void fuckVilla() throws IOException {
+		response = ServletActionContext.getResponse();
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/javascript; charset=utf-8");
+		
+		request = ServletActionContext.getRequest();
+		
+		String sss[] = request.getParameterValues("sss");
+		
+		
+		PrintWriter out = response.getWriter();
+		out.print(sss);
+		out.close();
 	}
 	
 }

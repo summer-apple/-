@@ -3,13 +3,13 @@ package com.zjlh.villa.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.json.JSONArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zjlh.villa.dao.ImgDaoHibernate4;
 import com.zjlh.villa.dao.VillaImgDaoHibernate4;
+
 import com.zjlh.villa.entity.Img;
 import com.zjlh.villa.entity.VillaImg;
 
@@ -47,6 +47,43 @@ public class ImgService {
 		return dao.findAll(Img.class);
 	}
 
+	
+	
+	/**
+	 * 根据ID获取一张图片
+	 * @param id
+	 * @return
+	 */
+		public Img getImg(int id){
+			return dao.get(Img.class, id);
+		}
+		
+	/**
+	 * 根据ID列表获取图片列表	
+	 * @param args
+	 * @return
+	 */
+		public List<Img> getImgByIDs(String[] args){
+			List<Img> imglist = new ArrayList<Img>();
+			
+			for (int i = 0; i < args.length; i++) {
+				int id = Integer.parseInt(args[i]);
+				Img img = getImg(id);
+				imglist.add(img);
+			}
+			
+			return imglist;
+		}		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 以上img
 
 	// 以下villa_img
@@ -77,6 +114,18 @@ public class ImgService {
 		}
 	}
 
+	 /** 更新多条别墅图片记录	
+	 * @param imglist
+	 * @param villaid
+	 */
+		public void updateVillaImgList(List<Img> img,int villaid) {
+			String sql = "DELETE FROM VillaImg WHERE villa="+villaid;
+			vdao.sql(sql);		
+			addVillaImgList(img, villaid);
+		}	
+	
+	
+	
 	/**
 	 * 验证单条图片
 	 * 

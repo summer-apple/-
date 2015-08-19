@@ -55,7 +55,15 @@ public class VillaAction extends ActionSupport {
 
 		String data = request.getParameter("data");
 		
+		
+		String[] svs = request.getParameter("svs").split(",");
+		String[] facility = request.getParameter("facility").split(",");
+		String[] img = request.getParameter("img").split(",");
 
+		
+		
+		
+		
 		boolean addFlag = false;// 是否需要新增服务、设施、图片
 
 		
@@ -64,9 +72,9 @@ public class VillaAction extends ActionSupport {
 			JSONObject obj = JSONObject.fromObject(data);
 			Villa villa = (Villa) JSONObject.toBean(obj, Villa.class);
 			
-			List<Svs> svslist = (List<Svs>) villa.getSvs();
-			List<Facility> facilitylist =  (List<Facility>) villa.getFacility();
-			List<Img> imglist = (List<Img>) villa.getImg();
+			List<Svs> svslist = ss.getSvsByIDs(svs);
+			List<Facility> facilitylist = fs.getFacilityByIDs(facility);
+			List<Img> imglist = is.getImgByIDs(img);
 			
 			int villaid = 0;
 
@@ -76,7 +84,7 @@ public class VillaAction extends ActionSupport {
 			}
 		
 			if (addFlag) {
-				ss.addVillaSvslist(svslist, villaid);
+				ss.addVillaSvsList(svslist, villaid);
 				fs.addVillaFacilityList(facilitylist, villaid);
 				is.addVillaImgList(imglist, villaid);
 				out.print(villaid);
@@ -95,14 +103,17 @@ public class VillaAction extends ActionSupport {
 		response = ServletActionContext.getResponse();
 
 		String data = request.getParameter("data");
+		String[] svs = request.getParameterValues("svs");
+		String[] facility = request.getParameterValues("facility");
+		String[] img = request.getParameterValues("img");
 		
 		JSONObject obj = JSONObject.fromObject(data);
 		
 		Villa villa = (Villa) JSONObject.toBean(obj, Villa.class);
 		
-		List<Svs> svslist = (List<Svs>) villa.getSvs();
-		List<Facility> facilitylist =  (List<Facility>) villa.getFacility();
-		List<Img> imglist = (List<Img>) villa.getImg();
+		List<Svs> svslist = ss.getSvsByIDs(svs);
+		List<Facility> facilitylist = fs.getFacilityByIDs(facility);
+		List<Img> imglist = is.getImgByIDs(img);
 		
 		
 		PrintWriter out = response.getWriter();
@@ -122,9 +133,9 @@ public class VillaAction extends ActionSupport {
 		}
 		
 		if (addFlag) {
-			ss.addVillaSvslist(svslist, villaid);
-			fs.addVillaFacilityList(facilitylist, villaid);
-			is.addVillaImgList(imglist, villaid);
+			ss.updateVillaSvsList(svslist, villaid);
+			fs.updateVillaFacilityList(facilitylist, villaid);
+			is.updateVillaImgList(imglist, villaid);
 			out.print(true);
 		} else {
 			out.print(false);

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.zjlh.villa.dao.FacilityDaoHibernate4;
 import com.zjlh.villa.dao.VillaFacilityDaoHibernate4;
 import com.zjlh.villa.entity.Facility;
+import com.zjlh.villa.entity.Svs;
 import com.zjlh.villa.entity.VillaFacility;
 
 @Service
@@ -99,6 +100,38 @@ public class FacilityService {
 		return dao.exist(Facility.class, "content", content);
 	}
 
+	
+	/**
+	 * 根据ID获取一项设施
+	 * @param id
+	 * @return
+	 */
+		public Facility getFacility(int id){
+			return dao.get(Facility.class, id);
+		}
+		
+	/**
+	 * 根据ID列表获取设施列表	
+	 * @param args
+	 * @return
+	 */
+		public List<Facility> getFacilityByIDs(String[] args){
+			List<Facility> facilitylist = new ArrayList<Facility>();
+			
+			for (int i = 0; i < args.length; i++) {
+				int id = Integer.parseInt(args[i]);
+				Facility facility = getFacility(id);
+				facilitylist.add(facility);
+			}
+			
+			return facilitylist;
+		}	
+	
+	
+	
+	
+	
+	
 	// 以上facility
 
 	// 以下villa_facility
@@ -128,6 +161,21 @@ public class FacilityService {
 		}
 	}
 
+	
+	 /** 更新多条别墅设施记录	
+	 * @param facilitylist
+	 * @param villaid
+	 */
+		public void updateVillaFacilityList(List<Facility> facility,int villaid) {
+			String sql = "DELETE FROM VillaFacility WHERE villa="+villaid;
+			vdao.sql(sql);		
+			addVillaFacilityList(facility, villaid);
+		}
+		
+			
+	
+	
+	
 	/**
 	 * 根据别墅ID和设施ID判断是否存在
 	 * 
@@ -148,8 +196,8 @@ public class FacilityService {
 	 * @param villaid
 	 * @return
 	 */
-	public List<Facility> qryFacility(int villaid) {
-		return dao.getList(Facility.class, "villa", villaid);
+	public List<VillaFacility> qryVillaFacility(int villaid) {
+		return vdao.getList(VillaFacility.class, "villa", villaid);
 	}
 
 	/**
@@ -158,9 +206,9 @@ public class FacilityService {
 	 * @param villaid
 	 */
 	public void delFacilityList(int villaid) {
-		List<Facility> list = qryFacility(villaid);
+		List<VillaFacility> list = qryVillaFacility(villaid);
 		for (int i = 0; i < list.size(); i++) {
-			dao.delete(list.get(i));
+			vdao.delete(list.get(i));
 		}
 	}
 }

@@ -114,7 +114,7 @@ public class SvsAction extends ActionSupport {
 	
 	
 	@Action("/svs/addVillaSvs")
-	public String addVillaService() throws IOException{
+	public String addVillaSvs() throws IOException{
 		request = ServletActionContext.getRequest();
 		response = ServletActionContext.getResponse();
 		

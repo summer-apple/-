@@ -39,7 +39,7 @@
 		<ul id="main-menu" class="main-menu">
 			<!-- add class "multiple-expanded" to allow multiple submenus to open -->
 			<!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-			<li><a href="user/user-profile">
+			<li><a href="#">
 					<i class="linecons-cog"></i> <span class="title">服务&设施</span>
 			</a>
 				<ul>
@@ -58,6 +58,18 @@
 					<i class="linecons-desktop"></i> <span class="title">用户管理</span>
 				</a>
 			</li>
+			<li><a href="#">
+					<i class="linecons-cog"></i> <span class="title">别墅管理</span>
+			</a>
+				<ul>
+					<li><a href="dashboard/villa"> <span class="title">查询别墅</span>
+					</a></li>
+					<li><a href="dashboard/edit-villa"> <span class="title">新增别墅</span>
+					</a></li>
+				</ul></li>
+			<li>
+
+
 			<li><a href="ui-panels.html"> <i class="linecons-note"></i>
 					<span class="title">UI Elements</span>
 			</a>

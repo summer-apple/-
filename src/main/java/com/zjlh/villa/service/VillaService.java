@@ -101,9 +101,9 @@ public class VillaService {
 		StrBuilder sb = new StrBuilder(hql);
 		
 		if (StringUtils.isNotBlank(province)) {		
-			sb.append(" and province = ?"+String.valueOf(i));
+			sb.append(" and province like ?"+String.valueOf(i));
 			
-			values.add(province);
+			values.add("%"+province+"%");
 			i++;
 		}
 		
@@ -114,7 +114,7 @@ public class VillaService {
 			i++;
 		}
 		if (StringUtils.isNotBlank(lowPrice)) {		
-			sb.append(" and narmal_price > ?"+String.valueOf(i));
+			sb.append(" and normal_price > ?"+String.valueOf(i));
 			
 			values.add(lowPrice);
 			i++;
@@ -125,12 +125,12 @@ public class VillaService {
 			i++;
 		}
 		
-		sb.append(" order by weight desc");
+		sb.append(" order by id");
 		List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
 		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
-		map.put("amount", amount);
+		map.put("amount", amount/pageSize+1);
 		return map;
 	}
 }
