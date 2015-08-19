@@ -32,22 +32,19 @@
 					<div class="col-sm-1"></div>
 					<div class="col-sm-10">
 						<div class="panel panel-default">
-						<h4><strong>查询服务&设施</strong></h4>
+						<h4><strong class="nnn">查询基础服务</strong></h4>
 						<div style="float:right"><a id="servicechange" href="#">服务 </a> | <a id="facilitychange" href="#"> 设施</a></div>
 						</div>
-
+<!-- service -->
 						<div id="service">
 							<div class="panel panel-default">
 								<form class="form-inline">
 								<div class="form-group">
-									<h4><small>基础服务查询</small></h4> 
-								</div>
-								<div class="form-group">
-									<input id="servicecontent" class="form-control" type="text" placeholder="输入要查询的服务名称">
+									<input id="servicecontent" class="form-control" type="text" placeholder="请输入关键字">
 								</div>
 								 <div class="form-group">
 									<select class="form-control" id="servicetype">
-										<option value="">--请选择--</option>
+										<option value="">--请选择类型--</option>
 										<option value="0">免费</option>
 										<option value="1">收费</option>
 									</select>
@@ -57,8 +54,7 @@
 								</div>
 								</form>
 							</div>
-							<div id="servicelist" class="panel panel-default">
-							<strong>基础设施信息</strong>
+							<div id="servicelist" class="panel panel-default" style="display:none">
 							<table class="table">
 								<thead>
 									<tr>
@@ -73,19 +69,17 @@
 
 							</div>
 						</div>
-
+<!-- //service -->
+<!-- facility -->
 						<div id="facility" style="display:none">
 							<div class="panel panel-default">
 								<form class="form-inline">
 								<div class="form-group">
-									<h4><small>基础设施查询 </small></h4> 
-								</div>
-								<div class="form-group">
-									<input id="facilitycontent" class="form-control" type="text" placeholder="输入要查询的设施名称">
+									<input id="facilitycontent" class="form-control" type="text" placeholder="请输入关键字">
 								</div>
 								 <div class="form-group">
 									<select class="form-control" id="facilitytype">
-										<option value="9">--请选择--</option>
+										<option value="">--请选择类型--</option>
 										<option value="0">别墅设施</option>
 										<option value="1">综合设施</option>
 									</select>
@@ -96,8 +90,7 @@
 								</form>
 							</div>
 							
-							<div id="facilitylist" class="panel panel-default">
-							<strong>基础服务信息</strong>
+							<div id="facilitylist" class="panel panel-default" style="display:none">
 							<table class="table">
 								<thead>
 									<tr>
@@ -111,7 +104,7 @@
 							</table>
 							</div>
 						</div>
-
+<!-- //facility -->
 					</div>
 				</div>
 
@@ -127,20 +120,23 @@
 		$(document).ready(function(){
 			$("#main-menu>li:eq(0)").addClass("active opened");
 			$("#servicechange").click(function(){
+				$(".nnn").html("查询基础服务");
 				$("#service").css("display","block");
 				$("#facility").css("display","none");
 			});
 			$("#facilitychange").click(function(){
+				$(".nnn").html("查询基础设施");
 				$("#facility").css("display","block");
 				$("#service").css("display","none");
 			});
 
 			$("#qryservicebtn").click(function(){
+				$("#servicelist").css("display","block");
 				$("#servicelist tbody").empty();
 				var servicecontent = $("#servicecontent").val();
 				var servicetype = $("#servicetype").val();
 				$.ajax({
-					url:'../service/qryService?content='+servicecontent+'&type='+servicetype,
+					url:'../svs/qrySvs?content='+servicecontent+'&type='+servicetype,
 					type:'post',
 					dataType:'json',
 					success: function(data){
@@ -155,6 +151,7 @@
 				});
 			});
 			$("#qryfacilitybtn").click(function(){
+				$("#facilitylist").css("display","block")
 				$("#facilitylist tbody").empty();
 				var facilitycontent = $("#facilitycontent").val();
 				var facilitytype = $("#facilitytype").val();

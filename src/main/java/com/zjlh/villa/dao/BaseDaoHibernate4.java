@@ -163,7 +163,17 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 		return 0;
 	}
 
-	
+	//不带参数查询总数
+		public long findCount(String hql){
+
+				// 创建查询
+				Query query = getSessionFactory().getCurrentSession().createQuery(hql);
+				// 为包含占位符的HQL语句设置参数
+				
+				return  (long)query.list().get(0);
+			
+				
+		}
 	//带参数查询总数
 	public long findCount(String hql ,List<Object> values){
 
@@ -271,4 +281,13 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 		return query.setFirstResult((pageNo - 1) * pageSize)
 				.setMaxResults(pageSize).list();
 	}
+	
+	
+
+	public void sql(String sql) {
+		getSessionFactory().getCurrentSession().createSQLQuery(sql).executeUpdate();
+	}
+	
+	
+	
 }

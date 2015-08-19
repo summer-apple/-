@@ -104,7 +104,7 @@
                 }
                 $.ajax({
                     url:'../svs/addSvs',
-                    data: JSON.stringify(j),
+                    data: {data:JSON.stringify(j)},
                     type:'post',
                     dataType:'json',
                     success:function(){
@@ -123,8 +123,8 @@
                     j[params[item].name] = params[item].value;
                 }
                 $.ajax({
-                    url:'../service/addFalicity',
-                    data: JSON.stringify(j),
+                    url:'../facility/addFacility',
+                    data: {data:JSON.stringify(j)},
                     type:'post',
                     dataType:'json',
                     success:function(){

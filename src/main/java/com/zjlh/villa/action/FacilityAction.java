@@ -90,8 +90,12 @@ public class FacilityAction extends ActionSupport {
 		response = ServletActionContext.getResponse();
 		request = ServletActionContext.getRequest();
 		
-		String content = request.getParameter("content");
-		String type = request.getParameter("type");
+		String data = request.getParameter("data");
+		JSONObject obj = JSONObject.fromObject(data);
+		
+		String content = obj.getString("content");
+		String type = obj.getString("type");
+		
 		List<Facility> list = fs.qryFacility(content,type);
 		
 		JSONArray array = JSONArray.fromObject(list);

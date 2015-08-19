@@ -111,9 +111,8 @@ public class StoreService {
 			i++;
 		}
 		if (StringUtils.isNotBlank(id)) {		
-			sb.append(" and id like ?"+String.valueOf(i));
-			id = "%"+id+"%";
-			values.add(id);
+			sb.append(" and id = ?"+String.valueOf(i));
+			values.add(Integer.parseInt(id));
 			i++;
 		}
 		
@@ -122,7 +121,7 @@ public class StoreService {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
-		map.put("amount", amount);
+		map.put("amount", amount/pageSize+1);
 		return map;
 		
 	}

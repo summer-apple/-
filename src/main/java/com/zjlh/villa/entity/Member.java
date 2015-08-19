@@ -42,6 +42,7 @@ public class Member implements java.io.Serializable {
 	private String email;
 	private Integer type;
 	private String typeValue;
+	private String sexValue;
 
 	public Member() {
 	}
@@ -233,4 +234,14 @@ public class Member implements java.io.Serializable {
 	public void setTypeValue(String typeValue) {
 		this.typeValue = typeValue;
 	}
+	@Formula("(select d.value from Member m join Dictionary d on m.sex = d.code where d.key = 'sex' and m.id = id)")
+	public String getSexValue() {
+		return sexValue;
+	}
+
+	public void setSexValue(String sexValue) {
+		this.sexValue = sexValue;
+	}
+	
+	
 }

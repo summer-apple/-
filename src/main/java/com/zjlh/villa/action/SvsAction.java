@@ -91,8 +91,11 @@ public class SvsAction extends ActionSupport {
 		response = ServletActionContext.getResponse();
 		request = ServletActionContext.getRequest();
 		
-		String content = request.getParameter("content");
-		String type = request.getParameter("type");
+		String data = request.getParameter("data");
+		JSONObject obj = JSONObject.fromObject(data);
+		
+		String content = obj.getString("content");
+		String type = obj.getString("type");
 		
 		List<Svs> list = ss.qrySvs(content,type);
 		

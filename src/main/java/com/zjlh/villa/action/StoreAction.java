@@ -38,7 +38,7 @@ public class StoreAction extends ActionSupport {
 		
 		String data = request.getParameter("data");
 		JSONObject obj = JSONObject.fromObject(data);
-		Store store = (Store) JSONObject.toBean(obj);
+		Store store = (Store) JSONObject.toBean(obj,Store.class);
 		int id = ss.addStore(store);
 
 		PrintWriter out = response.getWriter();
@@ -52,7 +52,7 @@ public class StoreAction extends ActionSupport {
 		response = ServletActionContext.getResponse();
 		String data = request.getParameter("data");
 		JSONObject obj = JSONObject.fromObject(data);
-		Store store = (Store) JSONObject.toBean(obj);
+		Store store = (Store) JSONObject.toBean(obj,Store.class);
 		boolean flag = ss.updateStore(store);
 		
 		PrintWriter out = response.getWriter();

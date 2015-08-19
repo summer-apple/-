@@ -19,6 +19,8 @@
 </head>
 
 <body class="page-body">
+	<div id="svs" style="display:none"></div>
+	<div id="facility" style="display:none"></div>
 	<div class="page-container">
 		<!-- side-bar -->
 		<%@ include file="side-bar.jsp"%>
@@ -31,50 +33,48 @@
 				<div class="row">
 					<div class="col-sm-1"></div>
 					<div class="col-sm-10">
+<!-- -->					
 						<div class="panel panel-default">
 						<h4><strong>查询&修改别墅</strong></h4>
 						</div>
-
+<!-- search -->
 							<div class="panel panel-default">
-								<form class="form-inline">
+								<form id="fm" class="form-inline">
+								<input type="hidden" name="province">
+								<input type="hidden" name="highPrice">
+								<input type="hidden" name="lowPrice">
+								<input class="page"type="hidden" name="pageNo" value="1">
+								<input type="hidden" name="bedroom">
+								<input type="hidden" name="pageSize" value="20">
 								<div class="form-group">
 									<h4><small></small></h4> 
 								</div>
 								<div class="form-group">
-									<input class="form-control" type="text" placeholder="要查询的别墅名称">
+									<input class="form-control" type="text" placeholder="请输入关键字">
 								</div>
 								<div class="form-group">
-									<select class="form-control">
-										<option>--请选择商家--</option>
-									</select>
-								</div>
-								<div class="form-group">
-								 	<span>状态</span>
-									<select class="form-control">
-										<option value="">--请选择--</option>
-										<option value="黑名单">黑名单用户</option>
-										<option value="普通">普通用户</option>
-									</select>
-								</div>
-								<div class="form-group">
-								 	<input id="qryorderbtn" type="button" value="查 询">
+								 	<input id="qryvillabtn" type="button" value="查 询">
 								</div>
 								</form>
 							</div>
+<!-- //search -->
 <!-- villalist -->
-						<div id="villalist" class="panel panel-default">
+						<div id="villalist2">
+						</div>
+						<div id="villalist" style="display:none">
+						<div class="panel panel-default">
 							<div class="panel-body">
 								<div id="img" class="img" style="float:left">
-									<img style="width:200px;height:200px;background-color:#f3f3f3;margin-right:20px;margin-top:20px">
+									<img style="width:150px;height:150px;background-color:#f3f3f3;margin-right:20px;margin-top:20px">
 								</div>
 								<div class="introduce" style="float:left">
-									<h3>{name}<small>{star}</small></h3>
+									<h3>{name}<small>评分：{star}</small></h3>
 									<span>地址 </span>{address}<br/>
-									<span>规格 </span>5室，3浴，泳池 可住10-15人<br/>
-									<span>描述 </span>blablabla...<br/>
-									<div class="service"><span>服务 </span>{service}</div>
-									<div class="facility"><span>设施 </span>{facility}</div>
-									<span>价格 </span>${price} [特惠价 $1,500]<br/>
+									<span>规格 </span>{bedroom}室 可住约{people}人<br/>
+									<span>描述 </span>{description}<br/>
+									<div style="max-width:450px;"><span>服务 </span>{svs}</div>
+									<div style="max-width:450px;"><span>设施 </span>{facility}</div>
+									<span>价格 </span>￥{price} <span style="color:red;">[特惠价 ￥{s-price}]</span><br/>
 								</div>
 						  	</div>
 							<div>
@@ -83,13 +83,13 @@
 								<button type="button" class="btn btn-danger">删 除</button>
 							</div>
 						</div>
+						</div>
 <!-- //villalist -->
 
 					</div>
 				</div>
 
-			</section>
-		
+			</section>	
 		<%@ include file="footer.jsp"%>
 		</div>
 	</div>
@@ -99,27 +99,94 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#main-menu>li:eq(2)").addClass("active opened");
-			function qryVilla(){
+
+			$("#qryvillabtn").click(function(){
+				$(".page").val(1);
+				$("#villalist2 div").remove();
+                var params = $("#fm").serializeArray();
+                var j = {};
+                for (var item in params) {
+                    j[params[item].name] = params[item].value;
+                }
 				$.ajax({
 					url:'../villa/qryVilla',
-					data:{'content':facilitycontent,'type':facilitytype},
+					data:{data:JSON.stringify(j)},
 					type:'get',
 					dataType:'json',
 					success: function(data){
 						$.each(data,function(i,item){
-							var vlist=$('#villalist').html();
-							var vname=vlist.replace('{name}',item.Name);
+							var o=$('#villalist').html();
+							var setName=o.replace('{name}',item.name);
+							var setAddr=setName.replace('{address}',item.detail);
+							var setBedroom=setAddr.replace('{bedroom}',item.bedroom);
+							var setPeople=setBedroom.replace('{people}',item.people);
+							var setDescript=setPeople.replace('{description}',item.description);
+							var setNPrice=setDescript.replace('{price}',item.normalPrice);
+							var setSPrice=setNPrice.replace('{s-price}',item.specialPrice);
+							var setStar=setSPrice.replace('{star}',item.star);
 							$.each(item.svs,function(index,item2){
-								alert(item2.villa);
-								alert(item2.svs);
-
+								var svsold=$("#svs").val();
+								var svsnew=svsold+" "+item2.content;
+								$("#svs").val(svsnew);
 							});
-							$(vname).appendTo($("#villalist"));
+							var svs=$("#svs").val();
+							var setSvs=setStar.replace('{svs}',svs);
+							$.each(item.facility,function(index2,item3){
+								var fold=$("#facility").val();
+								var fnew=fold+" "+item3.content;
+								$("#facility").val(fnew);
+							});
+							var facility=$("#facility").val();
+							var setFacility=setSvs.replace('{facility}',facility);
+							$(setFacility).appendTo($("#villalist2"));
+							$("#svs").val("");
+							$("#facility").val("");
 						});
 					}
 				});	
+				
+			});
+
+			window.delVilla = function(){
+
 			};
-			qryVilla();
+
+	        $(window).scroll(function(){
+	            if($(document).scrollTop()>=$(document).height()-$(window).height()){
+	                var add=parseInt($(".page").val())+1;
+	                $(".page").val(add);
+					var params = $("#fm").serializeArray();
+	                var j = {};
+	                for (var item in params) {
+	                    j[params[item].name] = params[item].value;
+	                }
+					$.ajax({
+						url:'../villa/qryVilla',
+						data:{data:JSON.stringify(j)},
+						type:'get',
+						dataType:'json',
+						success: function(data){
+							$.each(data,function(i,item){
+								var o=$('#villalist').html();
+								var setName=o.replace('{name}',item.name);
+								var setAddr=setName.replace('{address}',item.detail);
+								var setBedroom=setAddr.replace('{bedroom}',item.bedroom);
+								var setPeople=setBedroom.replace('{people}',item.people);
+								var setDescript=setPeople.replace('{description}',item.description);
+								var setNPrice=setDescript.replace('{price}',item.normalPrice);
+								var setSPrice=setNPrice.replace('{s-price}',item.specialPrice);
+								var setStar=setSPrice.replace('{star}',item.star);
+								// $.each(item.svs,function(index,item2){
+								// 	alert(item2.villa);
+								// 	alert(item2.svs);
+
+								// });
+								$(setStar).appendTo($("#villalist2"));
+							});
+						}
+					});	
+				}
+			});
 		});
 	</script>
 </body>

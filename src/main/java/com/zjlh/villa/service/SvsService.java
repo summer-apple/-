@@ -52,14 +52,14 @@ public class SvsService {
 			
 			if (StringUtils.isNotBlank(content)) {		
 				content = "%"+ content +"%";
-				hql += " and content like ?"+String.valueOf(i);
+				sb.append(" and content like ?"+String.valueOf(i));
 				values.add(content);
 				i++;
 			}
 			
-			if (StringUtils.isBlank(type)) {
-				hql += " and type = ?"+String.valueOf(i);	
-				values.add(type);
+			if (StringUtils.isNotBlank(type)) {
+				sb.append(" and type = ?"+String.valueOf(i));	
+				values.add(Integer.parseInt(type));
 				i++;
 			}
 			
@@ -74,6 +74,8 @@ public class SvsService {
 	 * @param id
 	 */
 	public void delSvs(int id) {
+		String sql = "DELETE FROM VillaSvs WHERE svs="+id;
+		dao.sql(sql);
 		dao.delete(Svs.class, id);
 	}
 

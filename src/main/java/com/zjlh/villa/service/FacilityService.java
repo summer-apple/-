@@ -57,9 +57,9 @@ public class FacilityService {
 				i++;
 			}
 			
-			if (StringUtils.isBlank(type)) {
+			if (StringUtils.isNotBlank(type)) {
 				sb.append(" and type = ?"+String.valueOf(i));
-				values.add(type);
+				values.add(Integer.parseInt(type));
 				i++;
 			}
 			
@@ -74,6 +74,8 @@ public class FacilityService {
 	 * @param id
 	 */
 	public void delFacility(int id) {
+		String sql = "DELETE FROM VillaFacility WHERE facility="+id;
+		dao.sql(sql);
 		dao.delete(Facility.class, id);
 	}
 
