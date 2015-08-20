@@ -328,7 +328,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 
-
+<div class="vspacer v2"></div>
 
 
 
@@ -362,34 +362,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 <!--新增商户表单结束-->
 
-			<div class="panel panel-default">
-				
-				<div class="vspacer v3"></div>
-				
-				<div class="row">
-					<div class="col-sm-10">
-						
-
-						<form class="form-inline" id="qry-form" action="" method="post">
-							
-						</form>
-
-					</div>
-					
-				</div>
-
-				<div class="vspacer v3"></div>
-				
-				<div class="row">
-					<div class="col-sm-12">
-						
-					</div>
-				</div>
-
-				
-				
-
-			</div>
 
 <!--主体部分结束-->
 			<!-- Main Footer -->
@@ -518,19 +490,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    //          }
    			var $svs = $("#svs-select").val()+"";
    			var $facility = $("#facility-select").val()+"";
+   			var $img = $("#img-select").val()+"";
 
             $.ajax({
                 url:'villa/addVilla',
-                data: {data:JSON.stringify(j),svs:$svs,facility:$facility},
+                data: {data:JSON.stringify(j),svs:$svs,facility:$facility,img:$img},
                 type:'post',
                 dataType:'json',
                 success:function(data){
                     if (data==0) {
-                    	alert("该设施已存在...");
-                    	qry();
+                    	alert("该别墅已存在...");
                     }else{
                     	alert("保存成功...");
-                    	qry();
                     }
                 }
             });
@@ -554,10 +525,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 success:function(data){
                     if (data==true) {
                     	alert("更新成功...");
-                    	qry();
                     }else{
                     	alert("更新失败...");
-                    	qry();
                     }
                 }
             });
@@ -587,7 +556,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        'onUploadComplete' : function(file, data) { //文件上传成功后执行 
 	        	var img = $.parseJSON(data);
 	        	$("#gallery-box").append(
-	        			'<div class="img-box col-md-3 col-sm-4 col-xs-6" style="position: relative;">'+
+	        			'<div id="img-box-'+ img.id +'" class="img-box col-md-3 col-sm-4 col-xs-6" style="position: relative;">'+
 								'<div class="album-image">'+
 									'<img src="'+ img.url +'" class="img-responsive" style="width: 100%;">'+
 									'<a class="remove-btn" onclick="delImg('+ img.id +')" href="javascript:void(0);" style="top: 10px;right: 26px;position: absolute;">'+
@@ -596,7 +565,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						'</div>'
 	        	);//删除改为异步
 					
-				$("#img-select").append('<option value="'+ img.id +'">'+ img.id +'</option>');
+				$("#img-select").append('<option id="img-option-'+ img.id +'" value="'+ img.id +'" selected>'+ img.id +'</option>');
 
 
 					}
@@ -605,18 +574,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 //删除图片
 window.delImg = function(id){
-
-	alert($(this).html());
-	$(this).parents(".img-box").remove();
-
+	
 	$.ajax({
 	        url:'img/delImg?id='+id,
 	        type:'post',
-	        dataType:'json'
+	        dataType:'json',
+	        success:function(data){
+	        	if (data==true) {
+	        		var $i = 'img-box-'+id;//网页移除图片
+	        		$("#"+$i).remove();
+	        		var $o = 'img-option-'+id;//移除表单中的项
+	        		$("#"+$o).remove();
+	        	}else{
+	        		alert("删除图片失败...");
+	        	}
+	        }
 	});
+	
 }
 
-//网页移除图片
+
 
 
 
