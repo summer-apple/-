@@ -448,6 +448,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 //打开新增商店面板
 	$(".open-panel").click(function(){
 		$("#add-form")[0].reset();
+		$(".add-panel .panel-title").html("新增商户");
 		$("#add-btn").show();
 		$("#update-btn").hide();
 		$(".add-panel").show();
@@ -456,7 +457,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 //编辑
 	window.edit = function(id){
 		$("#add-form")[0].reset();
-		
+		$(".add-panel .panel-title").html("更新商户");
 		$("#add-form #id").val(id);
 
 		$("#add-btn").hide();

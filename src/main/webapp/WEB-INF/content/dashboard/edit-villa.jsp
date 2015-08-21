@@ -558,7 +558,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        	$("#gallery-box").append(
 	        			'<div id="img-box-'+ img.id +'" class="img-box col-md-3 col-sm-4 col-xs-6" style="position: relative;">'+
 								'<div class="album-image">'+
-									'<img src="'+ img.url +'" class="img-responsive" style="width: 100%;">'+
+									'<img id="img-'+ img.id +'" src="'+ img.url +'" class="img-responsive" style="width: 100%;">'+
 									'<a class="remove-btn" onclick="delImg('+ img.id +')" href="javascript:void(0);" style="top: 10px;right: 26px;position: absolute;">'+
 									'<span class="fa fa-remove" style="font-size: 14px;color: #666;"></span>'+
 								'</div>'+
@@ -567,6 +567,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				$("#img-select").append('<option id="img-option-'+ img.id +'" value="'+ img.id +'" selected>'+ img.id +'</option>');
 
+				$("#img-"+img.id).height($("#img-"+img.id).width()*0.618);//更改图片高度
 
 					}
 		});
@@ -592,7 +593,6 @@ window.delImg = function(id){
 	});
 	
 }
-
 
 
 
