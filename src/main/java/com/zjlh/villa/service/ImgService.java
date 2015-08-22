@@ -3,13 +3,11 @@ package com.zjlh.villa.service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zjlh.villa.dao.ImgDaoHibernate4;
 import com.zjlh.villa.dao.VillaImgDaoHibernate4;
-
 import com.zjlh.villa.entity.Img;
 import com.zjlh.villa.entity.VillaImg;
 
@@ -40,6 +38,8 @@ public class ImgService {
 	}
 
 	public void delImg(int id) {
+		String sql = "DELETE FROM VillaImg WHERE img="+id;
+		dao.sql(sql);
 		dao.delete(Img.class, id);
 	}
 

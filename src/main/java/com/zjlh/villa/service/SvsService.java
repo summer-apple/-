@@ -116,6 +116,7 @@ public class SvsService {
 		List<Svs> svslist = new ArrayList<Svs>();
 		
 		for (int i = 0; i < args.length; i++) {
+			
 			int id = Integer.parseInt(args[i]);
 			Svs svs = getSvs(id);
 			svslist.add(svs);

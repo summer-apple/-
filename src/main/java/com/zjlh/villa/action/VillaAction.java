@@ -11,10 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -33,6 +36,9 @@ import com.zjlh.villa.service.VillaService;
 
 @Namespace("/villa")
 @Controller
+@Results({  
+	  @Result(name="edit", location="/WEB-INF/content/dashboard/edit-villa.jsp")
+	})  
 public class VillaAction extends ActionSupport {
 
 	@Autowired
@@ -105,7 +111,26 @@ public class VillaAction extends ActionSupport {
 		String data = request.getParameter("data");
 		String[] svs = request.getParameterValues("svs");
 		String[] facility = request.getParameterValues("facility");
-		String[] img = request.getParameterValues("img");
+		String[] img = request.getParameter("img").split(",");
+		
+		String svsString = svs[0];
+		if (svsString.endsWith(",null")) {
+			svsString = (String) svsString.subSequence(0,svsString.lastIndexOf(","));
+			svs = svsString.split(",");
+		}else {
+			svs = svsString.split(",");
+		}
+		
+		String facilityString = facility[0];
+		if (facilityString.endsWith(",null")) {
+			facilityString = (String) facilityString.subSequence(0,facilityString.lastIndexOf(","));
+			facility = facilityString.split(",");
+		}else {
+			facility = facilityString.split(",");
+		}
+		
+		
+		
 		
 		JSONObject obj = JSONObject.fromObject(data);
 		
@@ -192,5 +217,37 @@ public class VillaAction extends ActionSupport {
 		PrintWriter out = response.getWriter();
 		out.print(obj);
 		out.close();
+	}
+	
+	
+	@Action("/villa/getVilla")
+	public String getVilla() throws IOException{
+		
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		String type = request.getParameter("type");
+		
+		
+		Villa villa = vs.getVilla(id);
+				
+		
+		if ("json".equals(type)) {//json 格式
+			
+			JSONObject obj = JSONObject.fromObject(villa);
+			PrintWriter out = response.getWriter();
+			out.print(obj);
+			out.close();
+			return null;
+		}else {//转发
+			
+			request.setAttribute("villa", villa);
+			return "edit";
+		}
+		
+		
+		
+		
 	}
 }

@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<ol class="breadcrumb bc-1">
 						<li><a href="dashboard/home"><i class="fa-home"></i>主页</a></li>
 						<li><a href="javascript:void(0);">别墅管理</a></li>
-						<li class="active"><strong>编辑别墅</strong></li>
+						<li class="active"><strong>新增别墅</strong></li>
 					</ol>
 
 				</div>
@@ -72,9 +72,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 <!--主体部分开始-->
-			<div class="update-panel panel panel-default">
+			<div class="add-panel panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">编辑别墅</h3>
+							<h3 class="panel-title">新增别墅</h3>
 							<div class="panel-options">
 								<a href="#" data-toggle="panel">
 									<span class="collapse-icon">–</span>
@@ -87,9 +87,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 						<div class="panel-body">
 							
-							<form id="update-form" role="form" class="form-horizontal" action="" method="post">
+							<form id="add-form" role="form" class="form-horizontal" action="" method="post">
 								
-								<input name="id" type="hidden" id="id"  value="${villa.id}">
+								<input name="id" type="hidden" id="id">
 
 
 								
@@ -98,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="name">别墅名</label>
 									
 									<div class="col-sm-10">
-										<input name="name" type="text" class="form-control" id="name" placeholder="别墅名"  value="${villa.name}">
+										<input name="name" type="text" class="form-control" id="name" placeholder="别墅名">
 									</div>
 								</div>
 								
@@ -106,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="store">商户ID</label>
 									
 									<div class="col-sm-10">
-										<input name="store" type="text" class="form-control" id="store" placeholder="商户ID"  value="${villa.store}">
+										<input name="store" type="text" class="form-control" id="store" placeholder="商户ID">
 									</div>
 								</div>
 								
@@ -114,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="bedroom">床位数</label>
 									
 									<div class="col-sm-10">
-										<input name="bedroom" type="number" class="form-control" id="bedroom" placeholder="床位数"  value="${villa.bedroom}">
+										<input name="bedroom" type="number" class="form-control" id="bedroom" placeholder="床位数">
 									</div>
 								</div>
 								
@@ -122,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="people">人&nbsp;&nbsp;&nbsp;数</label>
 									
 									<div class="col-sm-10">
-										<input name="people" type="number" class="form-control" id="people" placeholder="人数"   value="${villa.people}">
+										<input name="people" type="number" class="form-control" id="people" placeholder="人数">
 									</div>
 								</div>
 								
@@ -131,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="normalPrice">普通价</label>
 									
 									<div class="col-sm-10">
-										<input name="normalPrice" type="number" class="form-control" id="normalPrice" placeholder="普通价 保留两位小数"  value="${villa.normalPrice}">
+										<input name="normalPrice" type="number" class="form-control" id="normalPrice" placeholder="普通价 保留两位小数">
 									</div>
 								</div>
 
@@ -140,7 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="specialPrice">特殊价</label>
 									
 									<div class="col-sm-10">
-										<input name="specialPrice" type="number" class="form-control" id="specialPrice" placeholder="特殊价 保留两位小数"  value="${villa.specialPrice}">
+										<input name="specialPrice" type="number" class="form-control" id="specialPrice" placeholder="特殊价 保留两位小数">
 									</div>
 								</div>
 
@@ -149,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="weight">权&nbsp;&nbsp;&nbsp;重</label>
 									
 									<div class="col-sm-10">
-										<input name="weight" type="number" class="form-control" id="weight" placeholder="1-100 数值越大排名越靠前"  value="${villa.weight}">
+										<input name="weight" type="number" class="form-control" id="weight" placeholder="1-100 数值越大排名越靠前">
 									</div>
 								</div>
 								
@@ -158,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="province">省&nbsp;&nbsp;&nbsp;份</label>
 									
 									<div class="col-sm-10">
-										<input name="province" type="text" class="form-control" id="province" placeholder="省份 如：浙江省"   value="${villa.province}">
+										<input name="province" type="text" class="form-control" id="province" placeholder="省份 如：浙江省">
 									</div>
 										
 								</div>
@@ -167,7 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="city">城&nbsp;&nbsp;&nbsp;市</label>
 									
 									<div class="col-sm-10">
-										<input name="city" type="text" class="form-control" id="city" placeholder="城市 如：杭州市"  value="${villa.city}">
+										<input name="city" type="text" class="form-control" id="city" placeholder="城市 如：杭州市">
 									</div>
 										
 								</div>
@@ -176,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="district">区&nbsp;/&nbsp;县</label>
 									
 									<div class="col-sm-10">
-										<input name="district" type="text" class="form-control" id="district" placeholder="区/县 如：西湖区"  value="${villa.district}">
+										<input name="district" type="text" class="form-control" id="district" placeholder="区/县 如：西湖区">
 									</div>
 										
 								</div>
@@ -186,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="detail">具体地址</label>
 									
 									<div class="col-sm-10">
-										<textarea name="detail" class="form-control autogrow" cols="5" id="address" placeholder="街道/乡镇-具体地址(100字以内)" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;">${villa.detail}</textarea>
+										<textarea name="detail" class="form-control autogrow" cols="5" id="address" placeholder="街道/乡镇-具体地址(100字以内)" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;"></textarea>
 									</div>
 								</div>
 
@@ -208,25 +208,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								
 								<div class="form-group">
 									<label class="col-sm-2 control-label">选择服务</label>
-									<div class="col-sm-10">	
-										已选：
-										<c:forEach items="${villa.svs}" var="svs">${svs.content}  </c:forEach>
-										
-										<select id="o-svs-select" multiple style="display:none;">
-											<c:forEach items="${villa.svs}" var="svs">
-												<option value="${svs.id}" selected>${svs.id}</option>
-											</c:forEach>
-										</select>
-										
-
-									</div>
 									
 										
 									<script type="text/javascript">
 										jQuery(document).ready(function($)
 										{
 											$("#svs-select").select2({
-												placeholder: '增加新的服务',
+												placeholder: 'Choose the services of villa.',
 												allowClear: true
 											}).on('select2-open', function()
 											{
@@ -236,20 +224,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											
 										});
 									</script>
-									
-									
-									
-									
-									
-									<div class="col-sm-2" ></div>
-									<div class="svs-select-box col-sm-10" style="display: block;">	
-									
+									<div class="col-sm-10">	
 										<select class="form-control col-sm-10" id="svs-select" multiple name="svs">
 											<option></option>
 											<optgroup class="free-svs" label="---免费服务---">
-												
+
 											</optgroup>
-												
+
 											<optgroup class="cost-svs" label="---收费服务---">
 								
 											</optgroup>
@@ -269,24 +250,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								
 								<div class="form-group">
 									<label class="col-sm-2 control-label">选择设施</label>
-									<div class="col-sm-10">	
-										已选：
-										<c:forEach items="${villa.facility}" var="facility">${facility.content}  </c:forEach>
-										
-										<select id="o-facility-select" multiple style="display:none;">
-											<c:forEach items="${villa.facility}" var="facility">
-												<option value="${facility.id}" selected>${facility.id}</option>
-											</c:forEach>
-										</select>
-										
-
-									</div>
+									
 										
 									<script type="text/javascript">
 										jQuery(document).ready(function($)
 										{
 											$("#facility-select").select2({
-												placeholder: '添加新的设施',
+												placeholder: 'Choose the facilities of villa.',
 												allowClear: true
 											}).on('select2-open', function()
 											{
@@ -296,7 +266,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											
 										});
 									</script>
-									<div class="col-sm-2"></div>
 									<div class="col-sm-10">	
 										<select class="form-control" id="facility-select" multiple name="facility">
 											<option></option>
@@ -336,9 +305,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<input id="file_upload" type="file" name="upload" style="display:none;" />
 
 										<select class="form-control" id="img-select" multiple name="img" style="display:none;">
-											<c:forEach items="${villa.img}" var="img">
-													<option id="img-option-${img.id}" value="${img.id}" selected>${img.id}</option>
-											</c:forEach>
 										</select>
 									</div>		
 								</div>
@@ -351,29 +317,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
-
-
-
-
-
-
-
 				<div class="row">
 					<div class="col-sm-2"></div>
 					<div class="col-sm-10">
-					
-					<div id="gallery-box" class="album-images row">
-					<c:forEach items="${villa.img}" var="img">
-						<div id="img-box-${img.id}" class="img-box col-md-3 col-sm-4 col-xs-6" style="position: relative;">
-								<div class="album-image"><img id="img-${img.id}" src="${img.url}" class="img-responsive" style="width: 100%;">
-								<a class="remove-btn" onclick="delImg(${img.id})" href="javascript:void(0);" style="top: 10px;right: 26px;position: absolute;">
-								<span class="fa fa-remove" style="font-size: 14px;color: #666;"></span></a>
-								</div>
+
+						<div id="gallery-box" class="album-images row">
+							
 						</div>
-					</c:forEach>
+
 					</div>
 				</div>
-				</div>
+
 <div class="vspacer v2"></div>
 
 
@@ -388,8 +342,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</div>
 									<div class="col-sm-2">
 										<!-- <a href="javascript:void(0);" id="add-btn" class="btn btn-primary btn-single btn-sm">保存</a> -->
-										
-										<button id="update-btn" type="button" class="btn btn-primary btn-single btn-sm">更 新</button>
+										<button id="add-btn" type="button" class="btn btn-primary btn-single btn-sm">保 存</button>
 									</div>
 								</div>
 
@@ -511,12 +464,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 //添加
 
-	$("#update-btn").click(function(){
+	$("#add-btn").click(function(){
 
 
 
 			//获取别墅字段
-			var params = $("#update-form").serializeArray();
+			var params = $("#add-form").serializeArray();
             var j = {};
             for (var item in params) {
                 j[params[item].name] = params[item].value;
@@ -534,14 +487,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    //          for (var item in facilityparams) {
    //              facilityj[facilityparams[item].name] = facilityparams[item].value;
    //          }
-   			var $svs = $("#o-svs-select").val()+","+$("#svs-select").val()+"";
-   			
-   			var $facility = $("#o-facility-select").val()+","+$("#facility-select").val()+"";
-   			alert($facility);
+   			var $svs = $("#svs-select").val()+"";
+   			var $facility = $("#facility-select").val()+"";
    			var $img = $("#img-select").val()+"";
 
             $.ajax({
-                url:'villa/updateVilla',
+                url:'villa/addVilla',
                 data: {data:JSON.stringify(j),svs:$svs,facility:$facility,img:$img},
                 type:'post',
                 dataType:'json',
@@ -557,7 +508,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
+//更新
 
+	$("#update-btn").click(function(){
+			var params = $("#add-form").serializeArray();
+            var j = {};
+            for (var item in params) {
+                j[params[item].name] = params[item].value;
+            }
+            $.ajax({
+                url:'villa/updateVilla',
+                data: {data:JSON.stringify(j)},
+                type:'post',
+                dataType:'json',
+                success:function(data){
+                    if (data==true) {
+                    	alert("更新成功...");
+                    }else{
+                    	alert("更新失败...");
+                    }
+                }
+            });
+		});
 
 
 //上传图片
@@ -592,8 +564,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						'</div>'
 	        	);//删除改为异步
 					
-				$("#img-select").append('<option id="img-option-'+ img.id +'" value="'+ img.id +'" selected>'+ img.id +'</option>');
+				$("#img-select").append('<option id="img-option-'+ img.id +'" value="'+ img.id +'" selected>'+ img.id +'</option>');//增加图片select 中的option
 
+				//$("#img-"+img.id).height($("#img-"+img.id).width()*0.618);//更改图片高度
 
 					}
 		});
@@ -620,9 +593,7 @@ window.delImg = function(id){
 	
 }
 
-//修改服务按钮
 
-	//$(".")
 
 
 

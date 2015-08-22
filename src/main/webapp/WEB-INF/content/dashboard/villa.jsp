@@ -215,7 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						"	<td class='villa-normalPrice'>"+item.normalPrice+"</td>"+
 						"	<td class='villa-specialPrice'>"+item.specialPrice+"</td>"+
 						"	<td class='villa-weight'>"+item.weight+"</td>"+
-						"	<td style='min-width:115px;'><a class='edit-btn btn btn-primary btn-single btn-sm' href='dashboard/edit-villa?id="+item.id+"'>编辑</a><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
+						"	<td style='min-width:115px;'><a class='edit-btn btn btn-primary btn-single btn-sm' href='villa/getVilla?id="+item.id+"&type=redirect'>编辑</a><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
 						"</tr>"
                 		 );
                   	});
@@ -273,7 +273,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							"	<td class='villa-normalPrice'>"+item.normalPrice+"</td>"+
 							"	<td class='villa-specialPrice'>"+item.specialPrice+"</td>"+
 							"	<td class='villa-weight'>"+item.weight+"</td>"+
-							"	<td style='min-width:115px;'><a class='edit-btn btn btn-primary btn-single btn-sm' href='dashboard/edit-villa?id="+item.id+"'>编辑</a><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
+							"	<td style='min-width:115px;'><a class='edit-btn btn btn-primary btn-single btn-sm' href='villa/getVilla?id="+item.id+"&type=redirect'>编辑</a><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
 							"</tr>"
 	                		 );
 	                  	});

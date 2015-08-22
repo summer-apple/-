@@ -50,7 +50,9 @@ public class VillaService {
  * @return
  */
 	public List<Villa> findVillaByName(String name) {
-		return dao.find("Villa", "name", name);
+		List<String> keys = new ArrayList<String>();
+		keys.add("name");
+		return dao.find(Villa.class, keys, name);
 	}
 /**
  * 判断同一商家是否有相同名称的别墅

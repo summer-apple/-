@@ -64,7 +64,7 @@
 				<ul>
 					<li><a href="dashboard/villa"> <span class="title">查询别墅</span>
 					</a></li>
-					<li><a href="dashboard/edit-villa"> <span class="title">新增别墅</span>
+					<li><a href="dashboard/add-villa"> <span class="title">新增别墅</span>
 					</a></li>
 				</ul></li>
 			<li>
