@@ -135,6 +135,100 @@ public class VillaService {
 		map.put("amount", amount/pageSize+1);
 		return map;
 	}
+	
+	
+	
+	/**
+	 * 微信端 分页查询别墅	
+	 * @param province 省份
+	 * @param highPrice 最高价
+	 * @param lowPrice 最低价
+	 * @param bedroom 卧室数量
+	 * @param pageNo 页码
+	 * @param pageSize 每页别墅数量
+	 * @return
+	 */
+		public Map<String,Object> qryMobileVilla(String name,String highPrice,String lowPrice,String bedroom,String address,String people, int pageNo,int pageSize){
+			
+			List<Object> values = new ArrayList<Object>();
+			String hql = "FROM Villa WHERE 1=1 ";
+			//String hql = "FROM Villa  WHERE 1=1 ";
+			int i=0;
+			StrBuilder sb = new StrBuilder(hql);
+			
+			if (StringUtils.isNotBlank(name)) {		
+				sb.append(" and name like ?"+String.valueOf(i));
+				values.add("%"+name+"%");
+				i++;
+				
+				sb.append(" or province like ?"+String.valueOf(i));
+				values.add("%"+name+"%");
+				i++;
+				
+				sb.append(" or city like ?"+String.valueOf(i));
+				values.add("%"+name+"%");
+				i++;
+				
+				sb.append(" or district like ?"+String.valueOf(i));
+				values.add("%"+name+"%");
+				i++;
+				
+				sb.append(" or detail like ?"+String.valueOf(i));
+				values.add("%"+name+"%");
+				i++;
+			}
+			
+			if (StringUtils.isNotBlank(highPrice)) {		
+				sb.append(" and normal_price < ?"+String.valueOf(i));
+				
+				values.add(highPrice);
+				i++;
+			}
+			if (StringUtils.isNotBlank(lowPrice)) {		
+				sb.append(" and normal_price > ?"+String.valueOf(i));
+				
+				values.add(lowPrice);
+				i++;
+			}
+			if (StringUtils.isNotBlank(bedroom)) {		
+				sb.append(" and bedroom > ?"+String.valueOf(i));
+				values.add(Integer.parseInt(bedroom));
+				i++;
+			}
+			
+			if (StringUtils.isNotBlank(people)) {		
+				sb.append(" and people >= ?"+String.valueOf(i));
+				values.add(Integer.parseInt(people));
+				i++;
+			}
+			
+			sb.append(" order by id");
+			List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
+			long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("amount", amount/pageSize+1);
+			return map;
+		}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
 
 

@@ -3,9 +3,12 @@
 	padding: 0;
 	margin: 0;
 }
+html{
+	background-color: #EFEFEF;
+}
 body
 {
-	background-color: #DDD;
+	background-color: #EFEFEF;
 	font-family: Arial, Helvetica, Verdana;
 	font-size: 14px;
 	line-height: 22px;
@@ -38,7 +41,7 @@ p
 a, a:link, a:active, a:visited, a:hover
 {
 	color: inherit;
-	text-decoration: none;
+	text-decoration: none !important;
 }
 li {
 	list-style: none;
@@ -84,6 +87,7 @@ nav:not(.mm-menu)
 .header {
 	color:#CCC;
 	position: fixed;
+	z-index: 999;
 }
 #menu-btn
 {
@@ -98,7 +102,13 @@ nav:not(.mm-menu)
 .header a span.fa {
     color: #666;
 }
-.search-btn {
+
+.platform-title-link:visited{
+	color: #DDD;
+}
+
+
+.search-icon {
     float: right;
     display: block;
     width: 40px;
@@ -109,15 +119,210 @@ nav:not(.mm-menu)
 	display: none;
 	position: fixed;
 	margin-top: 40px;
+	padding-bottom: 15px;
+	background-color: #EFEFEF;
+
+    z-index: 111;
 }
 
 
+.input-group {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.search-box .input-group .form-control{
+	text-indent: 18px;
+	height: 40px;
+    margin-top: 10px;
+}
+
+.input-icon {
+    position: absolute;
+    top: 21px;
+    left: 13px;
+    z-index: 100;
+    color: #999;
+    font-size: 1.5em !important;
+}
+.input-icon-el {
+	font-size: 0.9em !important;
+    left: 10px;
+}
 
 
+.s-btn {
+	width: 45%;
+    height: 40px;
+    font-size: 15px;
+    margin-top: 10px;
+    line-height: 30px !important;
+}
+
+.clear-btn{
+    background-color: #FFF;	
+}
+
+.search-btn{
+	background-color: #FFA339;
+    color: #FFF;
+    float: right;	
+}
+.qry-form{
+	background-color: #EFEFEF;
+}
+
+.select-box {
+    padding-top: 55px;
+    width: 100%;
+    background-color: #EFEFEF;
+    height: 40px;
+}
+ul.select-list {
+    width: 90%;
+    margin-left: 5%;
+    padding: 0;
+    height: 40px;
+}
+.select-item {
+    display: block;
+    float: left;
+    width: 33.33%;
+    height: 40px;
+    background-color: #FFF;
+    line-height: 40px;
+    text-align: center;
+    border-right: 1px solid #DDD;
+    font-size: 15px;
+}
+.bedroom-item {
+	border-right:0px;
+}
 
 
+.select-detail-box {
+    margin-top: 41px;
+    width: 100%;
+    height: 100px;
+    display: none;
+}
+
+.select-detail-list {
+    width: 90%;
+    margin-left: 5%;
+    padding: 0;
+    height: 100px;
+    position: relative;
+}
+.select-detail-item {
+    width: 100%;
+    background-color: #FFF;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+.destination-detail{
+	height: 330px;
+	padding-top: 10px;
+}
+
+.destination-line {
+    width: 100%;
+    height: 29px;
+}
+.destination-option {
+    width: 33.33%;
+    float: left;
+    text-align: center;
+    font-size: 1.2em;
+}
 
 
+.price-detail {
+	padding-top: 10px;
+	height: 165px;
+}
+
+.price-option span {
+    font-size: 1.1em;
+    color: #999;
+}
+.price-option span.fa-check-square-o {
+    font-size: 1.1em;
+    color: #FFA339;
+}
+
+.bedroom-detail{
+	height: 120px;
+}
+
+.bedroom-line {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 20px;
+}
+
+.bedroom-line label {
+    width: 23%;
+    display: block;
+    float: left;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.bedroom-line span {
+    width: 10%;
+    display: block;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+        font-size: 1.5em;
+    color: #FFA339;
+}
+
+.bedroom-line input{
+	display: block;
+    float: left;
+    width: 50%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin-right: 5%;
+    border: 1px solid #DDD;
+
+}
+
+.select-btn-warp{
+	clear: both;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.select-btn-warp .btn {
+    background-color: #FFA339;
+    color: #FFF;
+    width: 100px;
+    height: 40px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.2em;
+}
+
+
+.price-line {
+    width: 100%;
+    height: 25px;
+    margin-top: 5px;
+}
+.price-option {
+    width: 50%;
+    text-align: center;
+    float: left;
+}
 
 
 
@@ -126,6 +331,7 @@ nav:not(.mm-menu)
 	width: 100%;
 	height: auto;
 	background-color: #EFEFEF;
+	padding-top: 60px;
 }
 
 footer {
@@ -154,13 +360,16 @@ footer {
     display: block;
     width: 100%;
     height: 20px;
-    margin-top: 10px;
-    font-size: 1.4em;
+    margin-top: 9px;
+    font-size: 2em;
     text-align: center;
+    color:#888;
 }
 .fo-btn-item a {
-	font-size: 0.4em;
+	font-size: 1em;
     text-align: center;
     display: block;
     width: 100%;
+    margin-top:3px;
+    color:#888;
 }

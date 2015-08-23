@@ -219,6 +219,26 @@ public class VillaAction extends ActionSupport {
 		out.close();
 	}
 	
+	@Action("/villa/qryMobileVilla")
+	public void qryMobileVilla() throws IOException {
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+
+		String data = request.getParameter("data");
+		JSONObject object = JSONObject.fromObject(data);
+		Map<String,Object> map = vs.qryMobileVilla(object.getString("name"),
+				object.getString("highPrice"), object.getString("lowPrice"),
+				object.getString("bedroom"),object.getString("address"),
+				object.getString("people"),
+				Integer.parseInt(object.getString("pageNo")),
+				Integer.parseInt(object.getString("pageSize")));
+
+		JSONObject obj = JSONObject.fromObject(map);
+		PrintWriter out = response.getWriter();
+		out.print(obj);
+		out.close();
+	}
+	
 	
 	@Action("/villa/getVilla")
 	public String getVilla() throws IOException{

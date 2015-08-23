@@ -179,7 +179,7 @@ System.out.println("content="+content);
 
 	
 	@Action("/weixin/create-menu")
-	public String fuck() throws ParseException, IOException{
+	public void fuck() throws ParseException, IOException{
 		
 		String menu = JSONObject.fromObject(WeixinUtilService.initMenu()).toString();		
 		String token = weixinUtilService.getAccessToken();
@@ -187,7 +187,13 @@ System.out.println("content="+content);
 		if (0==result) {
 			System.out.println("创建菜单成功！");
 		}
-		return SUCCESS;
+		
+		 HttpServletResponse response = ServletActionContext.getResponse();
+		 PrintWriter  out = response.getWriter();//获取输出  
+		 out.print("create menu success");//返回message
+		 out.close();//关闭输出流
+			
+		
 	}
 
 	
