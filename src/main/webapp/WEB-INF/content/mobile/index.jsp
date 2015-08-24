@@ -16,43 +16,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<title>ONE GO</title>
 
-		<link type="text/css" rel="stylesheet" href="resources/css/menu-common.css" />
-		<link type="text/css" rel="stylesheet" href="resources/css/jquery.mmenu.all.css" />
-		<link rel="stylesheet" href="resources/css/fonts/fontawesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="resources/css/fonts/elusive/css/elusive.css">
-		<link rel="stylesheet" href="resources/css/bootstrap.css">
+		
 
-		<script type="text/javascript" src="resources/js/jquery-1.11.1.min.js"></script>
-		<script src="resources/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="resources/js/jquery.mmenu.min.all.js"></script>
-		<script type="text/javascript">
-			$(function() {
-				$('nav#menu').mmenu({
-					//extensions	: [ 'effect-slide-menu', 'pageshadow' ],
-					//searchfield	: true,
-					"autoHeight": true,
-					counters	: true,
-					navbar 		: {
-						title		: 'ONE GO'
-					},
-					navbars		: [
-						 {
-							position	: 'top',
-							content		: [
-								'prev',
-								'title',
-								'close'
-							]
-						}, {
-							position	: 'bottom',
-							content		: [
-								'<a href="http://gmcfe.pub/" target="_blank">PROWERED BY GMC INC.</a>'
-							]
-						}
-					]
-				});
-			});
-		</script>
+		
 	</head>
 	<body>
 		<div id="page">
@@ -227,53 +193,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="foot-blank-box"></div>
 
 
-				<footer>
-					
-					<ul class="fo-btn-list">
-						
-						<li class="fo-btn-item">
-							<span class="fa fa-home"></span>
-							<a href="#">精选</a>
-						</li>
-						<li class="fo-btn-item">
-							<span class="fa fa-map-marker"></span>
-							<a href="#">目的地</a>
-						</li>
-						<li class="fo-btn-item">
-							<span class="fa fa-comment-o"></span>
-							<a href="#">咨询</a>
-						</li>
-
-					</ul>
-
-				</footer>
+				
 
 
 
-			
-			<nav id="menu">
-				<ul>
-					<li><a href="#">个人设置<span style="float:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaaa</span></a></li>
-					<li><a href="#">我的订单</a></li>
-					<li><a href="#">关于我们</a></li>
-					<li><a href="#">联系我们</a></li>
-					<!-- <li><a href="#about">About us</a>
-						<ul>
-							<li><a href="#about/history">History</a></li>
-							<li><a href="#about/team">The team</a>
-								<ul>
-									<li><a href="#about/team/management">Management</a></li>
-									<li><a href="#about/team/sales">Sales</a></li>
-									<li><a href="#about/team/development">Development</a></li>
-								</ul>
-							</li>
-							<li><a href="#about/address">Our address</a></li>
-						</ul>
-					</li> -->
-					
-				</ul>
-			</nav>
+			<%@include file="foot.jsp"  %>
+			<%@include file="menu.jsp"  %>
 		</div>
+
+		<link type="text/css" rel="stylesheet" href="resources/css/menu-common.css" />
+		<link type="text/css" rel="stylesheet" href="resources/css/jquery.mmenu.all.css" />
+		<link rel="stylesheet" href="resources/css/fonts/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="resources/css/fonts/elusive/css/elusive.css">
+		<link rel="stylesheet" href="resources/css/bootstrap.css">
+		
+		
+		<script type="text/javascript" src="resources/js/jquery-1.11.1.min.js"></script>
+		<script src="resources/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.mmenu.min.all.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('nav#menu').mmenu({
+					//extensions	: [ 'effect-slide-menu', 'pageshadow' ],
+					//searchfield	: true,
+					"autoHeight": true,
+					counters	: true,
+					navbar 		: {
+						title		: 'ONE GO'
+					},
+					navbars		: [
+						 {
+							position	: 'top',
+							content		: [
+								'prev',
+								'title',
+								'close'
+							]
+						}, {
+							position	: 'bottom',
+							content		: [
+								'<a href="http://gmcfe.pub/" target="_blank">PROWERED BY GMC INC.</a>'
+							]
+						}
+					]
+				});
+			});
+		</script>
+		
 		<script type="text/javascript">
 		$().ready(function(){
 
@@ -330,7 +296,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									'<div class="villa-info-warp">'+
 										'<div class="villa-info-line1">'+
 											'<div class="villa-info-left villa-name-info">'+ item.name +'</div>'+
-											'<div class="villa-info-right order-now-link"><a href="#">立即预定</a></div>'+
+											'<div class="villa-info-right order-now-link"><a href="mobile/villa?id='+item.id+'">立即预定</a></div>'+
 										'</div>'+
 										'<div class="villa-info-line2">'+
 											'<div class="villa-info-left">'+ item.province +' '+ item.city +'</div>'+
@@ -475,6 +441,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$(".fa-check-square-o").removeClass("fa-check-square-o").addClass("fa-square-o");
 				$(this).find("span").removeClass("fa-square-o").addClass("fa-check-square-o");
 			});
+
+			// //点击已选价格
+			// $(".fa-check-square-o").click(function(){
+			// 	$(".fa-check-square-o").removeClass("fa-check-square-o").addClass("fa-square-o");
+			// 	$("#lowPrice").val("");
+			// 	$("#highPrice").val("");
+			// });
 
 
 			//点击省份
