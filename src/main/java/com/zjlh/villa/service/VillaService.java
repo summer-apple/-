@@ -157,7 +157,7 @@ public class VillaService {
 			StrBuilder sb = new StrBuilder(hql);
 			
 			if (StringUtils.isNotBlank(name)) {		
-				sb.append(" and name like ?"+String.valueOf(i));
+				sb.append(" and ( name like ?"+String.valueOf(i));
 				values.add("%"+name+"%");
 				i++;
 				
@@ -173,14 +173,14 @@ public class VillaService {
 				values.add("%"+name+"%");
 				i++;
 				
-				sb.append(" or detail like ?"+String.valueOf(i));
+				sb.append(" or detail like ?"+String.valueOf(i)+")");
 				values.add("%"+name+"%");
 				i++;
 			}
 			
 			if (StringUtils.isNotBlank(address)) {		
 				
-				sb.append(" and  province like ?"+String.valueOf(i));
+				sb.append(" and ( province like ?"+String.valueOf(i));
 				values.add("%"+address+"%");
 				i++;
 				
@@ -192,7 +192,7 @@ public class VillaService {
 				values.add("%"+address+"%");
 				i++;
 				
-				sb.append(" or detail like ?"+String.valueOf(i));
+				sb.append(" or detail like ?"+String.valueOf(i)+")");
 				values.add("%"+address+"%");
 				i++;
 			}
@@ -210,7 +210,7 @@ public class VillaService {
 				i++;
 			}
 			if (StringUtils.isNotBlank(bedroom)) {		
-				sb.append(" and bedroom > ?"+String.valueOf(i));
+				sb.append(" and bedroom >= ?"+String.valueOf(i));
 				values.add(Integer.parseInt(bedroom));
 				i++;
 			}
