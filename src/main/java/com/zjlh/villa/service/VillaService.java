@@ -178,6 +178,25 @@ public class VillaService {
 				i++;
 			}
 			
+			if (StringUtils.isNotBlank(address)) {		
+				
+				sb.append(" and  province like ?"+String.valueOf(i));
+				values.add("%"+address+"%");
+				i++;
+				
+				sb.append(" or city like ?"+String.valueOf(i));
+				values.add("%"+address+"%");
+				i++;
+				
+				sb.append(" or district like ?"+String.valueOf(i));
+				values.add("%"+address+"%");
+				i++;
+				
+				sb.append(" or detail like ?"+String.valueOf(i));
+				values.add("%"+address+"%");
+				i++;
+			}
+			
 			if (StringUtils.isNotBlank(highPrice)) {		
 				sb.append(" and normal_price < ?"+String.valueOf(i));
 				

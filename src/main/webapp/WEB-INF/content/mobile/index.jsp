@@ -155,8 +155,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 
 						<div class="destination-line">
-							
 							<div class="destination-option" title="港澳台">港澳台</div>
+							<div class="destination-option" title="">全&nbsp;&nbsp;&nbsp;部</div>
+							
 						</div>
 
 
@@ -220,98 +221,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 
 			<div class="content">
-
-					
-				大大大大大大大<br>
-
-asdf<br>
-asdf<br>
-asdf<br>
-asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-
-asdf<br>
-
-
-asdf<br>
-asdf<br>
-
-
-asdf<br>
-
-asdf<br>
-
-asdf<br>
-
-
-asdf<br>
-
-
+				<!-- ajax 加载  -->
 			</div>
 
-
+			<div class="foot-blank-box"></div>
 
 
 				<footer>
@@ -364,6 +277,12 @@ asdf<br>
 		<script type="text/javascript">
 		$().ready(function(){
 
+			//清除content内容，amount归零
+			window.clean = function(){
+				$(".content").empty();
+				$("#pageNo").val(0);
+			}
+
 			window.qry = function(){
 				var params = $("#qry-form").serializeArray();
 	            var j = {};
@@ -377,17 +296,88 @@ asdf<br>
 	                type:'post',
 	                dataType:'json',
 	                success:function(data){
+	                	
 	                	$("#amount").val(data.amount);
-	      		        $(".content").empty();
+	                	
+	      		        var imgurl;
+	      		        var imgid;
+
 	                	$.each(data.list, function(i, item) {
-	                		$(".content").append(item.name+item.id);
+	                		
+	                		$.each(item.img, function(j, jtem) {
+	                			if (j==0) {
+	                				imgid = jtem.id;
+	                			}else{
+	                				if (jtem.id<imgid) {
+	                					imgid = jtem.id;
+	                				}
+	                			}
+	                			
+	                		});
+
+	                		$.each(item.img, function(j, jtem) {
+	                			if (imgid==jtem.id) {
+	                				imgurl = jtem.url;
+	                			}
+	                		});
+
+
+	                		$(".content").append(
+	                			'<div class="villa-warp">'+
+									'<div class="villa-head-warp">'+
+										'<img src="'+ imgurl +'">'+
+									'</div>'+
+									'<div class="villa-info-warp">'+
+										'<div class="villa-info-line1">'+
+											'<div class="villa-info-left villa-name-info">'+ item.name +'</div>'+
+											'<div class="villa-info-right order-now-link"><a href="#">立即预定</a></div>'+
+										'</div>'+
+										'<div class="villa-info-line2">'+
+											'<div class="villa-info-left">'+ item.province +' '+ item.city +'</div>'+
+											'<div class="villa-info-right">平时价:'+ item.normalPrice +'元/场</div>'+
+										'</div>'+
+										'<div class="villa-info-line3">'+
+											'<div class="villa-info-left">'+ item.bedroom +'卧室 最多容纳'+ item.people +'人</div>'+
+											'<div class="villa-info-right">特殊价:'+ item.specialPrice +'元/场</div>'+
+										'</div>'+
+									'</div>'+
+								'</div>'
+							);
 	                  	});
 	                }
 	            });
+
+				$("#pageNo").val(Number($("#pageNo").val())+1);//页码++
+
+
 			}
 
 			//载入时查询
 			qry();
+
+
+
+
+			//滚动
+
+			 $(window).scroll(function() {
+                var amount = $("#amount").val();
+                var pageNo = $("#pageNo").val();
+
+                if (Number(pageNo) <= Number(amount)) {
+                	if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                   		qry();
+                	}
+                }
+                
+            });
+
+
+
+
+
+
+
 
 
 			//搜索框 隐藏显示	
@@ -495,12 +485,13 @@ asdf<br>
 				$(".destination-option").css("color","#000");
 				$(this).css("color","#FFA339");
 				$(".select-detail-box").hide(0);
-				
+				clean();//归零
 				qry();//查询
 			});
 
 			$(".qry-btn").click(function(){
 				$(".select-detail-box").hide(0);
+				clean();//归零
 				qry();
 			});
 

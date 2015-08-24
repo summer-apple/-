@@ -114,6 +114,9 @@ public class VillaAction extends ActionSupport {
 		String[] img = request.getParameter("img").split(",");
 		
 		String svsString = svs[0];
+		if (svsString.startsWith("null,")) {
+			svsString = svsString.substring(5, svsString.length());
+		}
 		if (svsString.endsWith(",null")) {
 			svsString = (String) svsString.subSequence(0,svsString.lastIndexOf(","));
 			svs = svsString.split(",");
@@ -122,6 +125,9 @@ public class VillaAction extends ActionSupport {
 		}
 		
 		String facilityString = facility[0];
+		if (facilityString.startsWith("null,")) {
+			facilityString = facilityString.substring(5, facilityString.length());
+		}
 		if (facilityString.endsWith(",null")) {
 			facilityString = (String) facilityString.subSequence(0,facilityString.lastIndexOf(","));
 			facility = facilityString.split(",");
