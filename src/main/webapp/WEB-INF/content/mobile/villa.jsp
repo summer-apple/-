@@ -121,7 +121,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     color: #FFA339 !important;
     height: 100%;
 }
-
+.description-info .villa-info-body{
+	    text-align: left;
+    text-indent: 5%;
+}
 .free-svs,.villa-facility{
 	width: 100%;
     float: left;
@@ -132,7 +135,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .cost-svs,.general-facility{
 	 padding-bottom: 10px;
 }
-
+.cost-svs .fs-title{
+	margin-bottom: 10px !important;
+}
 .fs-title {
     width: 30%;
     float: left;
@@ -184,18 +189,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<a class="order-now-btn button" href="javascript:void(0);">立即预定</a>
 					</div>
 				</div>
-				<div class="villa-info-box">
+				<div class="villa-info-box description-info">
 					<div class="villa-info-head">别墅详情<span class="fa fa-chevron-right"></span></div>
 					<div class="villa-info-body">
-						<p>
-							我那小阁楼的后墙外，居高临下是一条又长又深的胡同，我称它为猫胡同。每日夜半，这里是猫儿们无法无天的世界。它们戏耍、求偶、追逐、打架，叫得厉害时有如小孩扯着嗓子嚎哭。吵得人无法入睡时，便常有人推开窗大吼一声“去——”，或者扔块石头瓦片轰赶它们。我在忍无可忍时也这样怒气冲冲干过不少次。每每把它们赶跑，静不多时，它们又换个什么地方接着闹，通宵不绝。为了逃避这群讨厌的家伙，我真想换房子搬家。奇怪，哪来这么多猫，为什么偏偏都跑到这胡同里来聚会闹事？
-
-							一天，我到一位朋友家去串门，聊天，他养猫，而且视猫如命。
-
-							我说：“我挺讨厌猫的。”
-
-							他一怔，扭身从墙角纸箱里掏出个白色的东西放在我手上。呀，一只毛线球大小雪白的小猫!大概它有点怕，缩成个团儿，小耳朵紧紧贴在脑袋上，一双纯蓝色亮亮的圆眼睛柔和又胆怯地望着我。我情不自禁赶快把它捧在怀里，拿下巴爱抚地蹭它毛茸茸的小脸，竟然对这朋友说：“太可爱了，把它送给我吧！”
-						</p>
+						<!--ajax-->
 					</div>
 				</div>
 				<div class="villa-info-box svs-facility-box">
@@ -345,7 +342,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    		 $(".special-price").html('周五-周日:'+ data.specialPrice+'元/场');
 
 		    		 //插入简介
-
+		    		 $(".description-info .villa-info-body").html(data.description);
 
 		    		 //插入服务设施
 

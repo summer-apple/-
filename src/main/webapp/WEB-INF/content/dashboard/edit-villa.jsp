@@ -190,6 +190,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</div>
 								</div>
 
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="description">别墅详情</label>
+									<div class="col-sm-10">
+									<textarea id="description" name="description" class="form-control wysihtml5" data-stylesheet-url="assets/js/wysihtml5/lib/css/wysiwyg-color.css" name="sample_wysiwyg" id="sample_wysiwyg">${villa.description}</textarea>
+									</div>
+								</div>
+
 							</form>
 
 			<div class="vspacer v2"></div>
@@ -436,11 +444,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="resources/js/multiselect/js/jquery.multi-select.js"></script>
 	<script src="resources/js/jquery.uploadifive.js"></script>
 
-
+	<link rel="stylesheet" href="resources/js/wysihtml5/src/bootstrap-wysihtml5.css">
+	<script src="resources/js/wysihtml5/lib/js/wysihtml5-0.3.0.js"></script>
+	<script src="resources/js/wysihtml5/src/bootstrap-wysihtml5.js"></script>
 
 
 	<script type="text/javascript">
 	$().ready(function(){
+//隐藏编辑器无用按钮
+		$(".wysihtml5-toolbar > li:eq(5)").hide();
+		$(".wysihtml5-toolbar > li:eq(6)").hide();
+		$(".html-code-icon").hide();
 
 //获取服务列表
 	$.ajax({
