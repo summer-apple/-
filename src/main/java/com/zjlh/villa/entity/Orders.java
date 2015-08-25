@@ -29,7 +29,7 @@ public class Orders implements java.io.Serializable {
 	private Date oederTime;
 	private Date payTime;
 	private Integer member;
-	private Integer ville;
+	private Integer villa;
 	private Integer store;
 	private Date startDay;
 	private Integer startPeriod;
@@ -40,16 +40,22 @@ public class Orders implements java.io.Serializable {
 	private Double money;
 	private Integer state;
 	private String stateValue;
+	private String villaName;
+	private String truename;
+	private String phone;
+	
+	
+	
 	public Orders() {
 	}
 
-	public Orders(Date oederTime, Date payTime, Integer member, Integer ville,
+	public Orders(Date oederTime, Date payTime, Integer member, Integer villa,
 			Integer store, Date startDay, Integer startPeriod, Date endDay,
 			Integer endPeriod, Double money, Integer state) {
 		this.oederTime = oederTime;
 		this.payTime = payTime;
 		this.member = member;
-		this.ville = ville;
+		this.villa = villa;
 		this.store = store;
 		this.startDay = startDay;
 		this.startPeriod = startPeriod;
@@ -99,13 +105,13 @@ public class Orders implements java.io.Serializable {
 		this.member = member;
 	}
 
-	@Column(name = "ville")
-	public Integer getVille() {
-		return this.ville;
+	@Column(name = "villa")
+	public Integer getVilla() {
+		return this.villa;
 	}
 
-	public void setVille(Integer ville) {
-		this.ville = ville;
+	public void setVilla(Integer villa) {
+		this.villa = villa;
 	}
 
 	@Column(name = "store")
@@ -196,6 +202,33 @@ public class Orders implements java.io.Serializable {
 
 	public void setEndPeriodValue(String endPeriodValue) {
 		this.endPeriodValue = endPeriodValue;
+	}
+	
+	@Formula("(select v.name from Villa v where v.id = villa)")
+	public String getVillaName() {
+		return villaName;
+	}
+
+	public void setVillaName(String villaName) {
+		this.villaName = villaName;
+	}
+	
+	@Formula("(select m.truename from Member m  where m.id = member)")
+	public String getTruename() {
+		return truename;
+	}
+
+	public void setTruename(String truename) {
+		this.truename = truename;
+	}
+
+	@Formula("(select m.phone from Member m where m.id = member)")
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	
