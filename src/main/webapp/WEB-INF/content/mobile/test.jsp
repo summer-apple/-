@@ -32,6 +32,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<form>
 					<input id="a" type="date" value="2015-08-14" style="width: 200px; height: 30px; border: 1px solid #D82E2E;">
 				</form>
+				
+				
+				${member.openid}
+				${member.nickname}
 			</div>
 			
 
@@ -84,6 +88,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<script type="text/javascript">
 		$().ready(function(){
+
+
+			//获取地址栏参数 调用getUrlParam(name)方法
+			
+			/* function getUrlParam(name) {
+				var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r!=null) return unescape(r[2]); return null;
+				}
+			
+			var id = getUrlParam("code"); */
+
+			//alert(id);
+
+			
 			/* $("input").change(function(){
 				alert($(this).val());
 				}); */

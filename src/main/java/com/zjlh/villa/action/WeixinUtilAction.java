@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -28,6 +30,9 @@ import com.zjlh.villa.service.util.WeixinUtilService;
 
 @Namespace("/weixin")
 @Controller
+@Results({  
+	  @Result(name="test", location="/WEB-INF/content/mobile/test.jsp")
+	})
 public class WeixinUtilAction extends ActionSupport {
 	
 	@Autowired
@@ -194,6 +199,29 @@ System.out.println("content="+content);
 		 out.close();//关闭输出流
 			
 		
+	}
+	
+	
+	@Action("/weixin/login")
+	public String login() throws ParseException, IOException{
+		HttpServletRequest request = ServletActionContext.getRequest();
+	    HttpServletResponse response = ServletActionContext.getResponse();
+	    
+	   // String destination = request.getParameter("destination");
+	    String code = request.getParameter("code");
+	    
+	    
+	    
+	    Member member = (Member) request.getSession().getAttribute("member");
+	    
+	    if (member==null) {
+	    	 member = weixinUtilService.login(code);
+		}
+	   
+	    request.getSession().setAttribute("member", member);
+	    
+	    return "test";
+
 	}
 
 	

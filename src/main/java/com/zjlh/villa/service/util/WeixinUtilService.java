@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -34,6 +35,7 @@ import org.apache.http.util.EntityUtils;
 import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 
 
@@ -72,6 +74,10 @@ public class WeixinUtilService {
 	private static final String DELETE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN";
 	
 	private static final String GET_MEMBER_INFO_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+	
+	private static final String AUTHOR_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+		
+	private static final String LOG_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 	
 	private static final AccessToken ACCESS_TOKEN = new AccessToken();
 	
@@ -299,48 +305,24 @@ System.out.println(subscribeTime);
 
 	
 	
-/**
- * 模拟关注
- */
-	public void moni(JSONObject jsonObject){
-		String openid = jsonObject.getString("openid");
-		int subscribe = jsonObject.getInt("subscribe");
-		String nickname = jsonObject.getString("nickname");
-		Integer sex = jsonObject.getInt("sex");
-		String city = jsonObject.getString("city");
-		String country = jsonObject.getString("country");
-		String province = jsonObject.getString("province");
-		String language = jsonObject.getString("language");
-		String headimgurl = jsonObject.getString("headimgurl");
 
-System.out.println("subscribeTime="+jsonObject.getInt("subscribe_time"));
-	
-		
-		Timestamp ts = new Timestamp(jsonObject.getInt("subscribe_time"));  
-		
-		Date subscribeTime = ts;
-System.out.println(subscribeTime);		
-
-		String remark = jsonObject.getString("remark");
-	
-		//Member member = new Member(openid, nickname, sex, city, country, province, language, headimgurl, subscribe, subscribeTime, remark);
-		Member member = new Member(openid, nickname, sex, city, country, province, language, headimgurl, subscribe, subscribeTime, remark, null, null, null, null, 1);
-		
-		
-	}
-	
 	
 	
 	/**
 	 * 组装菜单
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static Menu initMenu(){
+	public static Menu initMenu() throws UnsupportedEncodingException{
+		String redirect_url = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/weixin/login", "UTF-8");
+		String btn1url = AUTHOR_URL.replace("APPID", APPID).replace("SCOPE", "snsapi_userinfo").replace("REDIRECT_URI", redirect_url);
+		
+		
 		Menu menu = new Menu();
 		ViewButton button11 = new ViewButton();
 		button11.setName("别墅预约");
 		button11.setType("view");
-		button11.setUrl("http://gmcfe.tunnel.mobi/villa/mobile/index");
+		button11.setUrl(btn1url);
 		
 		ViewButton button21 = new ViewButton();
 		button21.setName("精品民宿");
@@ -446,5 +428,22 @@ System.out.println(subscribeTime);
 		member.setSubscribe(0);
 		memberDao.update(member);
 	}
+	
+	public Member login(String code) throws ParseException, IOException {
+		
+		String url = LOG_ACCESS_TOKEN_URL.replace("APPID", APPID).replace("SECRET", APPSECRET).replace("CODE", code);
+		JSONObject object = doGetStr(url);
+		
+		System.out.println(object);
+		
+		String openid = object.getString("openid");
+		
+		Member menber = memberDao.get(Member.class, "openid", openid);
+		
+		return menber;
+		
+	}
+	
+	
 	
 }
