@@ -21,12 +21,12 @@ public class OrdersService {
 	 * @param order
 	 * @return 订单ID
 	 */
-	public Orders createOrder(Orders orders) {
+	public int createOrder(Orders orders) {
 
 		Date order_time = new Date();
 		orders.setOederTime(order_time);
 		dao.save(orders);
-		return orders;
+		return orders.getId();
 
 	}
 

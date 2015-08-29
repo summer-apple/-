@@ -24,4 +24,13 @@ public class MemberService {
 		map.put("amount", amount/pageSize+1);
 		return map;
 	}
+	
+	
+	public void update(int id,String truename,String email,String phone) {
+		Member member = dao.get(Member.class, id);
+		member.setTruename(truename);
+		member.setEmail(email);
+		member.setPhone(phone);
+		dao.update(member);
+	}
 }

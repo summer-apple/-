@@ -1,0 +1,399 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<base href="<%=basePath%>">
+		<meta charset="utf-8" />
+		<meta name="author" content="www.frebsite.nl" />
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+
+		<title>ONE GO</title>
+
+		
+	<style type="text/css">
+		.head-img-warp {
+    width: 100%;
+    height: auto;
+}
+img.head-img {
+    width: 100%;
+    height: auto;
+}
+.villa-base-info-warp {
+    width: 100%;
+    height: 55px;
+    background-color: #272727;
+    margin-top: -6px;
+}
+.villa-name {
+    text-align: left;
+    text-indent: 10px;
+    padding-top: 7px;
+    font-size: 1.2em;
+    color: #FFF;
+}
+.villa-address {
+    text-align: left;
+    margin-left: 10px;
+}
+.order-info-title {
+    text-align: left;
+    margin-top: 10px;
+    text-indent: 10px;
+    height: 30px;
+}
+.form-group{
+	width: 80%;
+    margin-left: 10%;
+    height: 30px;
+    margin-bottom: 15px;
+}
+.form-group input{
+	width: 100%;
+	height: 100%;
+	text-indent: 10px;
+	font-size: 1.1em;
+    
+}
+.time-line {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 15px;
+    text-align: left;
+        clear: both;
+}
+
+.time-line > input{
+     width: 60%;
+    float: left;
+    height: 80%;
+    margin-right: 10px;
+    margin-left: 10%;
+    text-indent: 10px;
+}
+.period-warp {
+    height: 100%;
+    line-height: 30px;
+}
+.period-warp input{
+	line-height: 30px;
+}
+.money-display {
+    font-size: 1.5em;
+    color: #FFA339;
+}
+.operate-warp {
+    width: 100%;
+    height: 40px;
+    margin-top: 15px;
+    text-align: center;
+}
+.cancel-btn{
+	 background-color: #CCC !important;
+
+}
+.operation-btn {
+    width: 20%;
+    height: 40px;
+    background-color: #FFA339;
+    display: block;
+    float: left;
+    line-height: 40px;
+    margin-left: 15%;
+    color: #FFF !important;
+    font-size: 1.2em;
+    min-width: 100px;
+}
+
+	</style>
+		
+	</head>
+	<body>
+		<div id="page">
+			<div class="header">
+				<a id="menu-btn" href="#menu"><span class="fa fa-list-ul"></span></a>
+				<!-- <a class="platform-title-link" href="#qry-form"><span class="platform-title">ONE GO.</span></a> -->
+				<span class="platform-title">ONE GO.</span>
+				<a class="search-icon" href="mobile/index"><span class="fa fa-search"></span></a>
+			</div>
+
+
+			<div class="content" style="padding-top: 40px;">
+				 <div class="head-img-warp">
+				 	<img class="head-img" src="resources/images/gallery/aaa.jpg">
+				 </div>
+				 <div class="villa-base-info-warp">
+				 	<div class="villa-name">城西大别墅</div>
+				 	<div class="villa-address">浙江 杭州</div>
+				 </div>
+
+				<div class="order-info-warp">
+					<div class="order-info-title">订单信息:</div>
+					<form id="order-form" action="" method="post">
+							<input id="id" type="hidden" name="id" value="0">
+							<input id="villa" type="hidden" name="villa">
+							<input id="store" type="hidden" name="store">
+							<input id="member" type="hidden" name="member" value="${member.id}">
+
+							<input id="normalPrice" name="normalPrice" type="hidden">
+							<input id="specialPrice" name="specialPrice" type="hidden">
+
+
+
+
+						<div class="user-info-warp">
+							<div class="form-group">
+								<input id="truename" type="text" name="truename" placeholder="姓名*" required>
+							</div>
+							<div class="form-group">
+								<input id="phone" type="tel" name="phone" placeholder="手机*" required>
+							</div>
+							<div class="form-group">
+								<input id="email" type="email" name="email" placeholder="邮箱*" required>
+							</div>
+						</div>
+
+						<div class="time-warp">
+						<div  class="order-info-title">开始日期:</div>
+							<div class="time-line">
+								
+								<input id="startDay" type="date" name="startDay">
+								<div class="period-warp">
+									<input class="startPeriod" type="radio" name="startPeriod" value="0" checked>上午
+									<input class="startPeriod" type="radio" name="startPeriod" value="1">下午
+								</div>
+							</div>
+							<div class="order-info-title">结束日期:</div>
+							<div class="time-line">
+								
+								<input id="endDay" type="date" name="endDay">
+								<div class="end-warp">
+									<input class="endPeriod" type="radio" name="endPeriod" value="0" checked>上午
+									<input class="endPeriod" type="radio" name="endPeriod" value="1">下午
+								</div>
+							</div>
+						</div>
+
+						<div class="money-warp">
+							<div class="order-info-title">总金额:</div>
+							<div class="money-display">12323元</div>
+							<input id="money" type="hidden" name="money">
+						</div>
+
+						<div class="operate-warp">
+							<a href="javascript:void(0);" class="button cancel-btn operation-btn">取消</a>
+							<a href="javascript:void(0);" class="button next-btn operation-btn">下一步</a>
+						</div>
+
+					</form>
+				</div>
+
+
+				
+
+			</div>
+
+			<div class="foot-blank-box"></div>
+
+
+			<%@include file="foot.jsp"  %>
+			<%@include file="menu.jsp"  %>
+		</div>
+
+		<link type="text/css" rel="stylesheet" href="resources/css/menu-common.css" />
+		<link type="text/css" rel="stylesheet" href="resources/css/jquery.mmenu.all.css" />
+		<link rel="stylesheet" href="resources/css/fonts/fontawesome/css/font-awesome.min.css">
+		<!-- <link rel="stylesheet" href="resources/css/fonts/elusive/css/elusive.css">
+		<link rel="stylesheet" href="resources/css/bootstrap.css"> -->
+		
+		
+		<script type="text/javascript" src="resources/js/jquery-1.11.1.min.js"></script>
+		<!-- <script src="resources/js/bootstrap.min.js"></script> -->
+		<script type="text/javascript" src="resources/js/jquery.mmenu.min.all.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('nav#menu').mmenu({
+					//extensions	: [ 'effect-slide-menu', 'pageshadow' ],
+					//searchfield	: true,
+					"autoHeight": true,
+					counters	: true,
+					navbar 		: {
+						title		: 'ONE GO'
+					},
+					navbars		: [
+						 {
+							position	: 'top',
+							content		: [
+								'prev',
+								'title',
+								'close'
+							]
+						}, {
+							position	: 'bottom',
+							content		: [
+								'<a href="http://gmcfe.pub/" target="_blank">PROWERED BY GMC INC.</a>'
+							]
+						}
+					]
+				});
+			});
+		</script>
+		
+		<script type="text/javascript">
+		$().ready(function(){
+
+			//获取地址栏参数 调用getUrlParam(name)方法
+	
+			function getUrlParam(name) {
+				var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r!=null) return unescape(r[2]); return null;
+				}
+			
+			var id = getUrlParam("id");
+
+
+
+
+			//获取当前日期
+			Date.prototype.Format = function(fmt){ //author: meizz   
+				  var o = {   
+				    "M+" : this.getMonth()+1,                 //月份   
+				    "d+" : this.getDate(),                    //日   
+				    "h+" : this.getHours(),                   //小时   
+				    "m+" : this.getMinutes(),                 //分   
+				    "s+" : this.getSeconds(),                 //秒   
+				    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+				    "S"  : this.getMilliseconds()             //毫秒   
+				  };   
+				  if(/(y+)/.test(fmt))   
+				    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+				  for(var k in o)   
+				    if(new RegExp("("+ k +")").test(fmt))   
+				  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+				  return fmt;   
+				}  
+			
+
+			//var time1 = new Date().Format("yyyy-MM-dd HH:mm:ss");     
+ 
+			var time2 = new Date().Format("yyyy-MM-dd");    
+			$("#startDay,#endDay").val(time2);
+
+
+
+			//获取别墅json对象
+			$.ajax({
+				url:"villa/getVilla?type=json&id="+id,
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					//插入图片
+					var imgs = data.img;
+					$.each(imgs,function(i,item){
+						
+						if (i==0) {
+							$(".head-img").attr("src",item.url);
+						}
+
+					});
+
+
+		    		 //插入别墅名
+		    		 $(".platform-title,.villa-name").html(data.name);
+
+		    		 //插入地址
+		    		 $(".villa-address").html(data.province+" "+data.city);
+
+		    		 //插入价格
+		    		 $("#normalPrice").val(data.normalPrice);
+		    		 $("#specialPrice").val(data.specialPrice);
+
+
+		    		 //插入villa,store,member
+		    		 $("#villa").val(data.id);
+		    		 $("#store").val(data.store);
+		    		 
+
+		    		 //计算价格
+		    		 calculate();
+		    		
+
+					
+				}
+			});
+
+
+			//价格计算函数
+
+			var calculate = function(){
+				var $normalPrice = $("#normalPrice").val();
+				var $specialPrice = $("#specialPrice").val();
+				var $startDay = $("#startDay").val();
+				var $endDay = $("#endDay").val();
+				var $startPeriod = $(".startPeriod:checked").val();
+				var $endPeriod = $(".endPeriod:checked").val();
+
+
+
+
+				$.ajax({
+					url:"order/calculate",
+					dataType:"json",
+					method:"post",
+					data:{startDay:$startDay,startPeriod:$startPeriod,endDay:$endDay,endPeriod:$endPeriod,normalPrice:$normalPrice,specialPrice:$specialPrice},
+					success:function(data){
+						$(".money-display").html("￥ "+data);
+						$("#money").val(data);
+					}
+				});
+
+
+			}
+			
+
+			$("#startDay,#endDay,.startPeriod,.endPeriod").change(function(){
+				calculate();
+			});
+
+
+			$(".next-btn").click(function(){
+
+				if ($("#id").val()==0) {
+
+					//获取订单字段
+					var params = $("#order-form").serializeArray();
+		            var j = {};
+		            for (var item in params) {
+		                j[params[item].name] = params[item].value;
+		            }
+
+		            $.ajax({
+	                url:'order/createOrder',
+	                data: {data:JSON.stringify(j)},
+	                type:'post',
+	                dataType:'json',
+	                success:function(data){
+		                    $("#id").val(data);
+		                }
+		            });
+
+				}else{
+					//...
+				}
+
+
+			});
+
+
+		});
+		</script>
+	</body>
+</html>

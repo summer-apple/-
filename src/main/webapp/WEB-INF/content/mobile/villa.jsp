@@ -186,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="special-price">周五-周日:2500元/场</div>
 					</div>
 					<div class="price-info-right">
-						<a class="order-now-btn button" href="javascript:void(0);">立即预定</a>
+						<a class="order-now-btn button" href="">立即预定</a>
 					</div>
 				</div>
 				<div class="villa-info-box description-info">
@@ -330,6 +330,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        }
 				      });
 		    		 
+		    		 //插入预定按钮连接
+		    		 $(".order-now-btn").attr("href","mobile/per-order?id="+data.id);
 
 		    		 //插入别墅名
 		    		 $(".platform-title").html(data.name);
