@@ -11,7 +11,7 @@ public class AlgorithmService {
      * @param message
      * @return
      */
-    public String getMD5(String message) {
+    public  String getMD5(String message) {
         String md5str = "";
         try {
             //1 创建一个提供信息摘要算法的对象，初始化为md5算法对象
@@ -26,7 +26,7 @@ public class AlgorithmService {
             //4 把数组每一字节（一个字节占八位）换成16进制连成md5字符串
             md5str = bytesToHex(buff);
             //5 转换成16位
-            md5str = md5str.substring(8,24);
+            //md5str = md5str.substring(8,24);
         } catch (Exception e) {
             e.printStackTrace();
         }

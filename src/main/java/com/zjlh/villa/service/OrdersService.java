@@ -1,34 +1,222 @@
 package com.zjlh.villa.service;
 
+import java.beans.IntrospectionException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
+import net.sf.json.JSONObject;
+
+import org.apache.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.zjlh.villa.dao.OrdersDaoHibernate4;
 import com.zjlh.villa.entity.Orders;
+import com.zjlh.villa.entity.weixin.po.PayParam;
+import com.zjlh.villa.entity.weixin.po.PrePayReturn;
+import com.zjlh.villa.service.util.AlgorithmService;
+import com.zjlh.villa.service.util.MapToBean;
+import com.zjlh.villa.service.util.WeixinUtilService;
+import com.zjlh.villa.test.MyXppDriver;
 
+import org.apache.commons.httpclient.methods.PostMethod;
 @Service
 public class OrdersService {
 
 	@Autowired
 	private OrdersDaoHibernate4 dao;
-
+	@Autowired
+	private AlgorithmService algorithm;
+	@Autowired
+	private WeixinUtilService weixinUtilService;
+	@Autowired
+	private MapToBean mapToBean;
+	
+	private static final String KEY = "zhejianglehuazhejianglehuaonegoo";
+	private static final String APPID = "wxdbc2bbdebe5808ab";
+	private static final String MCH_ID = "1241486402";
+	private static final String UNIFIEDORDER = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+	
+	private static final String CDATAPREFIX = "<![CDATA[";   
+	private static final String CDATABACKFIX = "]]>";   
+	
 	/**
 	 * 生成订单
 	 * 
 	 * @param order
 	 * @return 订单ID
+	 * @throws IOException 
+	 * @throws ParseException 
+	 * @throws IntrospectionException 
+	 * @throws InvocationTargetException 
+	 * @throws InstantiationException 
+	 * @throws IllegalAccessException 
 	 */
-	public int createOrder(Orders orders) {
+	public PrePayReturn createOrder(Orders orders,String ip) throws ParseException, IOException, IllegalAccessException, InstantiationException, InvocationTargetException, IntrospectionException {
 
 		Date order_time = new Date();
 		orders.setOederTime(order_time);
 		dao.save(orders);
-		return orders.getId();
+		
+		
+		Map<String,String> params = setPrePayParam(orders, ip);//所有需要的参数，包括sign
+
+		PayParam payParam  = (PayParam) mapToBean.convertMap(PayParam.class, params);
+		
+
+		payParam.setAppid(CDATAPREFIX+ payParam.getAppid() +CDATABACKFIX);
+		payParam.setBody(CDATAPREFIX+ payParam.getBody() +CDATABACKFIX);
+		payParam.setMch_id(CDATAPREFIX+ payParam.getMch_id() +CDATABACKFIX);
+		payParam.setNonce_str(CDATAPREFIX+ payParam.getNonce_str() +CDATABACKFIX);
+		payParam.setNotify_url(CDATAPREFIX+ payParam.getNotify_url() +CDATABACKFIX);
+		payParam.setOut_trade_no(CDATAPREFIX+ payParam.getOut_trade_no()+CDATABACKFIX);
+		payParam.setSign(CDATAPREFIX+ payParam.getSign() +CDATABACKFIX);
+		payParam.setSpbill_create_ip(CDATAPREFIX+ payParam.getSpbill_create_ip() +CDATABACKFIX);
+		payParam.setTotal_fee(CDATAPREFIX+ payParam.getTotal_fee() +CDATABACKFIX);
+		payParam.setTrade_type(CDATAPREFIX+ payParam.getTrade_type() +CDATABACKFIX);
+		payParam.setOpenid(CDATAPREFIX+ payParam.getOpenid() +CDATABACKFIX);
+		
+
+		
+		XStream xstream = new XStream(new MyXppDriver()); 
+		
+		xstream.alias("xml", payParam.getClass());
+		
+System.out.println(xstream.toXML(payParam).replace("__", "_"));
+		
+		//请求预支付接口
+		String result = weixinUtilService.post(UNIFIEDORDER,xstream.toXML(payParam).replace("__", "_"));
+System.out.println(result);
+		//格式化返回数据
+		XStream xStream2 = new XStream(new DomDriver());
+		xStream2.alias("xml", PrePayReturn.class);
+		PrePayReturn prePayReturn = (PrePayReturn) xStream2.fromXML(result);
+		
+		
+		
+		
+		//设置ID
+		prePayReturn.setOrderid(orders.getOpenid());
+		
+		//设置时间戳
+		String timestamp = Long.toString(new Date().getTime()/1000);
+		prePayReturn.setTimestamp(timestamp);
+		
+System.out.println(timestamp);		
+		
+		prePayReturn.setSign(getPaySign(prePayReturn));
+System.out.println(prePayReturn.getSign());
+		return prePayReturn;
+		
+		
 
 	}
+	
+	
+	
+		/**
+	 * 组装参数
+	 * @param orders
+	 * @param ip
+	 * @return
+	 */
+	public Map<String, String> setPrePayParam(Orders orders,String ip) {
+		
+		Map<String, String> params = new HashMap<String, String>();
+		
+		params.put("appid", APPID);
+		params.put("mch_id", MCH_ID);
+		params.put("nonce_str", algorithm.getRandomString(32));
+		params.put("trade_type", "JSAPI");		
+		params.put("body", orders.getVillaName());
+		
+		params.put("out_trade_no", orders.getId()+"");
+		
+		
+		int i=(int)(orders.getMoney()*100);
+		
+		params.put("total_fee",i+"");
+		params.put("spbill_create_ip", ip);
+		params.put("notify_url", "http://gmcfe.tunnel.mobi/villa/order/notify");
+		params.put("openid", orders.getOpenid());
+		
+		String sign = getSign(params);
+		
+		
+		params.put("sign", sign);
+		
+		return params;
+		
+	}
+	
+	public String getPaySign(PrePayReturn prePayReturn) {
+		Map<String, String> params = new HashMap<String, String>();
+		
+		params.put("appId", prePayReturn.getAppid());
+		params.put("timeStamp", prePayReturn.getTimestamp());
+		params.put("nonceStr", prePayReturn.getNonce_str());
+		params.put("package", "prepay_id="+prePayReturn.getPrepay_id());
+		params.put("signType", "MD5");
+		
+		return getSign(params);
+
+	}
+
+	
+	/**
+	 * 生成签名
+	 */
+	public String getSign(Map<String, String> params) {
+		
+		
+		
+		
+		//排序
+		 Set<String> keysSet = params.keySet();
+	        Object[] keys = keysSet.toArray();
+	        Arrays.sort(keys);
+	        StringBuffer temp = new StringBuffer();
+	        boolean first = true;
+	        for (Object key : keys) {
+	            if (first) {
+	                first = false;
+	            } else {
+	                temp.append("&");
+	            }
+	            temp.append(key).append("=");
+	            Object value = params.get(key);
+	            String valueString = "";
+	            if (null != value) {
+	                valueString = value.toString();
+	            }
+	            temp.append(valueString);
+	        }
+	        
+	        String StringA = temp.toString();
+	       
+	        
+	      //拼接API秘钥
+	        String stringSignTemp=StringA+"&key="+KEY;
+	        String  sign = algorithm.getMD5(stringSignTemp).toUpperCase();
+	        
+		
+		
+		return sign;
+	}
+	
+	
+
+	
+	
 
 	/**
 	 * 支付成功，更改状态为已支付
@@ -39,6 +227,7 @@ public class OrdersService {
 	public void paidSuccess(int orderid) {
 		Orders orders = dao.get(Orders.class, orderid);
 		orders.setState(1);
+		orders.setPayTime(new Date());
 		dao.update(orders);
 	}
 

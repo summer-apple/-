@@ -33,4 +33,8 @@ public class MemberService {
 		member.setPhone(phone);
 		dao.update(member);
 	}
+	
+	public Member getMember(int id) {
+		return dao.get(Member.class, id);
+	}
 }
