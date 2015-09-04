@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -35,6 +36,9 @@ import org.apache.http.util.EntityUtils;
 import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
+
 
 
 
@@ -127,6 +131,23 @@ public class WeixinUtilService {
 		jsonObject = JSONObject.fromObject(result);
 		return jsonObject;
 	}
+	
+	/**
+	 * POST 接受XML返回
+	 */
+	
+	
+	public static String post(String url,String outStr) throws ParseException, IOException{
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpPost httpost = new HttpPost(url);
+		JSONObject jsonObject = null;
+		httpost.setEntity(new StringEntity(outStr,"UTF-8"));
+		HttpResponse response = client.execute(httpost);
+		String result = EntityUtils.toString(response.getEntity(),"UTF-8");
+		return result;
+	}
+	
+	
 	
 	/**
 	 * 文件上传
@@ -444,6 +465,8 @@ System.out.println(subscribeTime);
 		
 	}
 	
+	
+
 	
 	
 }

@@ -43,6 +43,7 @@ public class Orders implements java.io.Serializable {
 	private String villaName;
 	private String truename;
 	private String phone;
+	private String openid;
 	
 	
 	
@@ -229,6 +230,14 @@ public class Orders implements java.io.Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	@Formula("(select m.openid from Member m where m.id = member)")
+	public String getOpenid() {
+		return openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
 	
 	

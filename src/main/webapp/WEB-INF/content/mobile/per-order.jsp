@@ -111,6 +111,9 @@ img.head-img {
     font-size: 1.2em;
     min-width: 100px;
 }
+.user-info-warp input{
+	border: 1px solid #999;
+}
 
 	</style>
 		
@@ -130,8 +133,8 @@ img.head-img {
 				 	<img class="head-img" src="resources/images/gallery/aaa.jpg">
 				 </div>
 				 <div class="villa-base-info-warp">
-				 	<div class="villa-name">城西大别墅</div>
-				 	<div class="villa-address">浙江 杭州</div>
+				 	<div class="villa-name"></div>
+				 	<div class="villa-address"></div>
 				 </div>
 
 				<div class="order-info-warp">
@@ -139,8 +142,10 @@ img.head-img {
 					<form id="order-form" action="" method="post">
 							<input id="id" type="hidden" name="id" value="0">
 							<input id="villa" type="hidden" name="villa">
+							<input id="villaName" type="hidden" name="villaName">
 							<input id="store" type="hidden" name="store">
 							<input id="member" type="hidden" name="member" value="${member.id}">
+							<input id="openid" type="hidden" name="openid"  value="${member.openid}">
 
 							<input id="normalPrice" name="normalPrice" type="hidden">
 							<input id="specialPrice" name="specialPrice" type="hidden">
@@ -183,13 +188,13 @@ img.head-img {
 
 						<div class="money-warp">
 							<div class="order-info-title">总金额:</div>
-							<div class="money-display">12323元</div>
+							<div class="money-display"></div>
 							<input id="money" type="hidden" name="money">
 						</div>
 
 						<div class="operate-warp">
 							<a href="javascript:void(0);" class="button cancel-btn operation-btn">取消</a>
-							<a href="javascript:void(0);" class="button next-btn operation-btn">下一步</a>
+							<a href="javascript:void(0);" class="button next-btn operation-btn">支付</a>
 						</div>
 
 					</form>
@@ -307,8 +312,8 @@ img.head-img {
 
 
 		    		 //插入别墅名
-		    		 $(".platform-title,.villa-name").html(data.name);
-
+		    		 $(".platform-title,.villa-name,#villaName").html(data.name);
+					 $("#villaName").val(data.name);
 		    		 //插入地址
 		    		 $(".villa-address").html(data.province+" "+data.city);
 
@@ -364,6 +369,49 @@ img.head-img {
 			});
 
 
+
+
+//调用JSAPI进行支付
+		function onBridgeReady(){
+			alert($appId +" "+$timeStamp + " "+$nonceStr + " "+$package + " "+$paySign);
+
+		   WeixinJSBridge.invoke(
+		       'getBrandWCPayRequest', {
+		      	"appId" : $appId, //公众号名称，由商户传入
+				"timeStamp" : $timeStamp, //时间戳
+				"nonceStr" : $nonceStr, //随机串
+				"package" : $package, ////扩展包
+				"signType" : "MD5", //微信签名方式:1.sha1
+				"paySign" : $paySign ////微信签名
+		       },
+		       function(res){     
+			       
+			       alert(res.err_code+" "+res.err_msg+" "+res.err_desc)
+		           if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+		           		alert("页面消息返回:OK");
+		           }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+		       }
+		   ); 
+		}
+		function callpay($appId,$timeStamp,$nonceStr,$package,$paySign){
+			if (typeof WeixinJSBridge == "undefined"){
+			   if( document.addEventListener ){
+			       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+			   }else if (document.attachEvent){
+			       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+			       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+			   }
+			}else{
+			   onBridgeReady();
+			}
+		}
+
+		var $appId = "";
+		var $timeStamp = "";
+		var $nonceStr = "";
+		var $package = "";
+		var $paySign = "";
+
 			$(".next-btn").click(function(){
 
 				if ($("#id").val()==0) {
@@ -381,19 +429,33 @@ img.head-img {
 	                type:'post',
 	                dataType:'json',
 	                success:function(data){
-		                    $("#id").val(data);
+	                	$("#id").val(data.orderid);
+	                	$appId = data.appid;
+	                	$timeStamp = data.timestamp;
+	                	$nonceStr = data.nonce_str;
+						$package = "prepay_id=" + data.prepay_id;
+						$paySign = data.sign;
+
+	                	callpay();
+	                	//window.location.href="mobile/pay";
 		                }
 		            });
 
 				}else{
-					//...
+					callpay();
 				}
 
 
 			});
 
+			$(".cancel-btn").click(function(){
+				history.back();
+			});
+
 
 		});
-		</script>
+		
+
+	</script>
 	</body>
 </html>
