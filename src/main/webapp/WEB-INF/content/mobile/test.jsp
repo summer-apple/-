@@ -33,14 +33,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input id="a" type="date" value="2015-08-14" style="width: 200px; height: 30px; border: 1px solid #D82E2E;">
 				</form>
 				
-				
+				I have a dream that one day ,||||\\\\|||/////		
 				${member.openid}
 				${member.nickname}
 			</div>
 			
 
 			<div class="foot-blank-box"></div>
-
 
 			<%@include file="foot.jsp"  %>
 			<%@include file="menu.jsp"  %>

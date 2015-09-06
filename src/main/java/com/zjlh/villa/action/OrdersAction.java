@@ -205,4 +205,40 @@ public class OrdersAction extends ActionSupport {
 		out.print(true);
 		out.close();
 	}
+	
+	@Action("/order/qryOrderByMember")
+	public void qryOrderByMember() throws IOException{
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+		
+		String data = request.getParameter("data");
+		JSONObject object = JSONObject.fromObject(data);
+		
+		Map<String,Object> map = os.qryOrderByMember(object.getInt("memberid"), object.getInt("pageNo"), object.getInt("pageSize"));
+		
+		JSONObject obj = JSONObject.fromObject(map);
+		PrintWriter out = response.getWriter();
+		out.print(obj);
+		out.close();
+
+	
+	}
+	
+	
+	@Action("/order/complete")
+	private void complete() throws IOException {
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+		  
+		int id = Integer.parseInt(request.getParameter("id"));
+		os.complete(id);
+		
+		PrintWriter out = response.getWriter();
+		out.print(true);
+		out.close();
+		
+	}
+	
+	
+	
 }
