@@ -26,7 +26,7 @@ import org.hibernate.annotations.Formula;
 public class Orders implements java.io.Serializable {
 
 	private Integer id;
-	private Date oederTime;
+	private Date orderTime;
 	private Date payTime;
 	private Integer member;
 	private Integer villa;
@@ -40,6 +40,7 @@ public class Orders implements java.io.Serializable {
 	private Double money;
 	private Integer state;
 	private String stateValue;
+	private String storeName;
 	private String villaName;
 	private String truename;
 	private String phone;
@@ -50,10 +51,10 @@ public class Orders implements java.io.Serializable {
 	public Orders() {
 	}
 
-	public Orders(Date oederTime, Date payTime, Integer member, Integer villa,
+	public Orders(Date orderTime, Date payTime, Integer member, Integer villa,
 			Integer store, Date startDay, Integer startPeriod, Date endDay,
 			Integer endPeriod, Double money, Integer state) {
-		this.oederTime = oederTime;
+		this.orderTime = orderTime;
 		this.payTime = payTime;
 		this.member = member;
 		this.villa = villa;
@@ -78,13 +79,13 @@ public class Orders implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "oeder_time", length = 19)
-	public Date getOederTime() {
-		return this.oederTime;
+	@Column(name = "order_time", length = 19)
+	public Date getOrderTime() {
+		return this.orderTime;
 	}
 
-	public void setOederTime(Date oederTime) {
-		this.oederTime = oederTime;
+	public void setOrderTime(Date orderTime) {
+		this.orderTime = orderTime;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -124,7 +125,7 @@ public class Orders implements java.io.Serializable {
 		this.store = store;
 	}
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "start_day", length = 10)
 	public Date getStartDay() {
 		return this.startDay;
@@ -143,7 +144,7 @@ public class Orders implements java.io.Serializable {
 		this.startPeriod = startPeriod;
 	}
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "end_day", length = 10)
 	public Date getEndDay() {
 		return this.endDay;
@@ -214,6 +215,15 @@ public class Orders implements java.io.Serializable {
 		this.villaName = villaName;
 	}
 	
+	@Formula("(select s.name from Store s where s.id = store)")
+	public String getStoreName() {
+		return storeName;
+	}
+	
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
+	}
+
 	@Formula("(select m.truename from Member m  where m.id = member)")
 	public String getTruename() {
 		return truename;

@@ -361,7 +361,7 @@ var public_vars = public_vars || {};
 					opts = {
 						format: attrDefault($this, 'format', 'yyyy-mm-dd'),
 						startDate: attrDefault($this, 'startDate', '1900-01-01'),
-						endDate: attrDefault($this, 'endDate', 'today'),
+						//endDate: attrDefault($this, 'endDate', 'today'),
 						daysOfWeekDisabled: attrDefault($this, 'disabledDays', ''),
 						startView: attrDefault($this, 'startView', 2),
 						rtl: rtl()

@@ -193,8 +193,8 @@ img.head-img {
 						</div>
 
 						<div class="operate-warp">
-							<a href="javascript:void(0);" class="button cancel-btn operation-btn">取消</a>
-							<a href="javascript:void(0);" class="button next-btn operation-btn">支付</a>
+							<a href="javascript:void(0);" class="button cancel-btn operation-btn">取 消</a>
+							<a href="javascript:void(0);" class="button next-btn operation-btn">支付定金</a>
 						</div>
 
 					</form>
@@ -368,7 +368,9 @@ img.head-img {
 				calculate();
 			});
 
-
+			$("#truename,#phone,#email,#startDay,#endDay,.startPeriod,.endPeriod").change(function(){
+				$("#id").val(0);
+			});
 
 
 //调用JSAPI进行支付
