@@ -32,8 +32,6 @@ import org.hibernate.annotations.Formula;
 public class Comment implements java.io.Serializable {
 
 	private Integer id;
-	private Integer member;
-	private Integer villa;
 	private Integer order;
 	private Integer star;
 	private String content;
@@ -42,15 +40,13 @@ public class Comment implements java.io.Serializable {
 	private String memberName;
 	private String memberHead;
 	
-	private Set<CommentImg> img = new HashSet<CommentImg>();
+	private Set<Img> img = new HashSet<Img>();
 
 	public Comment() {
 	}
 
-	public Comment(Integer member, Integer villa, Integer order, Integer star,
+	public Comment(Integer order, Integer star,
 			String content, Date time) {
-		this.member = member;
-		this.villa = villa;
 		this.order = order;
 		this.star = star;
 		this.content = content;
@@ -68,23 +64,7 @@ public class Comment implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "member")
-	public Integer getMember() {
-		return this.member;
-	}
 
-	public void setMember(Integer member) {
-		this.member = member;
-	}
-
-	@Column(name = "villa")
-	public Integer getVilla() {
-		return this.villa;
-	}
-
-	public void setVilla(Integer villa) {
-		this.villa = villa;
-	}
 
 	@Column(name = "order")
 	public Integer getOrder() {
@@ -140,6 +120,8 @@ public class Comment implements java.io.Serializable {
 	public void setMemberHead(String memberHead) {
 		this.memberHead = memberHead;
 	}
+
+	
 	
 	@JoinTable(name = "CommentImg",
 			joinColumns = @JoinColumn(name = "comment",
@@ -147,14 +129,13 @@ public class Comment implements java.io.Serializable {
 			inverseJoinColumns = @JoinColumn(name = "img", 
 			referencedColumnName = "id",unique=false))
 	@ManyToMany(fetch=FetchType.EAGER)
-	public Set<CommentImg> getImg() {
+	public Set<Img> getImg() {
 		return img;
 	}
 
-	public void setImg(Set<CommentImg> img) {
+	public void setImg(Set<Img> img) {
 		this.img = img;
 	}
-
 	//OneToMany
 
 	

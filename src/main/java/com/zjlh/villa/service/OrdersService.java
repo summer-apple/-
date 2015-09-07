@@ -344,7 +344,7 @@ System.out.println(prePayReturn.getSign());
 		if (StringUtils.isNotBlank(id)) {		
 			sb.append(" and id = ?"+String.valueOf(i));
 			
-			values.add(id);
+			values.add(Integer.parseInt(id));
 			i++;
 		}
 		
