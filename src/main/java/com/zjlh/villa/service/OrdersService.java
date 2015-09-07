@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +23,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.zjlh.villa.dao.OrdersDaoHibernate4;
 import com.zjlh.villa.entity.Orders;
+import com.zjlh.villa.entity.Villa;
 import com.zjlh.villa.entity.weixin.po.PayParam;
 import com.zjlh.villa.entity.weixin.po.PrePayReturn;
 import com.zjlh.villa.service.util.AlgorithmService;
@@ -29,6 +32,8 @@ import com.zjlh.villa.service.util.WeixinUtilService;
 import com.zjlh.villa.test.MyXppDriver;
 
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 @Service
 public class OrdersService {
 
@@ -40,6 +45,8 @@ public class OrdersService {
 	private WeixinUtilService weixinUtilService;
 	@Autowired
 	private MapToBean mapToBean;
+	@Autowired
+	private CommentService cs;
 	
 	private static final String KEY = "zhejianglehuazhejianglehuaonegoo";
 	private static final String APPID = "wxdbc2bbdebe5808ab";
@@ -63,8 +70,6 @@ public class OrdersService {
 	 */
 	public PrePayReturn createOrder(Orders orders,String ip) throws ParseException, IOException, IllegalAccessException, InstantiationException, InvocationTargetException, IntrospectionException {
 
-		Date order_time = new Date();
-		orders.setOederTime(order_time);
 		dao.save(orders);
 		
 		
@@ -142,7 +147,7 @@ System.out.println(prePayReturn.getSign());
 		params.put("out_trade_no", orders.getId()+"");
 		
 		
-		int i=(int)(orders.getMoney()*100);
+		int i=(int)(orders.getMoney()*100/2);
 		
 		params.put("total_fee",i+"");
 		params.put("spbill_create_ip", ip);
@@ -325,5 +330,98 @@ System.out.println(prePayReturn.getSign());
 		}
 		return amount;
 	}
+	
+	
+	public Map<String, Object> qryOrder(String id,String orderTimeStart,String orderTimeEnd,String useTimeStart,String useTimeEnd,String state,int pageNo,int pageSize ){
+		
+		List<Object> values = new ArrayList<Object>();
+		String hql = "FROM Orders WHERE 1=1 ";
+		
+		int i=0;
+		StrBuilder sb = new StrBuilder(hql);
+		
+		
+		if (StringUtils.isNotBlank(id)) {		
+			sb.append(" and id = ?"+String.valueOf(i));
+			
+			values.add(id);
+			i++;
+		}
+		
+		if (StringUtils.isNotBlank(orderTimeStart)) {		
+			sb.append(" and  order_time >= ?"+String.valueOf(i));
+			
+			values.add(orderTimeStart+" 00:00:00");
+			i++;
+		}
+		
+		if (StringUtils.isNotBlank(orderTimeEnd)) {		
+			sb.append(" and  order_time <= ?"+String.valueOf(i));
+			
+			values.add(orderTimeEnd+" 23:59:59");
+			i++;
+		}
+		
+		if (StringUtils.isNotBlank(useTimeStart)) {		
+			sb.append(" and  start_day >= ?"+String.valueOf(i));
+			
+			values.add(useTimeStart+" 00:00:00");
+			i++;
+		}
+		
+		if (StringUtils.isNotBlank(useTimeEnd)) {		
+			sb.append(" and  end_day <= ?"+String.valueOf(i));
+			
+			values.add(useTimeEnd+" 23:59:59");
+			i++;
+		}
+		
+		if (StringUtils.isNotBlank(state)) {		
+			sb.append(" and state = ?"+String.valueOf(i));
+			
+			values.add(Integer.parseInt(state));
+			i++;
+		}
+		
+		sb.append(" order by id");
+		
+		List<Orders> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
+		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("amount", amount/pageSize+1);
+		return map;
+	}
 
+	public Map<String, Object> qryOrderByMember(int memberid,int pageNo,int pageSize) {
+		List<Object> values = new ArrayList<Object>();
+		String hql = "FROM Orders o WHERE 1=1 ";
+		
+		int i=0;
+		StrBuilder sb = new StrBuilder(hql);
+		
+		sb.append(" and o.member = ?"+String.valueOf(i));
+		values.add(memberid);
+		
+		sb.append(" and o.state>0 order by o.id desc");
+		
+		List<Orders> list = dao.findByPage(sb.toString(), pageNo, pageSize,values);
+		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("amount", amount/pageSize+1);
+		map.put("list", list);
+		return map;
+	}
+	
+	
+	public void delOrder(int id) {
+		cs.delCommentByOrder(id);
+		dao.delete(Orders.class, id);
+	}
+	
+	public void complete(int id) {
+		Orders orders = dao.get(Orders.class, id);
+		orders.setState(2);
+		dao.update(orders);
+	}
 }

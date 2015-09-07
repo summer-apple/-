@@ -35,7 +35,10 @@ public class CommentService {
 	}
 	
 
-
+	public void delCommentByOrder(int orderid) {
+		String sql = "DELETE FROM Comment WHERE order="+orderid;
+		dao.sql(sql);
+	}
 
 	
 	

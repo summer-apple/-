@@ -13,7 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta charset="utf-8" />
 		<meta name="author" content="www.frebsite.nl" />
 		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
-
+		<link type="text/css" rel="stylesheet" href="resources/css/menu-common.css" />
+		<link type="text/css" rel="stylesheet" href="resources/css/jquery.mmenu.all.css" />
 		<title>ONE GO</title>
 
 		
@@ -201,8 +202,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<%@include file="menu.jsp"  %>
 		</div>
 
-		<link type="text/css" rel="stylesheet" href="resources/css/menu-common.css" />
-		<link type="text/css" rel="stylesheet" href="resources/css/jquery.mmenu.all.css" />
+		
 		<link rel="stylesheet" href="resources/css/fonts/fontawesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="resources/css/fonts/elusive/css/elusive.css">
 		<link rel="stylesheet" href="resources/css/bootstrap.css">
