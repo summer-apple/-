@@ -129,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a class="search-icon" href="javascript:void(0);"><span class="fa fa-search"></span></a>
 			</div>
 		<form role="form" id="qry-form" class="qry-form" action="" method="post">
-			<input id="memberid" name="memberid" type="hidden" value="15"><!-- ${member.id} -->
+			<input id="memberid" name="memberid" type="hidden" value="${member.id}">
 			<input id="pageNo" name="pageNo" type="hidden" value="0">
 			<input id="pageSize" name="pageSize" type="hidden" value="10">
 			
@@ -251,8 +251,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
-			//alert($.myTime.UnixToDate(1325347200));
-
+			
+			//格式化时间
 				function transTime(object,isFull){
 					if (object!=null) {
 						return $.myTime.UnixToDate(object.time/1000,isFull);
@@ -260,7 +260,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						return "--";
 					}
 				}
+			//操作按钮判断
 
+				function operation(state,id){
+					if (state==1) {
+						return '<a class="complete-btn"  onclick=complete("'+id+'")>完成订单</a>'+
+								'<a class="cancel-btn" href="tel:10086">取消订单</a>'+
+								'<a class="comment-btn" style="display:none;"  onclick=comment("'+id+'")>评 价</a>';
+					}else if(state==2){
+						return '<a class="comment-btn"  onclick=comment("'+id+'")>评 价</a>';
+					}else{
+						return "";
+					}
+				}
+				
 			
 
 			window.qry = function(){
@@ -307,8 +320,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								'	<div class="order-operate">'+
 								'		<span class="orderid">订单ID:'+item.id+'</span>'+
 								'		<div class="operations">'+
-								'			<a class="complete-btn"  onclick=complete("'+item.id+'")>完成订单</a>'+
-								'			<a class="cancel-btn" href="tel:10086">取消订单</a>'+
+								operation(item.state,item.id)+
 								'		</div>'+
 								'	</div>'+
 								'</div>'
@@ -337,8 +349,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                success:function(data){
 		                	if (data==true) {
 		                    	alert("订单已完成，请评价！");	
-		                   		$("#order-"+id).find(".complete-btn,cancel-btn").hide(0);
+		                   		$("#order-"+id).find(".complete-btn,.cancel-btn").hide(0);
 		                   		$("#order-"+id).find(".comment-btn").show(0);
+		                   		$("#order-"+id).find(".order-state").html("已完成");
 		                    }
 		                   
 		                }

@@ -226,7 +226,7 @@ public class OrdersAction extends ActionSupport {
 	
 	
 	@Action("/order/complete")
-	private void complete() throws IOException {
+	public void complete() throws IOException {
 		request = ServletActionContext.getRequest();
 		response = ServletActionContext.getResponse();
 		  

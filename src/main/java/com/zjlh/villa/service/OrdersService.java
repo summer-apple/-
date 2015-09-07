@@ -395,18 +395,20 @@ System.out.println(prePayReturn.getSign());
 
 	public Map<String, Object> qryOrderByMember(int memberid,int pageNo,int pageSize) {
 		List<Object> values = new ArrayList<Object>();
-		String hql = "FROM Orders WHERE 1=1 ";
+		String hql = "FROM Orders o WHERE 1=1 ";
 		
 		int i=0;
 		StrBuilder sb = new StrBuilder(hql);
 		
-//		sb.append(" and member = ?"+String.valueOf(i));
-//		values.add(memberid);
+		sb.append(" and o.member = ?"+String.valueOf(i));
+		values.add(memberid);
+		
+		sb.append(" and o.state>0 order by o.id desc");
 		
 		List<Orders> list = dao.findByPage(sb.toString(), pageNo, pageSize,values);
 		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("amount", amount);
+		map.put("amount", amount/pageSize+1);
 		map.put("list", list);
 		return map;
 	}
