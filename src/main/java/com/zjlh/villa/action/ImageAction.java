@@ -150,21 +150,34 @@ System.out.println(object);
 	}
 	
 	
-	@Action("/img/delImg")
-	public void delImg() throws IOException{
+	@Action("/img/delVillaImg")
+	public void delVillaImg() throws IOException{
 		request = ServletActionContext.getRequest();
 		response = ServletActionContext.getResponse();
 		int id = Integer.parseInt(request.getParameter("id"));
 		PrintWriter out = response.getWriter();
 		if (is.verifyImg(id)) {//存在
-			is.delImg(id);
+			is.delVillaImg(id);
 			out.print(true);
 		}else {
 			out.print(false);
 		}
 		out.close();
 	}
-	
+	@Action("/img/delCommentImg")
+	public void delCommentImg() throws IOException{
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+		int id = Integer.parseInt(request.getParameter("id"));
+		PrintWriter out = response.getWriter();
+		if (is.verifyImg(id)) {//存在
+			is.delVillaImg(id);
+			out.print(true);
+		}else {
+			out.print(false);
+		}
+		out.close();
+	}	
 	@Action("/img/qryImg")
 	public void qryImg() throws IOException{
 		request = ServletActionContext.getRequest();

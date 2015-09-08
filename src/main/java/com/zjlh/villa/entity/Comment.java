@@ -32,25 +32,26 @@ import org.hibernate.annotations.Formula;
 public class Comment implements java.io.Serializable {
 
 	private Integer id;
-	private Integer order;
+	private Integer orderid;
 	private Integer star;
 	private String content;
-	private Date time;
+	private Date commentDay;
 	
 	private String memberName;
 	private String memberHead;
 	
 	private Set<Img> img = new HashSet<Img>();
+	
 
 	public Comment() {
 	}
 
-	public Comment(Integer order, Integer star,
-			String content, Date time) {
-		this.order = order;
+	public Comment(Integer orderid, Integer star,
+			String content, Date commentDay) {
+		this.orderid = orderid;
 		this.star = star;
 		this.content = content;
-		this.time = time;
+		this.commentDay = commentDay;
 	}
 
 	@Id
@@ -66,13 +67,13 @@ public class Comment implements java.io.Serializable {
 
 
 
-	@Column(name = "order")
+	@Column(name = "orderid")
 	public Integer getOrder() {
-		return this.order;
+		return this.orderid;
 	}
 
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setOrder(Integer orderid) {
+		this.orderid = orderid;
 	}
 
 	@Column(name = "star")
@@ -94,13 +95,13 @@ public class Comment implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "time", length = 19)
-	public Date getTime() {
-		return this.time;
+	@Column(name = "comment_Day", length = 19)
+	public Date getCommentDay() {
+		return this.commentDay;
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
+	public void setCommentDay(Date commentDay) {
+		this.commentDay = commentDay;
 	}
 	
 	@Formula("(select m.nickname from Member m where m.id = member)")
@@ -136,7 +137,7 @@ public class Comment implements java.io.Serializable {
 	public void setImg(Set<Img> img) {
 		this.img = img;
 	}
-	//OneToMany
+
 
 	
 	
