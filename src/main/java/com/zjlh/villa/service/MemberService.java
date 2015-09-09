@@ -1,5 +1,8 @@
 package com.zjlh.villa.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +31,30 @@ public class MemberService {
 	
 	public void update(int id,String truename,String email,String phone) {
 		Member member = dao.get(Member.class, id);
+		if (member.getTruename()==null) {
+			member.setTruename(truename);
+		}
+		if (member.getEmail()==null) {
+			member.setEmail(email);
+		}
+		if (member.getPhone()==null) {
+			member.setPhone(phone);
+		}
+		dao.update(member);
+	}
+	
+	
+	
+	public Member updateInfo(int id,String truename,String email,String phone,String birthday) throws ParseException {
+		Member member = dao.get(Member.class, id);
 		member.setTruename(truename);
 		member.setEmail(email);
 		member.setPhone(phone);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = sdf.parse(birthday);
+		member.setBirthday(date);
 		dao.update(member);
+		return member;
 	}
 	
 	public Member getMember(int id) {

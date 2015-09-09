@@ -2,6 +2,7 @@ package com.zjlh.villa.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.zjlh.villa.entity.Member;
 import com.zjlh.villa.service.MemberService;
 import com.zjlh.villa.service.StoreService;
 
@@ -46,5 +48,20 @@ public class MemberAction extends ActionSupport {
 		out.print(obj);
 		out.close();
 
+	}
+	
+	@Action("/member/updateInfo")
+	public void updateInfo() throws ParseException, IOException{
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+		String data = request.getParameter("data");
+		JSONObject object = JSONObject.fromObject(data);
+		
+		Member member = ms.updateInfo(object.getInt("id"), object.getString("truename"), object.getString("email"),  object.getString("phone"),  object.getString("birthday"));
+		request.getSession().setAttribute("member", member);
+		PrintWriter out = response.getWriter();
+		out.print(true);
+		out.close();
+		
 	}
 }

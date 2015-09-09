@@ -218,6 +218,8 @@ System.out.println("content="+content);
 	    	 member = weixinUtilService.login(code);
 		}
 	   
+	    
+	    //System.out.println(JSONObject.fromObject(member).toString());
 	    request.getSession().setAttribute("member", member);
 	    
 	    return "test";
