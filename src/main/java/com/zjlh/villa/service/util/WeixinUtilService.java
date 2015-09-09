@@ -335,7 +335,7 @@ System.out.println(subscribeTime);
 	 * @throws UnsupportedEncodingException 
 	 */
 	public static Menu initMenu() throws UnsupportedEncodingException{
-		String redirect_url = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/weixin/login", "UTF-8");
+		String redirect_url = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/weixin/login?rd=aaaa", "UTF-8");
 		String btn1url = AUTHOR_URL.replace("APPID", APPID).replace("SCOPE", "snsapi_userinfo").replace("REDIRECT_URI", redirect_url);
 		
 		
@@ -345,28 +345,58 @@ System.out.println(subscribeTime);
 		button11.setType("view");
 		button11.setUrl(btn1url);
 		
+		
+		
+		
 		ViewButton button21 = new ViewButton();
 		button21.setName("精品民宿");
 		button21.setType("view");
-		button21.setUrl("http://gmcfe.tunnel.mobi/villa/mobile/index");
+		button21.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=204650158&idx=1&sn=d52bd293a3379938ab1358f3024348ca&scene=18#wechat_redirect");
+		
+		ViewButton button22 = new ViewButton();
+		button22.setName("玩够露营");
+		button22.setType("view");
+		button22.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=204650158&idx=1&sn=d52bd293a3379938ab1358f3024348ca&scene=18#wechat_redirect");
+		
+		Button button2 = new Button();
+		button2.setName("名宿露营");
+		button2.setSub_button(new Button[]{button21,button22});
 		
 		
-		ClickButton button31 = new ClickButton();
-		button31.setName("扫码事件");
-		button31.setType("click");
-		button31.setKey("31");
 		
-		ClickButton button32 = new ClickButton();
-		button32.setName("地理位置");
-		button32.setType("click");
-		button32.setKey("32");
 		
-		Button button = new Button();
-		button.setName("菜单");
-		button.setSub_button(new Button[]{button31,button32});
 		
-		menu.setButton(new Button[]{button11,button21,button});
-		return menu;
+		ViewButton button31 = new ViewButton();
+		button31.setName("生日惊喜");
+		button31.setType("view");
+		button31.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=204650158&idx=1&sn=d52bd293a3379938ab1358f3024348ca&scene=18#wechat_redirect");
+		
+		ViewButton button32 = new ViewButton();
+		button32.setName("玩够客服");
+		button32.setType("view");
+		button32.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=204650158&idx=1&sn=d52bd293a3379938ab1358f3024348ca&scene=18#wechat_redirect");
+		
+		ViewButton button33 = new ViewButton();
+		button33.setName("玩够论坛");
+		button33.setType("view");
+		button33.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=204650158&idx=1&sn=d52bd293a3379938ab1358f3024348ca&scene=18#wechat_redirect");
+		
+		ViewButton button34 = new ViewButton();
+		button34.setName("在线商城");
+		button34.setType("view");
+		button34.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=204650158&idx=1&sn=d52bd293a3379938ab1358f3024348ca&scene=18#wechat_redirect");
+		
+		ViewButton button35 = new ViewButton();
+		button35.setName("商务合作");
+		button35.setType("view");
+		button35.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=204650158&idx=1&sn=d52bd293a3379938ab1358f3024348ca&scene=18#wechat_redirect");
+		
+		Button button3 = new Button();
+		button3.setName("玩够客服");
+		button3.setSub_button(new Button[]{button31,button32,button33,button34,button35});
+		
+		menu.setButton(new Button[]{button11,button2,button3});
+		return menu;                  
 	}
 	
 	public static int createMenu(String token,String menu) throws ParseException, IOException{

@@ -209,7 +209,8 @@ System.out.println("content="+content);
 	    
 	   // String destination = request.getParameter("destination");
 	    String code = request.getParameter("code");
-	    
+	    String rd = request.getParameter("rd");
+	    System.out.println(rd+"3333333333333333");
 	    
 	    
 	    Member member = (Member) request.getSession().getAttribute("member");
