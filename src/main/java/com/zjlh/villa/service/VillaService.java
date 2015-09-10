@@ -234,7 +234,24 @@ public class VillaService {
 	
 	
 	
-	
+	public void updateStar(int id) {
+		Villa villa = dao.get(Villa.class, id);
+		Double d = (Double) dao.sqlQry("SELECT AVG(star) FROM Comment WHERE villa ="+id);
+		System.out.println(d);
+		int star = 100;
+		if (d<=20) {
+			star=20;
+		}else if (d<20 && d<=40) {
+			star=40;
+		}else if (d<40 && d<=60) {
+			star=60;
+		}else if(d<60 && d<=80) {
+			star=80;
+		}
+		villa.setStar(star);
+		dao.update(villa);
+		
+	}
 	
 	
 	

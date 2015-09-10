@@ -199,7 +199,7 @@ public class Member implements java.io.Serializable {
 		this.truename = truename;
 	}
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "birthday", length = 10)
 	public Date getBirthday() {
 		return this.birthday;

@@ -73,7 +73,11 @@
 					<i class="linecons-desktop"></i> <span class="title">订单管理</span>
 				</a>
 			</li>
-
+			<li>
+				<a href="dashboard/comment"> 
+					<i class="linecons-desktop"></i> <span class="title">评价管理</span>
+				</a>
+			</li>
 			<li><a href="ui-panels.html"> <i class="linecons-note"></i>
 					<span class="title">UI Elements</span>
 			</a>

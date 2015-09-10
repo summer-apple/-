@@ -32,7 +32,7 @@ public class MemberAction extends ActionSupport {
 	private HttpServletResponse response;
 
 	@Action("/member/qryMember")
-	public void qryStore() throws IOException {
+	public void qryMember() throws IOException {
 
 		request = ServletActionContext.getRequest();
 		response = ServletActionContext.getResponse();

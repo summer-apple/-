@@ -217,6 +217,7 @@ System.out.println("content="+content);
 	    
 	    if (member==null) {
 	    	 member = weixinUtilService.login(code);
+	    	 System.out.println(member.getNickname());
 		}
 	   
 	    

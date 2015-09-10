@@ -13,7 +13,7 @@
 			关于我们<span class="fa fa-angle-right" style="float: right;"></span>
 		</a></li>
 
-		<li><a href="#">
+		<li><a href="dashboard/f">
 			联系我们<span class="fa fa-angle-right" style="float: right;"></span>
 		</a></li>
 

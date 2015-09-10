@@ -128,11 +128,11 @@ font-size: 0.8em;
 			<div class="content">
 				<div class="comment-warp">
 					<form id="comment-form" action="" method="post">
-						<input id="order" name="order" type="hidden">
+						<input id="orderid" name="orderid" type="hidden">
 						<input id="star" name="star" type="hidden" value="100">
-						<select id="img-select" multiple name="img" style="display:none;">
+						<input id="villa" name="villa" type="hidden">
 											
-										</select>
+										
 						<div class="comment-title">订单ID：</div>
 						<div class="comment-body">
 							<div class="comment-body-line">
@@ -155,12 +155,7 @@ font-size: 0.8em;
 								<div class="comment-body-label">图片：</div>
 								<div class="comment-body-content image-content">
 									<div id="add-img-btn">上传图片</div>
-									<div id="tip-queue" style="width: 300px; height: 300px; background-color: #DDD; display:none;"></div>
-									<input id="file_upload" type="file" name="upload" style="display:none;" />
-
-									
-
-										<div id="gallery-box" class="album-images"></div>
+									<div id="gallery-box" class="album-images"></div>
 								</div>
 							</div>
 						</div>
@@ -169,6 +164,12 @@ font-size: 0.8em;
 							<a class="cancel-btn" href="javascript:void(0);">取消</a>
 						</div>
 
+					</form>
+
+					<form id="img-form" style="display:none;">
+						<div id="tip-queue" style="width: 300px; height: 300px; background-color: #DDD; display:none;"></div>
+						<input id="file_upload" type="file" name="upload" style="display:none;" />
+						<select id="img-select" multiple name="img" style="display:none;"></select>
 					</form>
 				</div>
 			</div>
@@ -199,6 +200,7 @@ font-size: 0.8em;
 		<script type="text/javascript" src="resources/js/jquery.mmenu.min.all.js"></script>
 		<script src="resources/js/jquery.uploadifive.js"></script>
 		<script type="text/javascript">
+		
 			$(function() {
 				$('nav#menu').mmenu({
 					//extensions	: [ 'effect-slide-menu', 'pageshadow' ],
@@ -237,12 +239,14 @@ font-size: 0.8em;
 				}
 			
 			var id = getUrlParam("id");	
+			var villa = getUrlParam("villa");
 
 			//设置订单号
-			$("#order").val(id);
+			$("#orderid").val(id);
 			$(".comment-title").append(id);	
 
-
+			//设置别墅ID
+			$("#villa").val(villa);
 
 
 			//取消按钮

@@ -24,8 +24,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>Villa - Dashboard</title>
 
 <%@ include file="css.jsp" %>
-
-
+<style type="text/css">
+	.form-group{
+		margin-left: 0px !important;
+		margin-right: 5px !important;
+		margin-bottom: 5px !important;
+	}
+</style>
 
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -54,15 +59,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="page-title">
 
 			<div class="title-env">
-					<h1 class="title">用户管理</h1>
-					<p class="description">query members who follow you</p>
+					<h1 class="title">评价管理</h1>
+					<p class="description">query all villas</p>
 				</div>
 
 				<div class="breadcrumb-env">
 
 					<ol class="breadcrumb bc-1">
 						<li><a href="dashboard/home"><i class="fa-home"></i>主页</a></li>
-						<li class="active"><strong>用户</strong></li>
+						<li><a href="javascript:void(0);">评价管理</a></li>
+						<li class="active"><strong>查询评价</strong></li>
 					</ol>
 
 				</div>
@@ -72,36 +78,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!--主体部分开始-->
 			
-
+<!--新增商户表单结束-->
 
 			<div class="panel panel-default">
 				
 				<div class="vspacer v3"></div>
 				
 				<div class="row">
-					<div class="col-sm-10">
+					<div class="col-sm-12">
 						
 
 						<form class="form-inline" id="qry-form" action="" method="post">
-							<!-- <div class="form-group"> 
-								<input id="qry-id" name="id" class="form-control" type="text" placeholder="商户ID">
+						<!-- 	<div class="form-group"> 
+								<input id="qry-id" name="id" class="form-control" type="number" placeholder="订单ID">
 							</div>
 							<div class="form-group"> 
-								<input id="address" name="address" class="form-control" type="text" placeholder="商户地址">
+								
+								<input id="qry-commentTimeStart" name="commentTimeStart" type="text" class="form-control datepicker" data-format="yyyy-mm-dd" data-start-view="3" placeholder="下单日期-起">
 							</div>
 							<div class="form-group"> 
-								<input id="name" name="name" class="form-control" type="text" placeholder="商户名称">
+								<input id="qry-commentTimeEnd" name="commentTimeEnd" type="text" class="form-control datepicker" data-format="yyyy-mm-dd" data-start-view="3" placeholder="下单日期-止">
+								
 							</div>
 							
+							
+
+							<div class="form-group">
+									<select class="form-control" id="qry-state" name="state">
+										<option value="" selected>评价状态：全部</option>
+										<option value="0">未支付</option>
+										<option value="1">已支付</option>
+										<option value="2">已完成</option>
+										<option value="3">已评价</option>
+									</select>
+							</div>
+
 							<div class="form-group">
 								<button id="qry-btn" type="button" class="btn btn-primary btn-single btn-sm">查 询</button>
-							</div> -->
-							
+							</div>
+		 -->					
 							<div class="form-group"> 
 								<input id="pageNo" name="pageNo" class="form-control" type="hidden" value="0" placeholder="页码">
 							</div>
 							<div class="form-group"> 
-								<input id="pageSize" name="pageSize" class="form-control" type="hidden" value="10" placeholder="每页商户数">
+								<input id="pageSize" name="pageSize" class="form-control" type="hidden" value="10" placeholder="每页订单数">
 							</div>
 
 							
@@ -123,17 +143,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<table id="qry-table" class="table table-bordered table-striped table-condensed table-hover">
 										<thead>
 											<tr>
-												<th>ID</th>
-												<th>头像</th>
-												<th>昵称</th>
-												
-												<th>性别</th>
-												<th>手机</th>
-												<th>真名</th>
-												<th>邮箱</th>
-												<th>生日</th>
-												<th>省份</th>
-												<!-- <th>操作</th> -->
+												<th>评价ID</th>
+												<th>订单ID</th>
+												<th>评分</th>
+												<th>用户昵称</th>
+												<th>评价内容</th>
+												<th>评价日期</th>
+												<th>操作</th>
 											</tr>
 										</thead>
 										
@@ -173,9 +189,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<%@ include file="script.jsp" %>
 	<script type="text/javascript" src="resources/js/jquery.pagination.js"></script>
+	<script type="text/javascript" src="resources/js/datepicker/bootstrap-datepicker.js"></script>
+	
 	<script type="text/javascript">
 	$().ready(function(){
-
 
 //日期转换方法
 (function($) {
@@ -246,13 +263,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 	}
 
+
+
+
 //首次进入时刷新
 		qry();
 //点击查询时刷新
-		// $("#qry-btn").click(function(){
-		// 	$("#pageNo").val(0);
-		// 	qry();
-		// });
+		$("#qry-btn").click(function(){
+			$("#pageNo").val(0);
+			qry();
+		});
 
 
 //查询方法
@@ -263,7 +283,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 j[params[item].name] = params[item].value;
             }
             $.ajax({
-                url:'member/qryMember',
+                url:'comment/qryComment',
                 data: {data:JSON.stringify(j)},
                 type:'post',
                 dataType:'json',
@@ -272,20 +292,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 	$.each(data.list, function(i, item) {
                 		 $("#qry-table tbody").append(
                 		"<tr>"+
-						"	<td class='store-id'>"+item.id+"</td>"+
-						"	<td class='store-headimgurl'><img src='"+item.headimgurl+"' style='width:50px;'></td>"+
-						"	<td class='store-nickname'>"+item.nickname+"</td>"+
-
-						"	<td class='store-sexValue'>"+item.sexValue+"</td>"+
-						"	<td class='store-phone'>"+item.phone+"</td>"+
-						"	<td class='store-truename'>"+item.truename+"</td>"+
-						"	<td class='store-email'>"+item.email+"</td>"+
-						"	<td class='store-birthday'>"+transTime(item.birthday,false)+"</td>"+
-						"	<td class='store-province'>"+item.province+"</td>"+
-						// "	<td style='min-width:115px;'><a class='edit-btn btn btn-primary btn-single btn-sm' onclick='edit("+item.id+")'>编辑</a><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
+						"	<td class='comment-id'>"+item.id+"</td>"+
+						"	<td class='comment-orderid'>"+item.orderid+"</td>"+
+						"	<td class='comment-star'>"+item.star+"</td>"+
+						"	<td class='comment-memberName'>"+item.memberName+"</td>"+
+						"	<td class='comment-content'>"+item.content+"</td>"+
+						"	<td class='comment-commentDay'>"+transTime(item.commentDay,true)+"</td>"+
+						"	<td><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
 						"</tr>"
                 		 );
                   	});
+
+
 
 					$(".pagination").pagination(data.amount, { 
 						  prev_text: '&laquo;', 
@@ -321,7 +339,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                j[params[item].name] = params[item].value;
 	            }
 	            $.ajax({
-	                url:'member/qryMember',
+	                url:'comment/qryOrder',
 	                data: {data:JSON.stringify(j)},
 	                type:'post',
 	                dataType:'json',
@@ -329,19 +347,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                    $("#qry-table tbody").empty();
 	                	$.each(data.list, function(i, item) {
 	                		 $("#qry-table tbody").append(
-			                		"<tr>"+
-								"	<td class='store-id'>"+item.id+"</td>"+
-								"	<td class='store-headimgurl'><img src='"+item.headimgurl+"' style='width:50px;'></td>"+
-								"	<td class='store-nickname'>"+item.nickname+"</td>"+
-								
-								"	<td class='store-sexValue'>"+item.sexValue+"</td>"+
-								"	<td class='store-phone'>"+item.phone+"</td>"+
-								"	<td class='store-truename'>"+item.truename+"</td>"+
-								"	<td class='store-email'>"+item.email+"</td>"+
-								"	<td class='store-birthday'>"+transTime(item.birthday,false)+"</td>"+
-								"	<td class='store-province'>"+item.province+"</td>"+
-								// "	<td style='min-width:115px;'><a class='edit-btn btn btn-primary btn-single btn-sm' onclick='edit("+item.id+")'>编辑</a><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
-								"</tr>"
+	                	"<tr>"+
+						"	<td class='comment-id'>"+item.id+"</td>"+
+						"	<td class='comment-orderid'>"+item.orderid+"</td>"+
+						"	<td class='comment-star'>"+item.star+"</td>"+
+						"	<td class='comment-memberName'>"+item.memberName+"</td>"+
+						"	<td class='comment-content'>"+item.content+"</td>"+
+						"	<td class='comment-commentDay'>"+transTime(item.commentDay,true)+"</td>"+
+						"	<td><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
+						"</tr>"
 	                		 );
 	                  	});
 	                }
@@ -349,125 +363,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            
 		}
 		
-// //添加
-
-// 	$("#add-btn").click(function(){
-// 			var params = $("#add-form").serializeArray();
-//             var j = {};
-//             for (var item in params) {
-//                 j[params[item].name] = params[item].value;
-//             }
-//             $.ajax({
-//                 url:'store/addStore',
-//                 data: {data:JSON.stringify(j)},
-//                 type:'post',
-//                 dataType:'json',
-//                 success:function(data){
-//                     if (data==0) {
-//                     	alert("该设施已存在...");
-//                     	qry();
-//                     }else{
-//                     	alert("保存成功...");
-//                     	qry();
-//                     }
-//                 }
-//             });
-// 		});
 
 //删除
 
-	// window.del = function(id){
-	// 	$.ajax({
- //                url:'store/delStore?id='+id,
- //                type:'post',
- //                dataType:'json',
- //                success:function(data){
- //                	if (data==true) {
- //                    	alert("删除成功...");
- //                   		qry();
- //                    }else{
- //                    	alert("该设施已被引用，无法删除...");
- //                    }
+	window.del = function(id){
+		$.ajax({
+                url:'comment/delComment?id='+id,
+                type:'post',
+                dataType:'json',
+                success:function(data){
+                	if (data==true) {
+                    	alert("删除成功...");
+                   		qry();
+                    }else{
+                    	alert("该评价已被引用，无法删除...");
+                    }
                    
- //                }
- //            });
-	// }
-
-//关闭新增商店面板
-	// $(".close-panel").click(function(){
-	// 	$(".add-panel").hide();
-	// });
-//打开新增商店面板
-	// $(".open-panel").click(function(){
-	// 	$("#add-form")[0].reset();
-	// 	$("#add-btn").show();
-	// 	$("#update-btn").hide();
-	// 	$(".add-panel").show();
-	// });
-
-//编辑
-	// window.edit = function(id){
-	// 	$("#add-form")[0].reset();
-		
-	// 	$("#add-form #id").val(id);
-
-	// 	$("#add-btn").hide();
-	// 	$("#update-btn").show();
-
-	// 	$.ajax({
-	//                 url:'store/getStore?id='+id,
-	//                 type:'post',
-	//                 dataType:'json',
-	//                 success:function(data){
-	//                 	$("#add-form #name").val(data.name);
-	//                 	$("#add-form #ownerName").val(data.ownerName);
-	//                 	$("#add-form #age").val(data.age);
-	//                 	$("#add-form #idCard").val(data.idCard);
-	//                 	$("#add-form #mobilephone").val(data.mobilephone);
-	//                 	$("#add-form #telephone").val(data.telephone);
-	//                 	$("#add-form #weight").val(data.weight);
-	//                 	$("#add-form #address").val(data.address);
-
-	//                 	if (data.gender==1) {	                		
-	//                 		$("#add-form #gender-male").removeAttr("checked");
-	//                 		$("#add-form #gender-female").attr("checked",true);
-	//                 	}else{
-	// 						$("#add-form #gender-female").removeAttr("checked");
-	//                 		$("#add-form #gender-male").attr("checked",true);
-	//                 	}
-	//                 }
-	//            });
-		
-	// 	$(".add-panel").show();
-	// }
+                }
+            });
+	}
 
 
-//更新
 
-	// $("#update-btn").click(function(){
-	// 		var params = $("#add-form").serializeArray();
- //            var j = {};
- //            for (var item in params) {
- //                j[params[item].name] = params[item].value;
- //            }
- //            $.ajax({
- //                url:'store/updateStore',
- //                data: {data:JSON.stringify(j)},
- //                type:'post',
- //                dataType:'json',
- //                success:function(data){
- //                    if (data==true) {
- //                    	alert("更新成功...");
- //                    	qry();
- //                    }else{
- //                    	alert("更新失败...");
- //                    	qry();
- //                    }
- //                }
- //            });
-	// 	});
 
-	 });
+	});
 	</script>
 </body>
 </html>

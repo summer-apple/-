@@ -33,6 +33,7 @@ public class Comment implements java.io.Serializable {
 
 	private Integer id;
 	private Integer orderid;
+	private Integer villa;
 	private Integer star;
 	private String content;
 	private Date commentDay;
@@ -68,11 +69,11 @@ public class Comment implements java.io.Serializable {
 
 
 	@Column(name = "orderid")
-	public Integer getOrder() {
+	public Integer getOrderid() {
 		return this.orderid;
 	}
 
-	public void setOrder(Integer orderid) {
+	public void setOrderid(Integer orderid) {
 		this.orderid = orderid;
 	}
 
@@ -104,7 +105,7 @@ public class Comment implements java.io.Serializable {
 		this.commentDay = commentDay;
 	}
 	
-	@Formula("(select m.nickname from Member m where m.id = member)")
+	@Formula("(select Member.nickname from (Comment join Orders on Comment.orderid  = Orders.id) join  Member on Orders.member = Member.id where Orders.id = orderid)")
 	public String getMemberName() {
 		return memberName;
 	}
@@ -113,7 +114,7 @@ public class Comment implements java.io.Serializable {
 		this.memberName = memberName;
 	}
 	
-	@Formula("(select m.headimgurl from Member m where m.id = member)")
+	@Formula("(select Member.headimgurl from (Comment join Orders on Comment.orderid  = Orders.id) join  Member on Orders.member = Member.id where Orders.id = orderid)")
 	public String getMemberHead() {
 		return memberHead;
 	}
@@ -136,6 +137,14 @@ public class Comment implements java.io.Serializable {
 
 	public void setImg(Set<Img> img) {
 		this.img = img;
+	}
+	@Column(name = "villa")
+	public Integer getVilla() {
+		return villa;
+	}
+
+	public void setVilla(Integer villa) {
+		this.villa = villa;
 	}
 
 

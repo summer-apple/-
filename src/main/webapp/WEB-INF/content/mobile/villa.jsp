@@ -48,7 +48,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		.base-info{
 			margin-top: -21px;
     		background-color: #FFF;
+    		height: 65px;
 		}
+		.villa-star-wrap {
+    width: 150px;
+    float: left;
+    height: 30px;
+}
 		.base-info-line1 {
 		    text-align: left;
 		    margin-left: 3%;
@@ -104,14 +110,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     width: 100%;
     height: auto;
     float: left;
-    padding-bottom: 15px;
 }
 .villa-info-head {
     height: 20px;
-    border-bottom: 1px solid #DDD;
-    padding-bottom: 15px;
     text-align: left;
     padding-left: 3%;
+    padding-bottom: 10px;
 }
 .villa-info-head span{
 	float: right;
@@ -121,10 +125,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     color: #FFA339 !important;
     height: 100%;
 }
-.description-info .villa-info-body{
-	    text-align: left;
-    text-indent: 5%;
+.villa-info-body{
+	display: none;
+	padding-bottom: 10px;
+	border-top: 1px solid #EFEFEF;
 }
+.description-info .villa-info-body{
+	padding: 15px;
+    text-align: left;	   
+}
+
 .free-svs,.villa-facility{
 	width: 100%;
     float: left;
@@ -141,17 +151,102 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .fs-title {
     width: 30%;
     float: left;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 .fs-body {
     width: 70%;
     float: left;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 .fa-item {
     width: 50%;
     float: left;
 }
+
+/**comment**/
+.comment-warp {
+    height: auto;
+    clear: both;
+    border-bottom: 1px solid #EFEFEF;
+    padding-bottom: 20px;
+}
+.comment-title {
+    height: 50px;
+    margin-top: 10px;
+}
+.comment-title-left {
+    width: 60%;
+    height: 100%;
+    float: left;
+}
+.comment-user-head {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.comment-other-info {
+    float: left;
+    text-align: left;
+}
+.comment-other-info {
+
+    text-align: left;
+}
+.comment-user-name {
+    height: 30px;
+    line-height: 45px;
+}
+.comment-time {
+    font-size: 0.8em;
+    color: #999;
+}
+.star-warp {
+    width: 90%;
+    margin-right: 10%;
+    padding-top: 20px;
+}
+.star{
+	color: #FFA339 !important;
+}
+.comment-title-right {
+    width: 40%;
+    float: left;
+    text-align: right;
+}
+.comment-body {
+    width: 80%;
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1.5em;
+    text-indent: 25px;
+    margin-bottom: 10px;
+}
+
+.comment-img {
+    width: 80%;
+    margin-left: 10%;
+}
+.comment-img-item {
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.comment-img-item-big{
+	width: 100% !important;
+    height: auto !important;
+    margin-right: 0 !important;
+    margin-bottom: 10px !important;
+}
+
 
 	</style>
 		
@@ -173,17 +268,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 				<div class="base-info">
 					<div class="bed-peo base-info-line1">
-						5个卧室 容纳20人
+						
 					</div>
 					<div class="base-info-line2">
-						评分：***** 5.0分
-						<a class="comment-link" href="javascript:void(0)" onclick="document.getElementById('comment-info').scrollIntoView();">评价 <span class="fa fa-chevron-right"></span></a>
+						<div class="villa-star-wrap"></div>
+						<a class="comment-link" href="javascript:void(0)" onclick="">评价 <span class="fa fa-chevron-right"></span></a>
 					</div>
 				</div>
 				<div class="price-info">
 					<div class="price-info-left">
-						<div class="normal-price">周一-周四:1500元/场</div>
-						<div class="special-price">周五-周日:2500元/场</div>
+						<div class="normal-price"></div>
+						<div class="special-price"></div>
 					</div>
 					<div class="price-info-right">
 						<a class="order-now-btn button" href="">立即预定</a>
@@ -232,12 +327,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div id="comment-info" class="villa-info-box comment-info">
 					<div class="villa-info-head">评 价<span class="fa fa-chevron-right"></span></div>
 					<div class="villa-info-body">
-						评价吊吊吊
-						《<br><br><br><br><br><br>
-						<br><br><br><br><br>
-						<br><br><br><br>
-						<br><br><br>
-						aa
+						
 					</div>
 				</div>
 
@@ -293,6 +383,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		<script type="text/javascript">
 		$().ready(function(){
+//日期转换方法
+			(function($) {
+			    $.extend({
+			        myTime: {
+			            /**
+			             * 当前时间戳
+			             * @return <int>        unix时间戳(秒)  
+			             */
+			            CurTime: function(){
+			                return Date.parse(new Date())/1000;
+			            },
+			            /**              
+			             * 日期 转换为 Unix时间戳
+			             * @param <string> 2014-01-01 20:20:20  日期格式              
+			             * @return <int>        unix时间戳(秒)              
+			             */
+			            DateToUnix: function(string) {
+			                var f = string.split(' ', 2);
+			                var d = (f[0] ? f[0] : '').split('-', 3);
+			                var t = (f[1] ? f[1] : '').split(':', 3);
+			                return (new Date(
+			                        parseInt(d[0], 10) || null,
+			                        (parseInt(d[1], 10) || 1) - 1,
+			                        parseInt(d[2], 10) || null,
+			                        parseInt(t[0], 10) || null,
+			                        parseInt(t[1], 10) || null,
+			                        parseInt(t[2], 10) || null
+			                        )).getTime() / 1000;
+			            },
+			            /**              
+			             * 时间戳转换日期              
+			             * @param <int> unixTime    待时间戳(秒)              
+			             * @param <bool> isFull    返回完整时间(Y-m-d 或者 Y-m-d H:i:s)              
+			             * @param <int>  timeZone   时区              
+			             */
+			            UnixToDate: function(unixTime, isFull, timeZone) {
+			                if (typeof (timeZone) == 'number')
+			                {
+			                    unixTime = parseInt(unixTime) + parseInt(timeZone) * 60 * 60;
+			                }
+			                var time = new Date(unixTime * 1000);
+			                var ymdhis = "";
+			                ymdhis += time.getUTCFullYear() + "-";
+			                ymdhis += (time.getUTCMonth()+1) + "-";
+			                ymdhis += time.getUTCDate();
+			                if (isFull === true)
+			                {
+			                    ymdhis += " " + time.getUTCHours() + ":";
+			                    ymdhis += time.getUTCMinutes() + ":";
+			                    ymdhis += time.getUTCSeconds();
+			                }
+			                return ymdhis;
+			            }
+			        }
+			    });
+			})(jQuery);
+
+
+
+			
+			//格式化时间
+				function transTime(object,isFull){
+					if (object!=null) {
+						return $.myTime.UnixToDate(object.time/1000,isFull);
+					}else{
+						return "--";
+					}
+				}
+
 
 			//获取地址栏参数 调用getUrlParam(name)方法
 	
@@ -339,6 +498,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    		 //插入床位 人数
 		    		 $(".bed-peo").html('卧室'+data.bedroom+'个 容纳'+ data.people +'人');
 
+
+		    		 //插入评分
+		    		 $(".villa-star-wrap").html(star(data.star));
+
+
 		    		 //插入价格
 		    		 $(".normal-price").html('周一-周四:'+ data.normalPrice+'元/场');
 		    		 $(".special-price").html('周五-周日:'+ data.specialPrice+'元/场');
@@ -372,15 +536,135 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 					//插入评论
+					$.ajax({
+						url:"comment/qryCommentByVilla?id="+data.id,
+						type:"post",
+						dataType:"json",
+						success:function(data){
+
+
+							$.each(data,function(i,item){
+								
+							var str = "";
+							$.each(item.img, function(i, item) {
+	                			str+='<img class="comment-img-item" src="'+item.url+'">';
+	                			
+	                		});
+
+
+
+				    		 	$("#comment-info .villa-info-body").append(
+
+									'<div class="comment-warp">'+
+										'<div class="comment-title">'+
+											'<div class="comment-title-left">'+
+												'<img class="comment-user-head" src="'+item.memberHead+'">'+
+												'<div class="comment-other-info">'+
+													'<div class="comment-user-name">'+item.memberName+'</div>'+
+													'<div class="comment-time">'+transTime(item.commentDay,false)+'</div>'+
+												'</div>'+
+											'</div>'+
+											'<div class="comment-title-right">'+
+												'<div class="star-warp">'+
+													star(item.star)+
+												'</div>'+
+											'</div>'+
+										'</div>'+
+										'<div class="comment-body">'+
+											item.content+
+										'</div>'+
+										'<div class="comment-img">'+
+											str+
+										'</div>'+
+										'<div style="clear:both;"></div>'+
+									'</div>'
+
+				    		 		);
+							});
+
+						}
+					});
+
+
+
+
+
+
+
+
+
+
 				}
 			});
 
 
 
+			function star(star){
+				var s = Number(star/20);
+				var str = "";
+				for (var i = 1; i <= s; i++) {
+					str+='<span class="star star'+ i +' fa fa-star"></span>';
+				}
+				var j = s+1;
+				for (j;j<=5;j++) {
+					str+='<span class="star star'+ j +' fa fa-star fa-star-o"></span>';
+				}
+
+				return str;
+			}
+
+			function commentImg(imgs){
+				var str = "";
+				
+				$.each(imgs,function(i,item){
+					str+='<img class="comment-img-item" src="'+item.url+'">';
+				});
+
+				return str;
+			}
+
+			//缩小已放大的图片**********************on 方法！！！！！！！！！！！！
+
+			$(document).on("click",".comment-img-item",function(){
+				if ($(this).hasClass("comment-img-item-big")) {
+					$(".comment-img-item-big").removeClass("comment-img-item-big");
+				}else{
+					$(this).parent().find(".comment-img-item").addClass("comment-img-item-big");
+				}
+			});
+			
+			$(window).load(function(){ 
+					var $slideImgCount = $(".slide-img").length;
+					for(i=1;i<=$slideImgCount;i++){
+						//alert("i="+i);
+						//alert($(".slide-img-"+i).height());
+						//alert($(window).height()-$(".slide-img-"+i).height());
+						var $marginTop = ($(window).height()-$(".slide-img-"+i).height())/2;
+						//alert($marginTop);
+						$(".slide-img-"+i).css("margin-top",$marginTop);
+					}
+			});
+
+			//villa info box 隐藏 弹出
+
+			$(".villa-info-head").click(function(){
+				if ($(this).find("span").hasClass("fa-chevron-down")) {
+					$(".fa-chevron-down").removeClass("fa-chevron-down").addClass("fa-chevron-right");
+					$(".villa-info-body").hide();
+					$(this).find("span").removeClass("fa-chevron-down").addClass("fa-chevron-right");
+				}else{
+					$(".fa-chevron-down").removeClass("fa-chevron-down").addClass("fa-chevron-right");
+					$(".villa-info-body").hide();
+					$(this).find("span").removeClass("fa-chevron-right").addClass("fa-chevron-down");
+					$(this).next(".villa-info-body").show();
+				}
+			});
 			
 
-
-
+			$(".comment-link").click(function(){
+				$("#comment-info").find(".villa-info-head").click();
+				$("html, body").scrollTop(500);
+			});
 
 
 		});

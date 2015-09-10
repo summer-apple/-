@@ -397,7 +397,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	window.del = function(id){
 		$.ajax({
-                url:'villa/delOrder?id='+id,
+                url:'order/delOrder?id='+id,
                 type:'post',
                 dataType:'json',
                 success:function(data){

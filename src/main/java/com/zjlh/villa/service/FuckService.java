@@ -39,6 +39,7 @@ public class FuckService {
 	
 	public String fuck() {
 		
+		os.commented(134);
 		
 		
 		
