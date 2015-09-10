@@ -344,7 +344,7 @@ System.out.println(prePayReturn.getSign());
 		if (StringUtils.isNotBlank(id)) {		
 			sb.append(" and id = ?"+String.valueOf(i));
 			
-			values.add(id);
+			values.add(Integer.parseInt(id));
 			i++;
 		}
 		
@@ -422,6 +422,11 @@ System.out.println(prePayReturn.getSign());
 	public void complete(int id) {
 		Orders orders = dao.get(Orders.class, id);
 		orders.setState(2);
+		dao.update(orders);
+	}
+	public void commented(int id) {
+		Orders orders = dao.get(Orders.class, id);
+		orders.setState(3);
 		dao.update(orders);
 	}
 }

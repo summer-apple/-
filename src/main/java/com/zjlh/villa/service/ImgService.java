@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zjlh.villa.dao.CommentImgDaoHibernate4;
 import com.zjlh.villa.dao.ImgDaoHibernate4;
 import com.zjlh.villa.dao.VillaImgDaoHibernate4;
+import com.zjlh.villa.entity.CommentImg;
 import com.zjlh.villa.entity.Img;
 import com.zjlh.villa.entity.VillaImg;
 
@@ -18,6 +20,8 @@ public class ImgService {
 	private ImgDaoHibernate4 dao;
 	@Autowired
 	private VillaImgDaoHibernate4 vdao;
+	@Autowired
+	private CommentImgDaoHibernate4 cdao;
 
 	public int addImg(String url) {
 		Img img = new Img(url);
@@ -25,9 +29,9 @@ public class ImgService {
 		return img.getId();
 	}
 
-	public void addImg(int id) {
-		dao.delete(Img.class, id);
-	}
+//	public void addImg(int id) {
+//		dao.delete(Img.class, id);
+//	}
 
 	public boolean verifyImg(int id) {
 		return dao.exist(Img.class, id);
@@ -37,11 +41,7 @@ public class ImgService {
 		return dao.exist(Img.class, "url", url);
 	}
 
-	public void delImg(int id) {
-		String sql = "DELETE FROM VillaImg WHERE img="+id;
-		dao.sql(sql);
-		dao.delete(Img.class, id);
-	}
+
 
 	public List<Img> qryImg() {
 		return dao.findAll(Img.class);
@@ -95,8 +95,15 @@ public class ImgService {
 	public void addVillaImg(VillaImg villaImg) {
 		vdao.save(villaImg);
 	}
-
-	
+/**
+ * 删除别墅图片
+ * @param id
+ */
+	public void delVillaImg(int id) {
+		String sql = "DELETE FROM VillaImg WHERE img="+id;
+		dao.sql(sql);
+		dao.delete(Img.class, id);
+	}	
 	
 	/**
 	 * 保存多条图片记录
@@ -139,5 +146,40 @@ public class ImgService {
 		keys.add("img");
 		return vdao.exist("VillaImg", keys, villa, img);
 	}
+	
+	
+/****************************以下评论图片
+ * 
+ * 
+ * 
+ */
+/**
+ * 保存单条评论图片
+ * @param commentImg
+ */
+	public void addCommentImg(CommentImg commentImg) {
+		cdao.save(commentImg);
+	}
 
+	
+	public void addCommentImgList(List<Img> imglist, int commentid) {
+		for (int i = 0; i < imglist.size(); i++) {// 遍历服务id
+			int imgid = imglist.get(i).getId();
+			
+				CommentImg commentImg = new CommentImg(commentid, imgid);// 实例化别墅服务
+				addCommentImg(commentImg);// 保存别墅服务
+		}
+	}
+/**
+ * 删除评论图片
+ * @param id
+ */
+	public void delCommentImg(int id) {
+		String sql = "DELETE FROM CommentImg WHERE img="+id;
+		dao.sql(sql);
+		dao.delete(Img.class, id);
+	}
+
+
+	
 }

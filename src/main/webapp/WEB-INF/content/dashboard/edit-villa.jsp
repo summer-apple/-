@@ -194,7 +194,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="form-group">
 									<label class="col-sm-2 control-label" for="description">别墅详情</label>
 									<div class="col-sm-10">
-									<textarea id="description" name="description" class="form-control wysihtml5" data-stylesheet-url="assets/js/wysihtml5/lib/css/wysiwyg-color.css" name="sample_wysiwyg" id="sample_wysiwyg">${villa.description}</textarea>
+									<textarea id="description" name="description" class="form-control wysihtml5" data-stylesheet-url="../resources/js/wysihtml5/lib/css/wysiwyg-color.css" name="sample_wysiwyg" id="sample_wysiwyg">${villa.description}</textarea>
 									</div>
 								</div>
 
@@ -617,7 +617,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 window.delImg = function(id){
 	
 	$.ajax({
-	        url:'img/delImg?id='+id,
+	        url:'img/delVillaImg?id='+id,
 	        type:'post',
 	        dataType:'json',
 	        success:function(data){

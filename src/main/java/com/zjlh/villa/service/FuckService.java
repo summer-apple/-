@@ -33,9 +33,13 @@ public class FuckService {
 	@Autowired
 	private CommentService cs;
 	
+	@Autowired
+	private VillaService vs;
+	
 	
 	public String fuck() {
 		
+		os.commented(134);
 		
 		
 		

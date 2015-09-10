@@ -17,12 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -59,16 +61,27 @@ public class OrdersAction extends ActionSupport {
 			IntrospectionException {
 		request = ServletActionContext.getRequest();
 		response = ServletActionContext.getResponse();
-
+		PrintWriter out = response.getWriter();
+		
 		String data = request.getParameter("data");
 		JSONObject obj = JSONObject.fromObject(data);
 
+		
+		
 		// 更新用户资料
 		int memberid = obj.getInt("member");
 		String truename = obj.getString("truename");
 		String email = obj.getString("email");
 		String phone = obj.getString("phone");
+		
+		if (StringUtils.isBlank(truename) || StringUtils.isBlank(email) || StringUtils.isBlank(phone)) {
+			out.print(0);
+			out.close();
+			return;
+		}
+		
 		ms.update(memberid, truename, email, phone);
+		request.getSession().setAttribute("member", ms.getMember(memberid));
 
 		// 格式化日期
 		String startDay = obj.getString("startDay");
@@ -101,7 +114,7 @@ public class OrdersAction extends ActionSupport {
 		// 设置session
 		request.getSession().setAttribute("data", prePayReturn);
 
-		PrintWriter out = response.getWriter();
+		
 		out.print(JSONObject.fromObject(prePayReturn));
 		out.close();
 
@@ -155,7 +168,7 @@ public class OrdersAction extends ActionSupport {
 			os.paidSuccess(Integer.parseInt(payReturn.getOut_trade_no()));
 		}
 
-		System.out.println(payReturn.getResult_code());
+		System.out.println("******************微信后台 支付是否成功的标志**************************"+payReturn.getResult_code());
 	}
 
 	public static final String inputStream2String(InputStream in)

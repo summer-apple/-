@@ -114,8 +114,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 }
 
 
-
-
 		</style>
 
 		
@@ -129,7 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a class="search-icon" href="javascript:void(0);"><span class="fa fa-search"></span></a>
 			</div>
 		<form role="form" id="qry-form" class="qry-form" action="" method="post">
-			<input id="memberid" name="memberid" type="hidden" value="${member.id}">
+			<input id="memberid" name="memberid" type="hidden" value="15"><!-- ${member.id} -->
 			<input id="pageNo" name="pageNo" type="hidden" value="0">
 			<input id="pageSize" name="pageSize" type="hidden" value="10">
 			
@@ -149,6 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 			<%@include file="foot.jsp"  %>
 			<%@include file="menu.jsp"  %>
+
 		</div>
 
 		
@@ -260,21 +259,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						return "--";
 					}
 				}
+
+
 			//操作按钮判断
 
-				function operation(state,id){
+				function operation(state,id,villa){
 					if (state==1) {
 						return '<a class="complete-btn"  onclick=complete("'+id+'")>完成订单</a>'+
 								'<a class="cancel-btn" href="tel:10086">取消订单</a>'+
-								'<a class="comment-btn" style="display:none;"  onclick=comment("'+id+'")>评 价</a>';
+								'<a class="comment-btn" href="mobile/comment?id='+id+'&villa='+villa+'">评 价</a>';
 					}else if(state==2){
-						return '<a class="comment-btn"  onclick=comment("'+id+'")>评 价</a>';
+						return '<a class="comment-btn" href="mobile/comment?id='+id+'&villa='+villa+'">评 价</a>';
 					}else{
 						return "";
 					}
 				}
 				
-			
+				
 
 			window.qry = function(){
 				var params = $("#qry-form").serializeArray();
@@ -320,7 +321,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								'	<div class="order-operate">'+
 								'		<span class="orderid">订单ID:'+item.id+'</span>'+
 								'		<div class="operations">'+
-								operation(item.state,item.id)+
+								operation(item.state,item.id,item.villa)+
 								'		</div>'+
 								'	</div>'+
 								'</div>'
@@ -358,6 +359,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            });
 			}
 
+			
+
 			//滚动
 
 			 $(window).scroll(function() {
@@ -371,6 +374,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 }
                 
             });
+
+
+			
 
 
 			

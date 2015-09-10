@@ -398,6 +398,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 	<link rel="stylesheet" href="resources/js/wysihtml5/src/bootstrap-wysihtml5.css">
+
 	<script src="resources/js/wysihtml5/lib/js/wysihtml5-0.3.0.js"></script>
 	<script src="resources/js/wysihtml5/src/bootstrap-wysihtml5.js"></script>
 
@@ -596,7 +597,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 window.delImg = function(id){
 	
 	$.ajax({
-	        url:'img/delImg?id='+id,
+	        url:'img/delVillaImg?id='+id,
 	        type:'post',
 	        dataType:'json',
 	        success:function(data){

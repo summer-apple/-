@@ -32,29 +32,27 @@ import org.hibernate.annotations.Formula;
 public class Comment implements java.io.Serializable {
 
 	private Integer id;
-	private Integer member;
+	private Integer orderid;
 	private Integer villa;
-	private Integer order;
 	private Integer star;
 	private String content;
-	private Date time;
+	private Date commentDay;
 	
 	private String memberName;
 	private String memberHead;
 	
-	private Set<CommentImg> img = new HashSet<CommentImg>();
+	private Set<Img> img = new HashSet<Img>();
+	
 
 	public Comment() {
 	}
 
-	public Comment(Integer member, Integer villa, Integer order, Integer star,
-			String content, Date time) {
-		this.member = member;
-		this.villa = villa;
-		this.order = order;
+	public Comment(Integer orderid, Integer star,
+			String content, Date commentDay) {
+		this.orderid = orderid;
 		this.star = star;
 		this.content = content;
-		this.time = time;
+		this.commentDay = commentDay;
 	}
 
 	@Id
@@ -68,31 +66,15 @@ public class Comment implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "member")
-	public Integer getMember() {
-		return this.member;
+
+
+	@Column(name = "orderid")
+	public Integer getOrderid() {
+		return this.orderid;
 	}
 
-	public void setMember(Integer member) {
-		this.member = member;
-	}
-
-	@Column(name = "villa")
-	public Integer getVilla() {
-		return this.villa;
-	}
-
-	public void setVilla(Integer villa) {
-		this.villa = villa;
-	}
-
-	@Column(name = "order")
-	public Integer getOrder() {
-		return this.order;
-	}
-
-	public void setOrder(Integer order) {
-		this.order = order;
+	public void setOrderid(Integer orderid) {
+		this.orderid = orderid;
 	}
 
 	@Column(name = "star")
@@ -114,16 +96,16 @@ public class Comment implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "time", length = 19)
-	public Date getTime() {
-		return this.time;
+	@Column(name = "comment_Day", length = 19)
+	public Date getCommentDay() {
+		return this.commentDay;
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
+	public void setCommentDay(Date commentDay) {
+		this.commentDay = commentDay;
 	}
 	
-	@Formula("(select m.nickname from Member m where m.id = member)")
+	@Formula("(select Member.nickname from (Comment join Orders on Comment.orderid  = Orders.id) join  Member on Orders.member = Member.id where Orders.id = orderid)")
 	public String getMemberName() {
 		return memberName;
 	}
@@ -132,7 +114,7 @@ public class Comment implements java.io.Serializable {
 		this.memberName = memberName;
 	}
 	
-	@Formula("(select m.headimgurl from Member m where m.id = member)")
+	@Formula("(select Member.headimgurl from (Comment join Orders on Comment.orderid  = Orders.id) join  Member on Orders.member = Member.id where Orders.id = orderid)")
 	public String getMemberHead() {
 		return memberHead;
 	}
@@ -140,6 +122,8 @@ public class Comment implements java.io.Serializable {
 	public void setMemberHead(String memberHead) {
 		this.memberHead = memberHead;
 	}
+
+	
 	
 	@JoinTable(name = "CommentImg",
 			joinColumns = @JoinColumn(name = "comment",
@@ -147,15 +131,22 @@ public class Comment implements java.io.Serializable {
 			inverseJoinColumns = @JoinColumn(name = "img", 
 			referencedColumnName = "id",unique=false))
 	@ManyToMany(fetch=FetchType.EAGER)
-	public Set<CommentImg> getImg() {
+	public Set<Img> getImg() {
 		return img;
 	}
 
-	public void setImg(Set<CommentImg> img) {
+	public void setImg(Set<Img> img) {
 		this.img = img;
 	}
+	@Column(name = "villa")
+	public Integer getVilla() {
+		return villa;
+	}
 
-	//OneToMany
+	public void setVilla(Integer villa) {
+		this.villa = villa;
+	}
+
 
 	
 	

@@ -155,13 +155,13 @@ img.head-img {
 
 						<div class="user-info-warp">
 							<div class="form-group">
-								<input id="truename" type="text" name="truename" placeholder="姓名*" required>
+								<input id="truename" type="text" name="truename" placeholder="姓名*" value="${member.truename}" required>
 							</div>
 							<div class="form-group">
-								<input id="phone" type="tel" name="phone" placeholder="手机*" required>
+								<input id="phone" type="tel" name="phone" placeholder="手机*" value="${member.phone}" required>
 							</div>
 							<div class="form-group">
-								<input id="email" type="email" name="email" placeholder="邮箱*" required>
+								<input id="email" type="email" name="email" placeholder="邮箱*" value="${member.email}" required>
 							</div>
 						</div>
 
@@ -220,7 +220,7 @@ img.head-img {
 		
 		
 		<script type="text/javascript" src="resources/js/jquery-1.11.1.min.js"></script>
-		<!-- <script src="resources/js/bootstrap.min.js"></script> -->
+	<!-- 	<script src="resources/js/jquery-validate/jquery.validate.min.js"></script> -->
 		<script type="text/javascript" src="resources/js/jquery.mmenu.min.all.js"></script>
 		<script type="text/javascript">
 			$(function() {
@@ -253,6 +253,8 @@ img.head-img {
 		
 		<script type="text/javascript">
 		$().ready(function(){
+
+	
 
 			//获取地址栏参数 调用getUrlParam(name)方法
 	
@@ -375,7 +377,7 @@ img.head-img {
 
 //调用JSAPI进行支付
 		function onBridgeReady(){
-			alert($appId +" "+$timeStamp + " "+$nonceStr + " "+$package + " "+$paySign);
+			//alert($appId +" "+$timeStamp + " "+$nonceStr + " "+$package + " "+$paySign);
 
 		   WeixinJSBridge.invoke(
 		       'getBrandWCPayRequest', {
@@ -388,9 +390,12 @@ img.head-img {
 		       },
 		       function(res){     
 			       
-			       alert(res.err_code+" "+res.err_msg+" "+res.err_desc)
+			       //alert(res.err_code+" "+res.err_msg+" "+res.err_desc)
 		           if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-		           		alert("页面消息返回:OK");
+		           		//alert("页面消息返回:OK");
+
+		           		//查询后台返回结果
+
 		           }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
 		       }
 		   ); 
@@ -431,14 +436,19 @@ img.head-img {
 	                type:'post',
 	                dataType:'json',
 	                success:function(data){
-	                	$("#id").val(data.orderid);
-	                	$appId = data.appid;
-	                	$timeStamp = data.timestamp;
-	                	$nonceStr = data.nonce_str;
-						$package = "prepay_id=" + data.prepay_id;
-						$paySign = data.sign;
+	                	if (data==0) {
+	                		alert("请填写完整订单信息！");
+	                	}else{
+	                		$("#id").val(data.orderid);
+		                	$appId = data.appid;
+		                	$timeStamp = data.timestamp;
+		                	$nonceStr = data.nonce_str;
+							$package = "prepay_id=" + data.prepay_id;
+							$paySign = data.sign;
 
-	                	callpay();
+		                	callpay();
+	                	}
+	                	
 	                	//window.location.href="mobile/pay";
 		                }
 		            });

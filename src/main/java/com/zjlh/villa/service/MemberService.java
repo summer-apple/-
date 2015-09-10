@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +32,13 @@ public class MemberService {
 	
 	public void update(int id,String truename,String email,String phone) {
 		Member member = dao.get(Member.class, id);
-		if (member.getTruename()==null) {
+		if (StringUtils.isBlank(member.getTruename())) {
 			member.setTruename(truename);
 		}
-		if (member.getEmail()==null) {
+		if (StringUtils.isBlank(member.getEmail())) {
 			member.setEmail(email);
 		}
-		if (member.getPhone()==null) {
+		if (StringUtils.isBlank(member.getPhone())) {
 			member.setPhone(phone);
 		}
 		dao.update(member);
