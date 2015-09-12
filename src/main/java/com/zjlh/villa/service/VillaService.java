@@ -1,6 +1,7 @@
 package com.zjlh.villa.service;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -221,7 +222,7 @@ public class VillaService {
 				i++;
 			}
 			
-			sb.append(" order by id");
+			sb.append(" order by weight desc,id asc");
 			List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
 			long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -236,16 +237,19 @@ public class VillaService {
 	
 	public void updateStar(int id) {
 		Villa villa = dao.get(Villa.class, id);
-		Double d = (Double) dao.sqlQry("SELECT AVG(star) FROM Comment WHERE villa ="+id);
+		BigDecimal bd = (BigDecimal) dao.sqlQry("SELECT AVG(star) FROM Comment WHERE villa ="+id);
+		
+		double d = bd.doubleValue();
+		
 		System.out.println(d);
 		int star = 100;
-		if (d<=20) {
+		if (d<=20.0) {
 			star=20;
-		}else if (d<20 && d<=40) {
+		}else if (d<=40.0) {
 			star=40;
-		}else if (d<40 && d<=60) {
+		}else if (d<=60.0) {
 			star=60;
-		}else if(d<60 && d<=80) {
+		}else if(d<=80.0) {
 			star=80;
 		}
 		villa.setStar(star);

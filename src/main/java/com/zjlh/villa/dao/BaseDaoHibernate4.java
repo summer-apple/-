@@ -288,7 +288,7 @@ public class BaseDaoHibernate4<T> implements BaseDao<T> {
 		getSessionFactory().getCurrentSession().createSQLQuery(sql).executeUpdate();
 	}
 	public Object sqlQry(String sql) {
-		return getSessionFactory().getCurrentSession().createSQLQuery(sql).list();
+		return getSessionFactory().getCurrentSession().createSQLQuery(sql).uniqueResult();
 	}
 	
 	

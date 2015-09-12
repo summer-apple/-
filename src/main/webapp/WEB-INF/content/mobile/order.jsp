@@ -124,10 +124,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a id="menu-btn" href="#menu"><span class="fa fa-list-ul"></span></a>
 				<!-- <a class="platform-title-link" href="#qry-form"><span class="platform-title">ONE GO.</span></a> -->
 				<span class="platform-title">我的订单</span>
-				<a class="search-icon" href="javascript:void(0);"><span class="fa fa-search"></span></a>
+				<a class="search-icon" href="mobile/index"><span class="fa fa-search"></span></a>
 			</div>
 		<form role="form" id="qry-form" class="qry-form" action="" method="post">
-			<input id="memberid" name="memberid" type="hidden" value="15"><!-- ${member.id} -->
+			<input id="memberid" name="memberid" type="hidden" value="${member.id}"><!-- ${member.id} -->
 			<input id="pageNo" name="pageNo" type="hidden" value="0">
 			<input id="pageSize" name="pageSize" type="hidden" value="10">
 			

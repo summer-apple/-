@@ -121,7 +121,7 @@ font-size: 0.8em;
 				<a id="menu-btn" href="#menu"><span class="fa fa-list-ul"></span></a>
 				<!-- <a class="platform-title-link" href="#qry-form"><span class="platform-title">ONE GO.</span></a> -->
 				<span class="platform-title">订单评价</span>
-				<a class="search-icon" href="javascript:void(0);"><span class="fa fa-search"></span></a>
+				<a class="search-icon" href="mobile/index"><span class="fa fa-search"></span></a>
 			</div>
 		
 
@@ -370,6 +370,8 @@ font-size: 0.8em;
 	                    	$("#comment-id").html(data);
 	                    	alert("保存成功...");
 	                    	history.back();
+	                    }else{
+	                    	alert("评论出错！");
 	                    }
 	                }
 	            });

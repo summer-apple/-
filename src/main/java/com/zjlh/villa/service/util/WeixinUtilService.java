@@ -341,7 +341,7 @@ System.out.println(subscribeTime);
 		
 		Menu menu = new Menu();
 		ViewButton button11 = new ViewButton();
-		button11.setName("别墅预约");
+		button11.setName("别墅预定");
 		button11.setType("view");
 		button11.setUrl(btn1url);
 		

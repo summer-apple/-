@@ -9,7 +9,7 @@
 							精选</a>
 						</li>
 						<li class="fo-btn-item">
-							<a href="mobile/test">
+							<a href="mobile/destination">
 							<span class="fa fa-map-marker"></span>
 							目的地</a>
 						</li>

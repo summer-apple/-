@@ -72,6 +72,7 @@ public class CommentAction {
 		Comment comment = (Comment) JSONObject.toBean(obj,Comment.class);
 	
 		int commentid = 0;
+		boolean addImgFlag = false;
 		if (!cs.verifyComment(comment.getOrderid())) {
 			comment.setCommentDay(new Date());
 			if (comment.getContent()==null||comment.getContent().equals("")) {
@@ -81,10 +82,11 @@ public class CommentAction {
 			
 			//更新别墅评分
 			vs.updateStar(comment.getVilla());
+			addImgFlag = true;
 		}
 		
 		
-		if (!img[0].equals("null")) {
+		if (addImgFlag && !img[0].equals("null")) {
 			List<Img> imglist = is.getImgByIDs(img);
 			is.addCommentImgList(imglist, commentid);
 		}

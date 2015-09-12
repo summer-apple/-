@@ -291,11 +291,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                		$(".content").append(
 	                			'<div class="villa-warp">'+
 									'<div class="villa-head-warp">'+
-										'<img src="'+ imgurl +'">'+
+										'<a href="mobile/villa?id='+item.id+'"><img src="'+ imgurl +'"></a>'+
 									'</div>'+
 									'<div class="villa-info-warp">'+
 										'<div class="villa-info-line1">'+
-											'<div class="villa-info-left villa-name-info">'+ item.name +'</div>'+
+											'<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name +'</a></div>'+
 											'<div class="villa-info-right order-now-link"><a href="mobile/villa?id='+item.id+'">立即预定</a></div>'+
 										'</div>'+
 										'<div class="villa-info-line2">'+
@@ -448,6 +448,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			// 	$("#lowPrice").val("");
 			// 	$("#highPrice").val("");
 			// });
+
 
 
 			//点击省份
