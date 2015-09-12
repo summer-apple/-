@@ -227,14 +227,52 @@ public class VillaService {
 			long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("list", list);
-			map.put("amount", amount/pageSize+1);
+			if (amount==0) {
+				map.put("amount", 0);
+			}else {
+				map.put("amount", amount/pageSize+1);
+			}
+			return map;
+		}	
+	
+		public Map<String,Object> qryDestination(String province,String city, int pageNo,int pageSize){
+			
+			List<Object> values = new ArrayList<Object>();
+			String hql = "FROM Villa WHERE 1=1 ";
+			//String hql = "FROM Villa  WHERE 1=1 ";
+			int i=0;
+			StrBuilder sb = new StrBuilder(hql);		
+			if (!"省份".equals(province) && StringUtils.isNotBlank(province)) {		
+				sb.append(" and province like ?"+String.valueOf(i));
+				values.add(province);
+				i++;
+			}
+			if (!"地级市".equals(city) && StringUtils.isNotBlank(city)) {		
+				sb.append(" and city like ?"+String.valueOf(i));
+				values.add(city);
+				i++;
+			}
+			
+			sb.append(" order by weight desc,id asc");
+			List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
+			long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			if (amount==0) {
+				map.put("amount", 0);
+			}else {
+				map.put("amount", amount/pageSize+1);
+			}
+			
 			return map;
 		}	
 	
 	
 	
-	
-	
+/**
+ * 更新星级	
+ * @param id
+ */
 	public void updateStar(int id) {
 		Villa villa = dao.get(Villa.class, id);
 		BigDecimal bd = (BigDecimal) dao.sqlQry("SELECT AVG(star) FROM Comment WHERE villa ="+id);

@@ -245,6 +245,24 @@ public class VillaAction extends ActionSupport {
 		out.close();
 	}
 	
+	@Action("/villa/qryDestination")
+	public void qryDestination() throws IOException {
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+
+		String data = request.getParameter("data");
+		JSONObject object = JSONObject.fromObject(data);
+		Map<String,Object> map = vs.qryDestination(object.getString("province"),
+				object.getString("city"),
+				Integer.parseInt(object.getString("pageNo")),
+				Integer.parseInt(object.getString("pageSize")));
+
+		JSONObject obj = JSONObject.fromObject(map);
+		PrintWriter out = response.getWriter();
+		out.print(obj);
+		out.close();
+	}
+	
 	
 	@Action("/villa/getVilla")
 	public String getVilla() throws IOException{
