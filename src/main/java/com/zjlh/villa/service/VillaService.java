@@ -275,7 +275,7 @@ public class VillaService {
  */
 	public void updateStar(int id) {
 		Villa villa = dao.get(Villa.class, id);
-		BigDecimal bd = (BigDecimal) dao.sqlQry("SELECT AVG(star) FROM Comment WHERE villa ="+id);
+		BigDecimal bd = (BigDecimal) dao.sqlQryUnique("SELECT AVG(star) FROM Comment WHERE villa ="+id);
 		
 		double d = bd.doubleValue();
 		

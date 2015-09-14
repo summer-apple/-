@@ -2,6 +2,7 @@ package com.zjlh.villa.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.zjlh.villa.dao.MemberDaoHibernate4;
 import com.zjlh.villa.entity.Member;
+import com.zjlh.villa.service.util.message.config.AppConfig;
+import com.zjlh.villa.service.util.message.lib.MESSAGEXsend;
+import com.zjlh.villa.service.util.message.utils.ConfigLoader;
 
 @Service
 public class MemberService {
@@ -60,5 +64,31 @@ public class MemberService {
 	
 	public Member getMember(int id) {
 		return dao.get(Member.class, id);
+	}
+	
+	public List<String> getPhoneList() {
+		String sql = "select phone from Member where phone is not null and char_length(phone)=11";
+		List<String> phoneList =  (List<String>) dao.sqlQryList(sql);
+		return phoneList;
+	}
+	
+	public List<String> getBirthdayPhoneList() {
+
+		
+		
+		String sql = "select m.phone from Member m where m.phone is not null and char_length(m.phone)=11 and MONTH(m.birthday)=MONTH(NOW()) and  DAYOFMONTH(m.birthday)=DAYOFMONTH(NOW())";
+		List<String> phoneList =  (List<String>) dao.sqlQryList(sql);
+		return phoneList;
+	}
+	
+	public void sendMessage(List<String> phonelist,String project,String code){
+		for (int i = 0; i < phonelist.size(); i++) {
+			AppConfig config = ConfigLoader.load(ConfigLoader.ConfigType.Message);
+			MESSAGEXsend submail = new MESSAGEXsend(config);
+			submail.addTo(phonelist.get(i));
+			submail.setProject(project);
+			submail.addVar("code", code);
+			submail.xsend();
+		}
 	}
 }

@@ -301,53 +301,7 @@ ul.select-list {
 
 
 
-.foot-blank-box {
-    width: 100%;
-    height: 100px;
-    background-color: #EFEFEF;
-    clear: both;
-}
 
-footer {
-	position: fixed;
-    bottom: 0px;
-    width: 100%;
-    height: 55px;
-    background-color: #FFF;
-}
-
-.fo-btn-list {
-	width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.fo-btn-item {
-    width: 33.33%;
-    display: block;
-    height: 100%;
-    float: left;
-}
-
-.fo-btn-item span {
-    display: block;
-    width: 100%;
-    height: 20px;
-    margin-top: 9px;
-    font-size: 2em;
-    text-align: center;
-    color:#888;
-    margin-bottom: 3px;
-}
-.fo-btn-item a {
-	font-size: 1em;
-    text-align: center;
-    display: block;
-    width: 100%;
-    margin-top:3px;
-    color:#888;
-}
 </style>
 		
 

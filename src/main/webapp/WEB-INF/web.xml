@@ -7,6 +7,9 @@
   <listener>
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
+   <listener>
+    <listener-class>com.zjlh.villa.listener.BirthdayMessageSender</listener-class>
+  </listener>
  
   <filter>
     <filter-name>EcodingFilter</filter-name>

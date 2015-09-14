@@ -80,22 +80,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<div class="row">
 					<div class="col-sm-10">
+						<a href="javascript:;" onclick="jQuery('#modal-1').modal('show', {backdrop: 'fade'});" class="btn btn-primary btn-single btn-sm">发送短信</a>
+					</div>
+					<div class="col-sm-10" style="display:none;">
 						
 
 						<form class="form-inline" id="qry-form" action="" method="post">
-							<!-- <div class="form-group"> 
-								<input id="qry-id" name="id" class="form-control" type="text" placeholder="商户ID">
-							</div>
-							<div class="form-group"> 
-								<input id="address" name="address" class="form-control" type="text" placeholder="商户地址">
-							</div>
-							<div class="form-group"> 
-								<input id="name" name="name" class="form-control" type="text" placeholder="商户名称">
-							</div>
-							
-							<div class="form-group">
-								<button id="qry-btn" type="button" class="btn btn-primary btn-single btn-sm">查 询</button>
-							</div> -->
 							
 							<div class="form-group"> 
 								<input id="pageNo" name="pageNo" class="form-control" type="hidden" value="0" placeholder="页码">
@@ -168,6 +158,70 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<div class="page-loading-overlay">
 		<div class="loader-2"></div>
+	</div>
+
+
+
+
+<div class="modal fade" id="modal-1" style="display: none;" aria-hidden="true">
+<form id="msg-form" action="" method="post">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title">短信信息</h4>
+				</div>
+				
+				<div class="modal-body">
+				
+					<div class="row">
+						<div class="col-md-12">
+							
+							<div class="form-group">
+								<label for="field-1" class="control-label">短信模板代码</label>
+								
+								<input type="text" class="form-control" id="project" name="project" placeholder="短信模板代码">
+							</div>	
+							
+						</div>
+						
+						
+					</div>
+				
+					<div class="row">
+						<div class="col-md-12">
+							
+							<div class="form-group no-margin">
+								<label for="field-7" class="control-label">联系人</label>
+								
+								<textarea class="form-control autogrow" id="phonelist" name="phonelist" placeholder="请输入十一位手机号码，用英文状态逗号隔开。不填为发送给所有人。" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+							</div>	
+							
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							
+							<div class="form-group no-margin">
+								<label for="field-7" class="control-label">自定义文字</label>
+								
+								<textarea class="form-control autogrow" id="code" name="code" placeholder="用于替代模板中的可自定义区域" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;"></textarea>
+							</div>	
+							
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white send-cancel-btn" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-info send-msg-btn">发送</button>
+				</div>
+			</div>
+		</div>
+		</form>
 	</div>
 
 
@@ -349,123 +403,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            
 		}
 		
-// //添加
 
-// 	$("#add-btn").click(function(){
-// 			var params = $("#add-form").serializeArray();
-//             var j = {};
-//             for (var item in params) {
-//                 j[params[item].name] = params[item].value;
-//             }
-//             $.ajax({
-//                 url:'store/addStore',
-//                 data: {data:JSON.stringify(j)},
-//                 type:'post',
-//                 dataType:'json',
-//                 success:function(data){
-//                     if (data==0) {
-//                     	alert("该设施已存在...");
-//                     	qry();
-//                     }else{
-//                     	alert("保存成功...");
-//                     	qry();
-//                     }
-//                 }
-//             });
-// 		});
+//发送短信
+		$(".send-msg-btn").click(function(){
+			var params = $("#msg-form").serializeArray();
+            var j = {};
+            for (var item in params) {
+                j[params[item].name] = params[item].value;
+            }
 
-//删除
+            $.ajax({
+                url:'member/messgae',
+                data: {data:JSON.stringify(j)},
+                type:'post',
+                dataType:'json',
+                success:function(data){
+                	if (data) {
+                		$(".send-cancel-btn").click();
+                		alert("信息已发送")
+                	}else{
+                		alert("信息发送出错，请检查信息");
+                	}
+              }     
+			});
+		});
 
-	// window.del = function(id){
-	// 	$.ajax({
- //                url:'store/delStore?id='+id,
- //                type:'post',
- //                dataType:'json',
- //                success:function(data){
- //                	if (data==true) {
- //                    	alert("删除成功...");
- //                   		qry();
- //                    }else{
- //                    	alert("该设施已被引用，无法删除...");
- //                    }
-                   
- //                }
- //            });
-	// }
-
-//关闭新增商店面板
-	// $(".close-panel").click(function(){
-	// 	$(".add-panel").hide();
-	// });
-//打开新增商店面板
-	// $(".open-panel").click(function(){
-	// 	$("#add-form")[0].reset();
-	// 	$("#add-btn").show();
-	// 	$("#update-btn").hide();
-	// 	$(".add-panel").show();
-	// });
-
-//编辑
-	// window.edit = function(id){
-	// 	$("#add-form")[0].reset();
-		
-	// 	$("#add-form #id").val(id);
-
-	// 	$("#add-btn").hide();
-	// 	$("#update-btn").show();
-
-	// 	$.ajax({
-	//                 url:'store/getStore?id='+id,
-	//                 type:'post',
-	//                 dataType:'json',
-	//                 success:function(data){
-	//                 	$("#add-form #name").val(data.name);
-	//                 	$("#add-form #ownerName").val(data.ownerName);
-	//                 	$("#add-form #age").val(data.age);
-	//                 	$("#add-form #idCard").val(data.idCard);
-	//                 	$("#add-form #mobilephone").val(data.mobilephone);
-	//                 	$("#add-form #telephone").val(data.telephone);
-	//                 	$("#add-form #weight").val(data.weight);
-	//                 	$("#add-form #address").val(data.address);
-
-	//                 	if (data.gender==1) {	                		
-	//                 		$("#add-form #gender-male").removeAttr("checked");
-	//                 		$("#add-form #gender-female").attr("checked",true);
-	//                 	}else{
-	// 						$("#add-form #gender-female").removeAttr("checked");
-	//                 		$("#add-form #gender-male").attr("checked",true);
-	//                 	}
-	//                 }
-	//            });
-		
-	// 	$(".add-panel").show();
-	// }
-
-
-//更新
-
-	// $("#update-btn").click(function(){
-	// 		var params = $("#add-form").serializeArray();
- //            var j = {};
- //            for (var item in params) {
- //                j[params[item].name] = params[item].value;
- //            }
- //            $.ajax({
- //                url:'store/updateStore',
- //                data: {data:JSON.stringify(j)},
- //                type:'post',
- //                dataType:'json',
- //                success:function(data){
- //                    if (data==true) {
- //                    	alert("更新成功...");
- //                    	qry();
- //                    }else{
- //                    	alert("更新失败...");
- //                    	qry();
- //                    }
- //                }
- //            });
-	// 	});
 
 	 });
 	</script>
