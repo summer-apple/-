@@ -1,9 +1,11 @@
 package com.zjlh.villa.service;
 
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -94,8 +96,9 @@ public class VillaService {
  * @param pageNo 页码
  * @param pageSize 每页别墅数量
  * @return
+ * @throws UnsupportedEncodingException 
  */
-	public Map<String,Object> qryVilla(String province,String highPrice,String lowPrice,String bedroom, int pageNo,int pageSize){
+	public Map<String,Object> qryVilla(String province,String highPrice,String lowPrice,String bedroom, int pageNo,int pageSize) throws UnsupportedEncodingException{
 		
 		List<Object> values = new ArrayList<Object>();
 		String hql = "FROM Villa WHERE 1=1 ";
@@ -130,6 +133,18 @@ public class VillaService {
 		
 		sb.append(" order by id");
 		List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
+		
+		
+		for (int j = 0; j < list.size(); j++) {
+			Villa v = list.get(j);
+			String secound_redirect = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/mobile/villa?id="+v.getId(),"UTF-8");
+			String redirect_url = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/weixin/login?rd="+secound_redirect, "UTF-8");
+			v.setQrcode("http://qr.liantu.com/api.php?w=500&text="+redirect_url);
+		}
+		
+		
+		
+		
 		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);

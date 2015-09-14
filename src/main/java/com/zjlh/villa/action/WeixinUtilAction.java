@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -203,7 +204,7 @@ System.out.println("content="+content);
 	
 	
 	@Action("/weixin/login")
-	public String login() throws ParseException, IOException{
+	public void login() throws ParseException, IOException, ServletException{
 		HttpServletRequest request = ServletActionContext.getRequest();
 	    HttpServletResponse response = ServletActionContext.getResponse();
 	    
@@ -220,11 +221,9 @@ System.out.println("content="+content);
 	    	 System.out.println(member.getNickname());
 		}
 	   
-	    
-	    //System.out.println(JSONObject.fromObject(member).toString());
 	    request.getSession().setAttribute("member", member);
 	    
-	    return "test";
+	    response.sendRedirect(rd);
 
 	}
 

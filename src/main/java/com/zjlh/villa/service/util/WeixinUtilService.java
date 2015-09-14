@@ -335,7 +335,8 @@ System.out.println(subscribeTime);
 	 * @throws UnsupportedEncodingException 
 	 */
 	public static Menu initMenu() throws UnsupportedEncodingException{
-		String redirect_url = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/weixin/login?rd=aaaa", "UTF-8");
+		String secound_redirect = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/mobile/index","UTF-8");
+		String redirect_url = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/weixin/login?rd="+secound_redirect, "UTF-8");
 		String btn1url = AUTHOR_URL.replace("APPID", APPID).replace("SCOPE", "snsapi_userinfo").replace("REDIRECT_URI", redirect_url);
 		
 		

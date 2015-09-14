@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -26,6 +27,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Formula;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -53,6 +55,7 @@ public class Villa implements java.io.Serializable {
 	private Set<Svs> svs =new HashSet<Svs>();//(List<Svs>) new HashSet<Svs>();
 	private Set<Facility> facility = new HashSet<Facility>();
 	private Set<Img> img = new HashSet<Img>();
+	private String qrcode;
  	
 	
 	public Villa() {
@@ -258,5 +261,15 @@ public class Villa implements java.io.Serializable {
 		this.img = img;
 	}
 
+	@Transient
+	public String getQrcode() {
+		return qrcode;
+	}
 
+	public void setQrcode(String qrcode) {
+		this.qrcode = qrcode;
+	}
+
+
+	
 }
