@@ -252,7 +252,7 @@ System.out.println(prePayReturn.getSign());
 	 *            特殊价格
 	 * @return
 	 */
-	public double calculate(Date date1, Date date2, int period1, int period2,
+	public String calculate(Date date1, Date date2, int period1, int period2,
 			double normalPrice, double specialPrice) {
 		/**
 		 * a 日期差  //b 时段差  //总时段数 c = 2a + b + 1  //总天数 d = a+1
@@ -328,7 +328,7 @@ System.out.println(prePayReturn.getSign());
 			}
 			System.out.println(amount);
 		}
-		return amount;
+		return new java.text.DecimalFormat("#.00").format(amount);
 	}
 	
 	
@@ -408,7 +408,13 @@ System.out.println(prePayReturn.getSign());
 		List<Orders> list = dao.findByPage(sb.toString(), pageNo, pageSize,values);
 		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("amount", amount/pageSize+1);
+		if (amount==0) {
+			map.put("amount", 0);
+		}else if (amount <= pageSize) {
+			map.put("amount", 1);
+		}else {
+			map.put("amount", amount/pageSize+1);
+		}
 		map.put("list", list);
 		return map;
 	}
