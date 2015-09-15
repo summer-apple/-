@@ -19,19 +19,18 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.support.DaoSupport;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.zjlh.villa.entity.Member;
 import com.zjlh.villa.entity.Orders;
 import com.zjlh.villa.entity.weixin.po.PayReturn;
 import com.zjlh.villa.entity.weixin.po.PrePayReturn;
@@ -50,6 +49,8 @@ public class OrdersAction extends ActionSupport {
 	private HttpServletRequest request;
 	@Autowired
 	private HttpServletResponse response;
+	
+	private static final Logger logger = Logger.getLogger(OrdersAction.class);
 
 	// 微信返回 fail 失败，success 成功
 	private static final String STATUC_SUCCESS = "success";

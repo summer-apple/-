@@ -15,8 +15,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.http.ParseException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -44,6 +46,8 @@ public class OrdersService {
 	private MapToBean mapToBean;
 	@Autowired
 	private CommentService cs;
+	
+	private static final Logger logger = Logger.getLogger(OrdersService.class);
 	
 	private static final String KEY = "zhejianglehuazhejianglehuaonegoo";
 	private static final String APPID = "wxdbc2bbdebe5808ab";
@@ -93,11 +97,12 @@ public class OrdersService {
 		
 		xstream.alias("xml", payParam.getClass());
 		
-System.out.println(xstream.toXML(payParam).replace("__", "_"));
+
+logger.info(xstream.toXML(payParam).replace("__", "_"));
 		
 		//请求预支付接口
 		String result = weixinUtilService.post(UNIFIEDORDER,xstream.toXML(payParam).replace("__", "_"));
-System.out.println(result);
+logger.info(result);
 		//格式化返回数据
 		XStream xStream2 = new XStream(new DomDriver());
 		xStream2.alias("xml", PrePayReturn.class);
@@ -112,11 +117,12 @@ System.out.println(result);
 		//设置时间戳
 		String timestamp = Long.toString(new Date().getTime()/1000);
 		prePayReturn.setTimestamp(timestamp);
-		
-System.out.println(timestamp);		
-		
+
+
+logger.info(timestamp);		
 		prePayReturn.setSign(getPaySign(prePayReturn));
-System.out.println(prePayReturn.getSign());
+
+logger.debug(prePayReturn.getSign());
 		return prePayReturn;
 		
 		
@@ -148,7 +154,7 @@ System.out.println(prePayReturn.getSign());
 		
 		params.put("total_fee",i+"");
 		params.put("spbill_create_ip", ip);
-		params.put("notify_url", "http://gmcfe.tunnel.mobi/villa/order/notify");
+		params.put("notify_url", "http://zhejianglehua.com/villa/order/notify");
 		params.put("openid", orders.getOpenid());
 		
 		String sign = getSign(params);
@@ -156,6 +162,7 @@ System.out.println(prePayReturn.getSign());
 		
 		params.put("sign", sign);
 		
+		logger.debug(params);
 		return params;
 		
 	}
@@ -169,6 +176,7 @@ System.out.println(prePayReturn.getSign());
 		params.put("package", "prepay_id="+prePayReturn.getPrepay_id());
 		params.put("signType", "MD5");
 		
+		logger.debug(params);
 		return getSign(params);
 
 	}
@@ -211,7 +219,7 @@ System.out.println(prePayReturn.getSign());
 	        String  sign = algorithm.getMD5(stringSignTemp).toUpperCase();
 	        
 		
-		
+		logger.debug(sign);
 		return sign;
 	}
 	

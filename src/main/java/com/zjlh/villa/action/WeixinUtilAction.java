@@ -185,7 +185,7 @@ System.out.println("content="+content);
 
 	
 	@Action("/weixin/create-menu")
-	public void fuck() throws ParseException, IOException{
+	public void createMenu() throws ParseException, IOException{
 		
 		String menu = JSONObject.fromObject(WeixinUtilService.initMenu()).toString();		
 		String token = weixinUtilService.getAccessToken();
