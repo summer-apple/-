@@ -141,7 +141,7 @@ public class OrdersAction extends ActionSupport {
 		Date startDay = sdf.parse(request.getParameter("startDay"));
 		Date endDayDate = sdf.parse(request.getParameter("endDay"));
 
-		String money = os.calculate(startDay, endDayDate, startPeriod,
+		Double money = os.calculate(startDay, endDayDate, startPeriod,
 				endPeriod, normalPrice, specialPrice);
 
 		PrintWriter out = response.getWriter();
