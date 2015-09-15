@@ -148,7 +148,13 @@ public class VillaService {
 		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
-		map.put("amount", amount/pageSize+1);
+		if (amount==0) {
+			map.put("amount", 0);
+		}else if (amount <= pageSize) {
+			map.put("amount", 1);
+		}else {
+			map.put("amount", amount/pageSize+1);
+		}
 		return map;
 	}
 	
@@ -244,6 +250,8 @@ public class VillaService {
 			map.put("list", list);
 			if (amount==0) {
 				map.put("amount", 0);
+			}else if (amount <= pageSize) {
+				map.put("amount", 1);
 			}else {
 				map.put("amount", amount/pageSize+1);
 			}

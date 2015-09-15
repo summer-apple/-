@@ -18,6 +18,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<title>ONE GO</title>
 
 		<style type="text/css">
+		.content{
+			padding-top: 60px !important;
+		}
 .order-warp {
     width: 90%;
     margin-left: 5%;

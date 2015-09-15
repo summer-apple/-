@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletInputStream;
@@ -141,7 +142,7 @@ public class OrdersAction extends ActionSupport {
 		Date startDay = sdf.parse(request.getParameter("startDay"));
 		Date endDayDate = sdf.parse(request.getParameter("endDay"));
 
-		Double money = os.calculate(startDay, endDayDate, startPeriod,
+		String money = os.calculate(startDay, endDayDate, startPeriod,
 				endPeriod, normalPrice, specialPrice);
 
 		PrintWriter out = response.getWriter();
@@ -235,6 +236,21 @@ public class OrdersAction extends ActionSupport {
 		out.close();
 
 	
+	}
+	
+	@Action("/order/qryOrderedOrder")
+	public void qryOrderedOrder() throws IOException{
+		request = ServletActionContext.getRequest();
+		response = ServletActionContext.getResponse();
+		int villaid = Integer.parseInt(request.getParameter("villaid"));
+		String date = request.getParameter("date");
+		
+		Map<String, Object> list = os.qryOrderedOrder(villaid, date);
+		JSONObject object = JSONObject.fromObject(list);
+		PrintWriter out = response.getWriter();
+		out.print(object);
+		out.close();
+		
 	}
 	
 	
