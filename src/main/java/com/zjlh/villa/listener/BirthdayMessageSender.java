@@ -34,7 +34,7 @@ private MemberService ms;
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 17); // get 和 set 的字段数字，指示一天中的小时。
+		calendar.set(Calendar.HOUR_OF_DAY, 8); // get 和 set 的字段数字，指示一天中的小时。
 		calendar.set(Calendar.MINUTE, 30); // get 和 set 的字段数字，指示一小时中的分钟。
 											// calendar.set(Calendar.SECOND, 0);
 											// get 和 set 的字段数字，指示一分钟中的秒。
@@ -49,7 +49,7 @@ private MemberService ms;
 					ms.sendMessage(phoneList, "WT8BF2", "");
 				}
 			}
-		}, time,  5 * 60 * 1000);// 安排在指定的时间执行指定的任务。执行任务前的延迟时间，单位是毫秒。
+		}, time,  24 * 60 * 60 * 1000);// 安排在指定的时间执行指定的任务。执行任务前的延迟时间，单位是毫秒。
 	}
 
 }
