@@ -421,6 +421,38 @@ System.out.println(prePayReturn.getSign());
 	}
 	
 	
+	
+	public Map<String, Object> qryOrderedOrder(int villaid,String date) {
+		List<Object> values = new ArrayList<Object>();
+		String hql = "FROM Orders o WHERE 1=1 ";
+		
+		int i=0;
+		StrBuilder sb = new StrBuilder(hql);
+		
+		sb.append(" and o.villa = ?"+String.valueOf(i));
+		values.add(villaid);
+		i++;
+		
+		sb.append(" and end_day >= ?"+String.valueOf(i));
+		values.add(date);
+		
+		sb.append(" and o.state>0 order by start_day asc , o.id desc");
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		List<Orders> list = dao.findByPage(sb.toString(), 1, 9999, values);
+		map.put("list", list);
+		if (list.size()==0) {
+			map.put("amount", 0);
+		}else {
+			map.put("amount", 1);
+		}
+		
+		return map;
+	}
+	
+	
+	
+	
 	public void delOrder(int id) {
 		cs.delCommentByOrder(id);
 		dao.delete(Orders.class, id);

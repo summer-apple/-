@@ -62,6 +62,16 @@ img.head-img {
 	font-size: 1.1em;
     
 }
+.ordered-warp{
+	display: none;
+}
+.ordered-line {
+    text-align: left;
+    width: 80%;
+    margin-left: 10%;
+    font-size: 0.9em;
+    color: #666;
+}
 .time-line {
     width: 100%;
     height: 30px;
@@ -144,7 +154,7 @@ img.head-img {
 							<input id="villa" type="hidden" name="villa">
 							<input id="villaName" type="hidden" name="villaName">
 							<input id="store" type="hidden" name="store">
-							<input id="member" type="hidden" name="member" value="${member.id}">
+							<input id="member" type="hidden" name="member" value="15<!-- ${member.id} -->">
 							<input id="openid" type="hidden" name="openid"  value="${member.openid}">
 
 							<input id="normalPrice" name="normalPrice" type="hidden">
@@ -165,6 +175,10 @@ img.head-img {
 							</div>
 						</div>
 
+						<div class="ordered-warp">
+							<div  class="order-info-title">不可预订日期:</div>
+							
+						</div>
 						<div class="time-warp">
 						<div  class="order-info-title">开始日期:</div>
 							<div class="time-line">
@@ -296,6 +310,78 @@ img.head-img {
 
 
 
+
+
+
+
+			//日期转换方法
+			(function($) {
+			    $.extend({
+			        myTime: {
+			            /**
+			             * 当前时间戳
+			             * @return <int>        unix时间戳(秒)  
+			             */
+			            CurTime: function(){
+			                return Date.parse(new Date())/1000;
+			            },
+			            /**              
+			             * 日期 转换为 Unix时间戳
+			             * @param <string> 2014-01-01 20:20:20  日期格式              
+			             * @return <int>        unix时间戳(秒)              
+			             */
+			            DateToUnix: function(string) {
+			                var f = string.split(' ', 2);
+			                var d = (f[0] ? f[0] : '').split('-', 3);
+			                var t = (f[1] ? f[1] : '').split(':', 3);
+			                return (new Date(
+			                        parseInt(d[0], 10) || null,
+			                        (parseInt(d[1], 10) || 1) - 1,
+			                        parseInt(d[2], 10) || null,
+			                        parseInt(t[0], 10) || null,
+			                        parseInt(t[1], 10) || null,
+			                        parseInt(t[2], 10) || null
+			                        )).getTime() / 1000;
+			            },
+			            /**              
+			             * 时间戳转换日期              
+			             * @param <int> unixTime    待时间戳(秒)              
+			             * @param <bool> isFull    返回完整时间(Y-m-d 或者 Y-m-d H:i:s)              
+			             * @param <int>  timeZone   时区              
+			             */
+			            UnixToDate: function(unixTime, isFull, timeZone) {
+			                if (typeof (timeZone) == 'number')
+			                {
+			                    unixTime = parseInt(unixTime) + parseInt(timeZone) * 60 * 60;
+			                }
+			                var time = new Date(unixTime * 1000);
+			                var ymdhis = "";
+			                ymdhis += time.getUTCFullYear() + "-";
+			                ymdhis += (time.getUTCMonth()+1) + "-";
+			                ymdhis += time.getUTCDate();
+			                if (isFull === true)
+			                {
+			                    ymdhis += " " + time.getUTCHours() + ":";
+			                    ymdhis += time.getUTCMinutes() + ":";
+			                    ymdhis += time.getUTCSeconds();
+			                }
+			                return ymdhis;
+			            }
+			        }
+			    });
+			})(jQuery);
+
+			//格式化时间
+				function transTime(object,isFull){
+					if (object!=null) {
+						return $.myTime.UnixToDate(object.time/1000,isFull);
+					}else{
+						return "--";
+					}
+				}
+
+
+
 			//获取别墅json对象
 			$.ajax({
 				url:"villa/getVilla?type=json&id="+id,
@@ -373,6 +459,48 @@ img.head-img {
 			$("#truename,#phone,#email,#startDay,#endDay,.startPeriod,.endPeriod").change(function(){
 				$("#id").val(0);
 			});
+
+
+
+
+			//获取已预订日期
+			$.ajax({
+					url:"order/qryOrderedOrder",
+					dataType:"json",
+					method:"post",
+					data:{villaid:id,date:time2},
+					success:function(data){
+						if (data.amount>0) {
+
+							$(".ordered-warp").show(0);
+
+							$.each(data.list,function(i,item){
+							$(".ordered-warp").append(
+								'<div class="ordered-line">'+transTime(item.startDay,false)+' '+item.startPeriodValue+' -- '+transTime(item.endDay,false)+' '+item.endPeriodValue+'</div>'
+								);
+							});
+						}
+						
+					}
+				});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //调用JSAPI进行支付
