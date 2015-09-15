@@ -381,6 +381,50 @@ img.head-img {
 				}
 
 
+			//日期比较大小
+			function checkEndTime(){  
+				var today = new Date(time2.replace("-", "/").replace("-", "/"));
+
+			    var startDay=$("#startDay").val();  
+			    var start=new Date(startDay.replace("-", "/").replace("-", "/"));  
+			    var endDay=$("#endDay").val();  
+			    var end=new Date(endDay.replace("-", "/").replace("-", "/"));  
+
+
+
+			    if (start<today) {
+
+			    	alert("开始日期不能早于今天！");
+			       	$("#endDay").val(time2);
+			       	$("#startDay").val(time2);
+			    }
+
+			     if (end<today) {
+			    	alert("结束日期不能早于今天！");
+			       	$("#endDay").val(time2);
+			       	$("#startDay").val(time2);
+			    }
+
+
+			    if(end<start){  
+			       alert("开始日期/场次不能晚于结束日期/场次！");
+			       $("#endDay").val(startDay);
+			    }
+
+
+			    if (startDay==endDay) {
+			    	
+			    	var startPeriod = $(".startPeriod:checked").val();
+			    	var endPeriod = $(".endPeriod:checked").val();
+			    	
+			    	if (startPeriod > endPeriod) {
+			    		$(".startPeriod:first").click();
+			    		//$(".startPeriod:last").removeAttr("checked");
+			    	}
+			    }
+			}  
+
+
 
 			//获取别墅json对象
 			$.ajax({
@@ -453,8 +497,11 @@ img.head-img {
 			
 
 			$("#startDay,#endDay,.startPeriod,.endPeriod").change(function(){
+				checkEndTime();
 				calculate();
 			});
+
+
 
 			$("#truename,#phone,#email,#startDay,#endDay,.startPeriod,.endPeriod").change(function(){
 				$("#id").val(0);
