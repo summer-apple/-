@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.json.JSONObject;
-
 import org.apache.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,15 +22,13 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.zjlh.villa.dao.OrdersDaoHibernate4;
 import com.zjlh.villa.entity.Orders;
-import com.zjlh.villa.entity.Villa;
 import com.zjlh.villa.entity.weixin.po.PayParam;
 import com.zjlh.villa.entity.weixin.po.PrePayReturn;
 import com.zjlh.villa.service.util.AlgorithmService;
 import com.zjlh.villa.service.util.MapToBean;
 import com.zjlh.villa.service.util.WeixinUtilService;
-import com.zjlh.villa.test.MyXppDriver;
+import com.zjlh.villa.service.util.MyXppDriver;
 
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
 @Service
