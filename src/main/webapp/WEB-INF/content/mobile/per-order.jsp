@@ -140,7 +140,7 @@ img.head-img {
 
 			<div class="content" style="padding-top: 40px;">
 				 <div class="head-img-warp">
-				 	<img class="head-img" src="resources/images/gallery/aaa.jpg">
+				 	<img class="head-img" src="">
 				 </div>
 				 <div class="villa-base-info-warp">
 				 	<div class="villa-name"></div>
@@ -154,7 +154,7 @@ img.head-img {
 							<input id="villa" type="hidden" name="villa">
 							<input id="villaName" type="hidden" name="villaName">
 							<input id="store" type="hidden" name="store">
-							<input id="member" type="hidden" name="member" value="15<!-- ${member.id} -->">
+							<input id="member" type="hidden" name="member" value="${member.id}">
 							<input id="openid" type="hidden" name="openid"  value="${member.openid}">
 
 							<input id="normalPrice" name="normalPrice" type="hidden">
