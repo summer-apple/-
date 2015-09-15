@@ -263,18 +263,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                	$.each(data.list, function(i, item) {
 	                		 $("#qry-table tbody").append(
 	                		"<tr>"+
-							"	<td class='villa-id'>"+item.id+"</td>"+
-							"	<td class='villa-name'>"+item.name+"</td>"+
-							"	<td class='villa-storeName'>"+item.storeName+"</td>"+
-							"	<td class='villa-province'>"+item.province+"</td>"+
-							"	<td class='villa-city'>"+item.city+"</td>"+
-							"	<td class='villa-bedroom'>"+item.bedroom+"</td>"+
-							"	<td class='villa-people'>"+item.people+"</td>"+
-							"	<td class='villa-normalPrice'>"+item.normalPrice+"</td>"+
-							"	<td class='villa-specialPrice'>"+item.specialPrice+"</td>"+
-							"	<td class='villa-weight'>"+item.weight+"</td>"+
-							"	<td style='min-width:115px;'><a class='edit-btn btn btn-primary btn-single btn-sm' href='villa/getVilla?id="+item.id+"&type=redirect'>编辑</a><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
-							"</tr>"
+						"	<td class='villa-id'>"+item.id+"</td>"+
+						"	<td class='villa-name'>"+item.name+"</td>"+
+						"	<td class='villa-storeName'>"+item.storeName+"</td>"+
+						"	<td class='villa-province'>"+item.province+"</td>"+
+						"	<td class='villa-city'>"+item.city+"</td>"+
+						"	<td class='villa-bedroom'>"+item.bedroom+"</td>"+
+						"	<td class='villa-people'>"+item.people+"</td>"+
+						"	<td class='villa-normalPrice'>"+item.normalPrice+"</td>"+
+						"	<td class='villa-specialPrice'>"+item.specialPrice+"</td>"+
+						"	<td class='villa-weight'>"+item.weight+"</td>"+
+						"	<td style='min-width:115px;'><a class='edit-btn btn btn-primary btn-single btn-sm' href='villa/getVilla?id="+item.id+"&type=redirect'>编辑</a><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a><a target='_blank' class='btn btn-primary btn-single btn-sm' href='"+item.qrcode+"'>二维码</a></td>"+
+						"</tr>"
 	                		 );
 	                  	});
 	                }

@@ -74,7 +74,7 @@ public class CommentService {
  * @param orderid
  */
 	public void delCommentByOrder(int orderid) {
-		String sql = "DELETE FROM Comment WHERE order="+orderid;
+		String sql = "DELETE FROM Comment WHERE orderid="+orderid;
 		dao.sql(sql);
 	}
 

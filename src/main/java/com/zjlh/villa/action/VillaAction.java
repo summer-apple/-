@@ -78,9 +78,7 @@ public class VillaAction extends ActionSupport {
 			JSONObject obj = JSONObject.fromObject(data);
 			Villa villa = (Villa) JSONObject.toBean(obj, Villa.class);
 			
-			List<Svs> svslist = ss.getSvsByIDs(svs);
-			List<Facility> facilitylist = fs.getFacilityByIDs(facility);
-			List<Img> imglist = is.getImgByIDs(img);
+			
 			
 			int villaid = 0;
 
@@ -90,9 +88,20 @@ public class VillaAction extends ActionSupport {
 			}
 		
 			if (addFlag) {
-				ss.addVillaSvsList(svslist, villaid);
-				fs.addVillaFacilityList(facilitylist, villaid);
-				is.addVillaImgList(imglist, villaid);
+				if (!svs[0].equals("null")) {
+					List<Svs> svslist = ss.getSvsByIDs(svs);
+					ss.addVillaSvsList(svslist, villaid);
+				}
+				if (!facility[0].equals("null")) {
+					List<Facility> facilitylist = fs.getFacilityByIDs(facility);
+					fs.addVillaFacilityList(facilitylist, villaid);
+				}
+				if (!img[0].equals("null")) {
+					List<Img> imglist = is.getImgByIDs(img);
+					is.addVillaImgList(imglist, villaid);
+				}
+				
+				
 				out.print(villaid);
 			} else {
 				out.print(false);

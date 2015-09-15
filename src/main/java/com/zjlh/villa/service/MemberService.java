@@ -24,7 +24,7 @@ public class MemberService {
 	private MemberDaoHibernate4 dao;
 	
 	public Map<String, Object> qryMembers(int pageNo,int pageSize) {
-		List<Member> list = dao.findByPage("FROM Member", pageNo, pageSize);
+		List<Member> list = dao.findByPage("FROM Member ORDER BY id DESC", pageNo, pageSize);
 		long amount = dao.findCount("SELECT COUNT(*) FROM Member");
 		
 		Map<String, Object> map = new HashMap<String, Object>();

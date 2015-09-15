@@ -536,22 +536,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 j[params[item].name] = params[item].value;
             }
 
-   //          //获取服务列表
-			// var svsparams = $("#svs-form #svs-select").serializeArray();
-   //          var svsj = {};
-   //          for (var item in svsparams) {
-   //              svsj[svsparams[item].name] = svsparams[item].value;
-   //          }
-   //          //获取设施列表
-   //          var facilityparams = $("#facility-form #facility-select").serializeArray();
-   //          var facilityj = {};
-   //          for (var item in facilityparams) {
-   //              facilityj[facilityparams[item].name] = facilityparams[item].value;
-   //          }
+
    			var $svs = $("#o-svs-select").val()+","+$("#svs-select").val()+"";
    			
    			var $facility = $("#o-facility-select").val()+","+$("#facility-select").val()+"";
-   			alert($facility);
+   			
    			var $img = $("#img-select").val()+"";
 
             $.ajax({

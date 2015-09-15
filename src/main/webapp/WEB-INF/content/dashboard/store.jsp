@@ -156,7 +156,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<label class="col-sm-2 control-label" for="telephone">座机号</label>
 									
 									<div class="col-sm-10">
-										<input name="telephone" type="number" class="form-control" id="telephone" placeholder="座机号">
+										<input name="telephone" type="text" class="form-control" id="telephone" placeholder="座机号">
 									</div>
 								</div>
 
