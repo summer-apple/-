@@ -446,7 +446,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//格式化时间
 				function transTime(object,isFull){
 					if (object!=null) {
-						return $.myTime.UnixToDate(object.time/1000,isFull);
+						return $.myTime.UnixToDate(object.time/1000,isFull,8);
 					}else{
 						return "--";
 					}

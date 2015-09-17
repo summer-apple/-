@@ -268,11 +268,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
-//alert($.myTime.UnixToDate(1325347200));
+/* alert($.myTime.UnixToDate(1442592000,true,8)); */
 
 	function transTime(object,isFull){
 		if (object!=null) {
-			return $.myTime.UnixToDate(object.time/1000,isFull);
+			return $.myTime.UnixToDate(object.time/1000,isFull,8);
 		}else{
 			return "--";
 		}
@@ -305,6 +305,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 success:function(data){
                     $("#qry-table tbody").empty();
                 	$.each(data.list, function(i, item) {
+                    	
+                    
                 		 $("#qry-table tbody").append(
                 		"<tr>"+
 						"	<td class='order-id'>"+item.id+"</td>"+
@@ -315,9 +317,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						"	<td class='order-money'>"+item.money+"</td>"+
 						"	<td class='order-orderTime'>"+transTime(item.orderTime,true)+"</td>"+
 						"	<td class='order-payTime'>"+transTime(item.payTime,true)+"</td>"+
-						"	<td class='order-startDay'>"+transTime(item.startDay)+"</td>"+
+						"	<td class='order-startDay'>"+transTime(item.startDay,false)+"</td>"+
 						"	<td class='order-startPeriodValue'>"+item.startPeriodValue+"</td>"+
-						"	<td class='order-endDay'>"+transTime(item.endDay)+"</td>"+
+						"	<td class='order-endDay'>"+transTime(item.endDay,false)+"</td>"+
 						"	<td class='order-endPeriodValue'>"+item.endPeriodValue+"</td>"+
 						"	<td class='order-stateValue'>"+item.stateValue+"</td>"+
 						"	<td><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+
@@ -378,9 +380,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						"	<td class='order-money'>"+item.money+"</td>"+
 						"	<td class='order-orderTime'>"+transTime(item.orderTime,true)+"</td>"+
 						"	<td class='order-payTime'>"+transTime(item.payTime,true)+"</td>"+
-						"	<td class='order-startDay'>"+transTime(item.startDay)+"</td>"+
+						"	<td class='order-startDay'>"+transTime(item.startDay,false)+"</td>"+
 						"	<td class='order-startPeriodValue'>"+item.startPeriodValue+"</td>"+
-						"	<td class='order-endDay'>"+transTime(item.endDay)+"</td>"+
+						"	<td class='order-endDay'>"+transTime(item.endDay,false)+"</td>"+
 						"	<td class='order-endPeriodValue'>"+item.endPeriodValue+"</td>"+
 						"	<td class='order-stateValue'>"+item.stateValue+"</td>"+
 						"	<td><a class='btn btn-primary btn-single btn-sm' onclick=del("+item.id+")>删除</a></td>"+

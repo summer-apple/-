@@ -374,7 +374,7 @@ img.head-img {
 			//格式化时间
 				function transTime(object,isFull){
 					if (object!=null) {
-						return $.myTime.UnixToDate(object.time/1000,isFull);
+						return $.myTime.UnixToDate(object.time/1000,isFull,8);
 					}else{
 						return "--";
 					}
@@ -566,8 +566,8 @@ img.head-img {
 		       function(res){     
 			       
 			       //alert(res.err_code+" "+res.err_msg+" "+res.err_desc)
-		           if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-		           		//alert("页面消息返回:OK");
+		           if(res.err_msg != "get_brand_wcpay_request:ok" ) {
+		           		alert("支付出错，请联系玩够客服。");
 
 		           		//查询后台返回结果
 
