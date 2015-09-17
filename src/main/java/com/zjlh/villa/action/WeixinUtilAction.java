@@ -3,6 +3,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -58,7 +59,7 @@ public class WeixinUtilAction extends ActionSupport {
 
 	private static final String POST = "POST";
 	
-	//private static Logger logger = Logger.getLogger(WeixinUtilAction.class);
+	private static Logger logger = Logger.getLogger(WeixinUtilAction.class);
 	
 /**
  * 检验服务器与微信是否联通	
@@ -68,7 +69,7 @@ public class WeixinUtilAction extends ActionSupport {
 	@Action("/weixin/check-signature")
     public void checkSignature(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		
-		System.out.println("检验服务器与微信是否联通");
+		logger.info("检验服务器与微信是否联通");
    
         //获取请求参数
         String signature = request.getParameter("signature");
@@ -211,8 +212,8 @@ System.out.println("content="+content);
 	   // String destination = request.getParameter("destination");
 	    String code = request.getParameter("code");
 	    String rd = request.getParameter("rd");
-	    System.out.println(rd+"3333333333333333");
-	    
+	    logger.info("转跳地址= "+rd);
+	   
 	    
 	    Member member = (Member) request.getSession().getAttribute("member");
 	    
@@ -221,6 +222,8 @@ System.out.println("content="+content);
 	    	 System.out.println(member.getNickname());
 		}
 	   
+	    
+	    logger.info("用户登陆："+member.getId()+" "+member.getNickname());
 	    request.getSession().setAttribute("member", member);
 	    
 	    response.sendRedirect(rd);

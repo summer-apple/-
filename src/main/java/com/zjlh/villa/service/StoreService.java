@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class StoreService {
 
 	@Autowired
 	private StoreDaoHibernate4 dao;
-	
+	Logger logger = Logger.getLogger(StoreService.class);
 /**
  * 	新增商户
  * @param store
@@ -28,6 +29,7 @@ public class StoreService {
 	public int addStore(Store store) {	
 		if (!verifyStore(store.getName())) {
 			dao.save(store);
+			logger.info("新增商户"+store.getName()+" ID:"+store.getId());
 			return store.getId();
 		}else {
 			return 0;
@@ -116,6 +118,8 @@ public class StoreService {
 			i++;
 		}
 		
+		
+		sb.append(" order by id desc");
 		List<Store> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
 		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 		

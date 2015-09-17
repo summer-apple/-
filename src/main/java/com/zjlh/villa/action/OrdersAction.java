@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -50,6 +51,8 @@ public class OrdersAction extends ActionSupport {
 	private HttpServletRequest request;
 	@Autowired
 	private HttpServletResponse response;
+	
+	Logger logger = Logger.getLogger(OrdersAction.class);  
 
 	// 微信返回 fail 失败，success 成功
 	private static final String STATUC_SUCCESS = "success";
@@ -113,10 +116,13 @@ public class OrdersAction extends ActionSupport {
 		PrePayReturn prePayReturn = os.createOrder(orders, ip);
 
 		// 设置session
-		request.getSession().setAttribute("data", prePayReturn);
+		//request.getSession().setAttribute("data", prePayReturn);
 
+		JSONObject object = JSONObject.fromObject(prePayReturn);
 		
-		out.print(JSONObject.fromObject(prePayReturn));
+		logger.info("prePayRetuan="+object);
+		
+		out.print(object);
 		out.close();
 
 		//
@@ -164,12 +170,14 @@ public class OrdersAction extends ActionSupport {
 		xs.alias("xml", PayReturn.class);
 		String xmlMsg = inputStream2String(in);
 		payReturn = (PayReturn) xs.fromXML(xmlMsg);
+		
+		logger.info("payRetuan"+JSONObject.fromObject(payReturn));
 
 		if ("SUCCESS".equals(payReturn.getResult_code())) {
 			os.paidSuccess(Integer.parseInt(payReturn.getOut_trade_no()));
 		}
 
-		System.out.println("******************微信后台 支付是否成功的标志**************************"+payReturn.getResult_code());
+		logger.info("******************微信后台 支付是否成功的标志**************************"+payReturn.getResult_code());
 	}
 
 	public static final String inputStream2String(InputStream in)

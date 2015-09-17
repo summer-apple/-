@@ -1,9 +1,11 @@
 package com.zjlh.villa.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ public class CommentService {
 	private CommentDaoHibernate4 dao;
 	@Autowired
 	private OrdersService os;
-
+	Logger logger = Logger.getLogger(CommentService.class);  
 /**
  * 分页查询评价	
  * @param pageNo
@@ -27,8 +29,15 @@ public class CommentService {
  * @return
  */
 	public Map<String, Object> qryComment(int pageNo,int pageSize) {
-		List<Comment> list = dao.findByPage("FROM Comment ORDER BY id DESC", pageNo, pageSize);
-		long amount = dao.findCount("SELECT COUNT(*) FROM Comment");
+		List<Comment> list = new ArrayList<Comment>();
+		long amount = 0;
+		try {
+			list = dao.findByPage("FROM Comment ORDER BY id DESC", pageNo, pageSize);
+			amount = dao.findCount("SELECT COUNT(*) FROM Comment");
+		} catch (Exception e) {
+			logger.debug(e);
+		}
+		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
@@ -47,6 +56,7 @@ public class CommentService {
 	public int addComment(Comment comment) {
 		dao.save(comment);
 		os.commented(comment.getOrderid());
+		logger.info("添加评论。。。comment_id="+comment.getId());
 		return comment.getId();
 	}
 
@@ -66,7 +76,9 @@ public class CommentService {
  */
 	public List<Comment> qryComment(int villaid) {
 		String hql = "FROM Comment WHERE villa="+villaid+"  ORDER BY comment_day DESC";
+		logger.info("查询别墅评论 villaid="+villaid);
 		return dao.find(hql);
+		
 	}
 	
 /**
@@ -76,6 +88,7 @@ public class CommentService {
 	public void delCommentByOrder(int orderid) {
 		String sql = "DELETE FROM Comment WHERE orderid="+orderid;
 		dao.sql(sql);
+		logger.info("删除订单的评论。。。orderid="+orderid);
 	}
 
 /**
@@ -85,5 +98,6 @@ public class CommentService {
 		String sql = "DELETE FROM CommentImg WHERE comment="+id;
 		dao.sql(sql);
 		dao.delete(Comment.class, id);
+		logger.info("删除单条评论。。。commentid="+id);
 	}
 }

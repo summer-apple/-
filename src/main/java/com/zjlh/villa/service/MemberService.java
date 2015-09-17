@@ -2,6 +2,7 @@ package com.zjlh.villa.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +24,20 @@ import com.zjlh.villa.service.util.message.utils.ConfigLoader;
 public class MemberService {
 	@Autowired
 	private MemberDaoHibernate4 dao;
+	Logger logger = Logger.getLogger(MemberService.class);  
 	
 	public Map<String, Object> qryMembers(int pageNo,int pageSize) {
-		List<Member> list = dao.findByPage("FROM Member ORDER BY id DESC", pageNo, pageSize);
-		long amount = dao.findCount("SELECT COUNT(*) FROM Member");
+		
+		List<Member> list = new ArrayList<Member>();
+		long amount = 0;
+		
+		try {
+			list = dao.findByPage("FROM Member ORDER BY id DESC", pageNo, pageSize);
+			amount = dao.findCount("SELECT COUNT(*) FROM Member");
+		} catch (Exception e) {
+			logger.debug(e);
+		}
+		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
@@ -45,6 +57,7 @@ public class MemberService {
 		if (StringUtils.isBlank(member.getPhone())) {
 			member.setPhone(phone);
 		}
+		logger.info("根据订单更新用户信息："+ id +truename+" "+email+" "+phone);
 		dao.update(member);
 	}
 	
@@ -59,6 +72,7 @@ public class MemberService {
 		Date date = sdf.parse(birthday);
 		member.setBirthday(date);
 		dao.update(member);
+		logger.info("更新用户信息："+ id +truename+" "+email+" "+phone+" "+birthday);
 		return member;
 	}
 	
@@ -72,10 +86,7 @@ public class MemberService {
 		return phoneList;
 	}
 	
-	public List<String> getBirthdayPhoneList() {
-
-		
-		
+	public List<String> getBirthdayPhoneList() {	
 		String sql = "select m.phone from Member m where m.phone is not null and char_length(m.phone)=11 and MONTH(m.birthday)=MONTH(NOW()) and  DAYOFMONTH(m.birthday)=DAYOFMONTH(NOW())";
 		List<String> phoneList =  (List<String>) dao.sqlQryList(sql);
 		return phoneList;

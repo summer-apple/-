@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.http.ParseException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class OrdersService {
 	private MapToBean mapToBean;
 	@Autowired
 	private CommentService cs;
+	Logger logger = Logger.getLogger(OrdersService.class);  
 	
 	private static final String KEY = "zhejianglehuazhejianglehuaonegoo";
 	private static final String APPID = "wxdbc2bbdebe5808ab";
@@ -93,11 +95,11 @@ public class OrdersService {
 		
 		xstream.alias("xml", payParam.getClass());
 		
-System.out.println(xstream.toXML(payParam).replace("__", "_"));
+logger.info(xstream.toXML(payParam).replace("__", "_"));
 		
 		//请求预支付接口
 		String result = weixinUtilService.post(UNIFIEDORDER,xstream.toXML(payParam).replace("__", "_"));
-System.out.println(result);
+logger.info(result);
 		//格式化返回数据
 		XStream xStream2 = new XStream(new DomDriver());
 		xStream2.alias("xml", PrePayReturn.class);
@@ -113,10 +115,10 @@ System.out.println(result);
 		String timestamp = Long.toString(new Date().getTime()/1000);
 		prePayReturn.setTimestamp(timestamp);
 		
-System.out.println(timestamp);		
+	
 		
 		prePayReturn.setSign(getPaySign(prePayReturn));
-System.out.println(prePayReturn.getSign());
+logger.info(prePayReturn.getSign());
 		return prePayReturn;
 		
 		
@@ -210,7 +212,8 @@ System.out.println(prePayReturn.getSign());
 	        String stringSignTemp=StringA+"&key="+KEY;
 	        String  sign = algorithm.getMD5(stringSignTemp).toUpperCase();
 	        
-		
+		logger.info(stringSignTemp);
+		logger.info(sign);
 		
 		return sign;
 	}
@@ -231,6 +234,7 @@ System.out.println(prePayReturn.getSign());
 		orders.setState(1);
 		orders.setPayTime(new Date());
 		dao.update(orders);
+		logger.info("订单状态->支付成功");
 	}
 
 	/**
@@ -380,7 +384,7 @@ System.out.println(prePayReturn.getSign());
 			i++;
 		}
 		
-		sb.append(" order by id");
+		sb.append(" order by id desc");
 		
 		List<Orders> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
 		long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
@@ -452,16 +456,19 @@ System.out.println(prePayReturn.getSign());
 	public void delOrder(int id) {
 		cs.delCommentByOrder(id);
 		dao.delete(Orders.class, id);
+		logger.info("删除订单 id="+id);
 	}
 	
 	public void complete(int id) {
 		Orders orders = dao.get(Orders.class, id);
 		orders.setState(2);
 		dao.update(orders);
+		logger.info("订单状态->已完成");
 	}
 	public void commented(int id) {
 		Orders orders = dao.get(Orders.class, id);
 		orders.setState(3);
 		dao.update(orders);
+		logger.info("订单状态->已评价");
 	}
 }

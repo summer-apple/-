@@ -270,7 +270,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					if (state==1) {
 						return '<a class="complete-btn"  onclick=complete("'+id+'")>完成订单</a>'+
 								'<a class="cancel-btn" href="tel:10086">取消订单</a>'+
-								'<a class="comment-btn" href="mobile/comment?id='+id+'&villa='+villa+'">评 价</a>';
+								'<a class="comment-btn" style="display:none;" href="mobile/comment?id='+id+'&villa='+villa+'">评 价</a>';
 					}else if(state==2){
 						return '<a class="comment-btn" href="mobile/comment?id='+id+'&villa='+villa+'">评 价</a>';
 					}else{

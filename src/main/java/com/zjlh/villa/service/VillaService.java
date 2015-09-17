@@ -131,7 +131,7 @@ public class VillaService {
 			i++;
 		}
 		
-		sb.append(" order by id");
+		sb.append(" order by id desc");
 		List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
 		
 		
