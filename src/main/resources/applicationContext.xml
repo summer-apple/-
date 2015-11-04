@@ -30,7 +30,7 @@
 	<!-- 定义数据源Bean，使用C3P0数据源实现，并注入数据源的必要信息 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
-		p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/villa?useUnicode=true&amp;characterEncoding=utf-8" p:user="summer" p:password="summer"
+		p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/villa?useUnicode=true&amp;characterEncoding=utf-8" p:user="root" p:password="summer"
 		p:maxPoolSize="40" p:minPoolSize="2" p:initialPoolSize="2"
 		p:maxIdleTime="30" />
 
