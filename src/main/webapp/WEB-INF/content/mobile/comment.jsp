@@ -258,7 +258,7 @@ font-size: 0.8em;
 //上传图片
 		
      	$("#add-img-btn").click(function(){
-    	  $("#real-input:first").click();
+    	  $("#real-input:last").click();
         });
 
   	  	$('#file_upload').uploadifive({
@@ -289,7 +289,7 @@ font-size: 0.8em;
 					
 				$("#img-select").append('<option id="img-option-'+ img.id +'" value="'+ img.id +'" selected>'+ img.id +'</option>');
 
-
+				$("#real-input:first").remove();
 					}
 		});
 

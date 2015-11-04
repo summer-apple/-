@@ -556,7 +556,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 //上传图片
 		
      	$("#add-img-btn").click(function(){
-    	  $("#real-input:first").click();
+    	  $("#real-input:last").click();
         });
 
   	  	$('#file_upload').uploadifive({
@@ -588,6 +588,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$("#img-select").append('<option id="img-option-'+ img.id +'" value="'+ img.id +'" selected>'+ img.id +'</option>');//增加图片select 中的option
 
 				//$("#img-"+img.id).height($("#img-"+img.id).width()*0.618);//更改图片高度
+
+				$("#real-input:first").remove();
 
 					}
 		});
