@@ -150,7 +150,7 @@ logger.info(prePayReturn.getSign());
 		
 		params.put("total_fee",i+"");
 		params.put("spbill_create_ip", ip);
-		params.put("notify_url", "http://eliteeagle.org/villa/order/notify");
+		params.put("notify_url", "http://zhejianglehua.com/villa/order/notify");
 		params.put("openid", orders.getOpenid());
 		
 		String sign = getSign(params);
