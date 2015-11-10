@@ -137,8 +137,8 @@ public class VillaService {
 		
 		for (int j = 0; j < list.size(); j++) {
 			Villa v = list.get(j);
-			String secound_redirect = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/mobile/villa?id="+v.getId(),"UTF-8");
-			String redirect_url = java.net.URLEncoder.encode("http://gmcfe.tunnel.mobi/villa/weixin/login?rd="+secound_redirect, "UTF-8");
+			String secound_redirect = java.net.URLEncoder.encode("http://zhejianglehua.com/villa/mobile/villa?id="+v.getId(),"UTF-8");
+			String redirect_url = java.net.URLEncoder.encode("http://zhejianglehua.com/villa/weixin/login?rd="+secound_redirect, "UTF-8");
 			v.setQrcode("http://qr.liantu.com/api.php?w=500&text="+redirect_url);
 		}
 		
@@ -243,7 +243,7 @@ public class VillaService {
 				i++;
 			}
 			
-			sb.append(" order by weight desc,id asc");
+			sb.append(" order by weight desc,id desc");
 			List<Villa> list = dao.findByPage(sb.toString(), pageNo, pageSize, values);
 			long amount = dao.findCount("SELECT COUNT(*) "+sb.toString(), values);
 			Map<String, Object> map = new HashMap<String, Object>();

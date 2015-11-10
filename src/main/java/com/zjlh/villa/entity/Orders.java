@@ -250,7 +250,7 @@ public class Orders implements java.io.Serializable {
 	public void setOpenid(String openid) {
 		this.openid = openid;
 	}
-	@Formula("(select i.url from Img i join VillaImg vi on i.id = vi.img join villa v on vi.villa = v.id join orders o on v.id =o.villa where o.id=id limit 1)")
+	@Formula("(select i.url from Img i join VillaImg vi on i.id = vi.img join Villa v on vi.villa = v.id join Orders o on v.id =o.villa where o.id=id limit 1)")
 	public String getVillaHead() {
 		return villaHead;
 	}
