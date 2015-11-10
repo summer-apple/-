@@ -119,28 +119,28 @@ System.out.println("content="+content);
 			switch (msgType) {
 			case MessageUtilService.MESSAGE_TEXT://文本消息处理
 
-				switch (content) {
-				case "1":
-					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.firstMenu());
-					
-					break;
-					
-				case "2":
-					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.secondMenu());
-					break;
-					
-				case "?":
-					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.menuText());
-					break;
-					
-				case "？":
-					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.menuText());
-					break;
-
-				default:
-					message = MessageUtilService.initText(toUserName, fromUserName, "您发送的消息是："+content);
-					break;
-				}
+//				switch (content) {
+//				case "1":
+//					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.firstMenu());
+//					
+//					break;
+//					
+//				case "2":
+//					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.secondMenu());
+//					break;
+//					
+//				case "?":
+//					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.menuText());
+//					break;
+//					
+//				case "？":
+//					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.menuText());
+//					break;
+//
+//				default:
+					message = MessageUtilService.initText(toUserName, fromUserName, "玩够很高兴为您服务，请点击底部菜单进入！");
+//					break;
+//				}
 				
 				break;
 			case MessageUtilService.MESSAGE_IMAGE:
@@ -154,7 +154,7 @@ System.out.println("content="+content);
 					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.menuText());
 					Member member = weixinUtilService.getMemberInfo(fromUserName, weixinUtilService.getAccessToken());
 					JSONObject obj = JSONObject.fromObject(member);
-					message = messageUtilService.initText(toUserName, fromUserName, obj.toString());
+					message = messageUtilService.initText(toUserName, fromUserName,"欢迎关注玩够！");
 					
 					break;
 				case MessageUtilService.MESSAGE_UNSUBSCRIBE://取消关注事件处理
