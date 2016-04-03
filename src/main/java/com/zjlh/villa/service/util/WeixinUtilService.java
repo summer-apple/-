@@ -296,12 +296,12 @@ System.out.println("token 不存在或已过期...");
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	public Member getMemberInfoFormFollower(String openid,String token) throws ParseException, IOException {
+	public Member getMemberInfoFromFollower(String openid) throws ParseException, IOException {
 
-		String url = GET_MEMBER_INFO_URL.replace("ACCESS_TOKEN", token).replace("OPENID", openid);
+		String url = GET_MEMBER_INFO_URL.replace("ACCESS_TOKEN", getAccessToken()).replace("OPENID", openid);
 		JSONObject jsonObject = doGetStr(url);
 		
-		int subscribe = jsonObject.getInt("subscribe");
+		int subscribe =  Integer.parseInt(jsonObject.getString("subscribe"));
 		String nickname = jsonObject.getString("nickname");
 		Integer sex = jsonObject.getInt("sex");
 		String city = jsonObject.getString("city");
@@ -330,14 +330,6 @@ System.out.println("token 不存在或已过期...");
 		
 	}
 
-	
-	public Member getMemberInfoFromAuth2() {
-		
-		
-		
-		return null;
-	}
-	
 
 	
 	
@@ -492,7 +484,15 @@ System.out.println("token 不存在或已过期...");
 		member.setSubscribe(0);
 		memberDao.update(member);
 	}
-	
+
+
+	/**
+	 * 未关注用户登陆
+	 * @param code
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
 	public Member loginFromWeb(String code) throws ParseException, IOException {
 		
 		String url = WEB_AOUTH_ACCESS_TOKEN_URL.replace("APPID", APPID).replace("SECRET", APPSECRET).replace("CODE", code);
@@ -520,9 +520,32 @@ System.out.println("token 不存在或已过期...");
 		return member;
 		
 	}
-	
-	
 
+	/**
+	 * 从公众号菜单进入（已关注用户登陆）
+	 * @param code
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	public Member loginFromViewBtn(String code) throws ParseException, IOException {
+		String url = WEB_AOUTH_ACCESS_TOKEN_URL.replace("APPID", APPID).replace("SECRET", APPSECRET).replace("CODE", code);
+		JSONObject object = doGetStr(url);
+		logger.info("WEB_AOUTH_ACCESS_TOKEN_URL:"+object);
+		String openid;
+		try {
+			 openid = object.getString("openid");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		Member member = memberService.getMember(openid);
+		if (member == null) {
+			member = getMemberInfoFromFollower(openid);
+		}
+		return member;
+	}
 	
 	
 }
