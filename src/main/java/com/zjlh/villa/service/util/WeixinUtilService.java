@@ -33,6 +33,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,7 @@ import com.zjlh.villa.entity.weixin.trans.Data;
 import com.zjlh.villa.entity.weixin.trans.Parts;
 import com.zjlh.villa.entity.weixin.trans.Symbols;
 import com.zjlh.villa.entity.weixin.trans.TransResult;
+import com.zjlh.villa.service.MemberService;
 
 /**
  * 微信工具类
@@ -77,11 +79,17 @@ public class WeixinUtilService {
 	
 	private static final String DELETE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN";
 	
+	//关注公众号后获取用户信息
 	private static final String GET_MEMBER_INFO_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
 	
+	//网页授权获取用户信息
+	private static final String GET_MEMBER_INFO_FROM_AOUTH_URL = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+	
+	//引导用户进入授权页面
 	private static final String AUTHOR_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
 		
-	private static final String LOG_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+	//获取网页授权access_token
+	private static final String WEB_AOUTH_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 	
 	private static final AccessToken ACCESS_TOKEN = new AccessToken();
 	
@@ -90,7 +98,11 @@ public class WeixinUtilService {
 	
 	@Autowired
 	private MemberDaoHibernate4 memberDao;
+	
+	@Autowired
+	private MemberService memberService;
 
+	Logger logger = Logger.getLogger(WeixinUtilService.class);
 	
 	/**
 	 * get请求
@@ -284,26 +296,22 @@ System.out.println("token 不存在或已过期...");
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	public Member getMemberInfo(String openid,String token) throws ParseException, IOException {
+	public Member getMemberInfoFromFollower(String openid) throws ParseException, IOException {
 
-		String url = GET_MEMBER_INFO_URL.replace("ACCESS_TOKEN", token).replace("OPENID", openid);
+		String url = GET_MEMBER_INFO_URL.replace("ACCESS_TOKEN", getAccessToken()).replace("OPENID", openid);
 		JSONObject jsonObject = doGetStr(url);
 		
-System.out.println("return json = "+jsonObject.toString());
-		
-		int subscribe = jsonObject.getInt("subscribe");
+		int subscribe =  Integer.parseInt(jsonObject.getString("subscribe"));
 		String nickname = jsonObject.getString("nickname");
 		Integer sex = jsonObject.getInt("sex");
 		String city = jsonObject.getString("city");
 		String country = jsonObject.getString("country");
 		String province = jsonObject.getString("province");
 		String language = jsonObject.getString("language");
-		String headimgurl = jsonObject.getString("headimgurl");
-System.out.println("subscribeTime="+jsonObject.getInt("subscribe_time"));		
+		String headimgurl = jsonObject.getString("headimgurl");		
 		Timestamp ts = new Timestamp(jsonObject.getInt("subscribe_time"));  
 		
-		Date subscribeTime = ts;
-System.out.println(subscribeTime);		
+		Date subscribeTime = ts;	
 
 		String remark = jsonObject.getString("remark");
 	
@@ -319,13 +327,9 @@ System.out.println(subscribeTime);
 			memberDao.update(member2);
 			return member2;
 		}
-
-		
 		
 	}
 
-	
-	
 
 	
 	
@@ -480,24 +484,68 @@ System.out.println(subscribeTime);
 		member.setSubscribe(0);
 		memberDao.update(member);
 	}
-	
-	public Member login(String code) throws ParseException, IOException {
+
+
+	/**
+	 * 未关注用户登陆
+	 * @param code
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	public Member loginFromWeb(String code) throws ParseException, IOException {
 		
-		String url = LOG_ACCESS_TOKEN_URL.replace("APPID", APPID).replace("SECRET", APPSECRET).replace("CODE", code);
+		String url = WEB_AOUTH_ACCESS_TOKEN_URL.replace("APPID", APPID).replace("SECRET", APPSECRET).replace("CODE", code);
 		JSONObject object = doGetStr(url);
+		logger.info("WEB_AOUTH_ACCESS_TOKEN_URL:"+object);
+		String openid, web_access_token,refresh_token;
+		try {
+			 openid = object.getString("openid");
+			 web_access_token = object.getString("access_token");
+			 refresh_token = object.getString("refresh_token");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 		
-		System.out.println(object);
+		Member member = memberService.getMember(openid);
 		
-		String openid = object.getString("openid");
+		if (member == null) {
+			String url2 = GET_MEMBER_INFO_FROM_AOUTH_URL.replace("ACCESS_TOKEN", web_access_token).replace("OPENID", openid);
+			JSONObject object2 = doGetStr(url2);
+			logger.info("网页授权获取用户信息："+object2);
+			member = memberService.addMemberFromJson(object2);
+		}
 		
-		Member menber = memberDao.get(Member.class, "openid", openid);
-		
-		return menber;
+		return member;
 		
 	}
-	
-	
 
+	/**
+	 * 从公众号菜单进入（已关注用户登陆）
+	 * @param code
+	 * @return
+	 * @throws ParseException
+	 * @throws IOException
+	 */
+	public Member loginFromViewBtn(String code) throws ParseException, IOException {
+		String url = WEB_AOUTH_ACCESS_TOKEN_URL.replace("APPID", APPID).replace("SECRET", APPSECRET).replace("CODE", code);
+		JSONObject object = doGetStr(url);
+		logger.info("WEB_AOUTH_ACCESS_TOKEN_URL:"+object);
+		String openid;
+		try {
+			 openid = object.getString("openid");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		Member member = memberService.getMember(openid);
+		if (member == null) {
+			member = getMemberInfoFromFollower(openid);
+		}
+		return member;
+	}
 	
 	
 }

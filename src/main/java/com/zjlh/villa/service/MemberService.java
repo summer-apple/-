@@ -1,5 +1,6 @@
 package com.zjlh.villa.service;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,11 +21,40 @@ import com.zjlh.villa.service.util.message.config.AppConfig;
 import com.zjlh.villa.service.util.message.lib.MESSAGEXsend;
 import com.zjlh.villa.service.util.message.utils.ConfigLoader;
 
+import net.sf.json.JSONObject;
+
 @Service
 public class MemberService {
 	@Autowired
 	private MemberDaoHibernate4 dao;
 	Logger logger = Logger.getLogger(MemberService.class);  
+	
+	
+	
+	public Member addMemberFromJson(JSONObject object) {
+		
+		String openid = object.getString("openid");
+		String nickname = object.getString("nickname");
+		Integer sex = object.getInt("sex");
+		String city = object.getString("city");
+		String country = object.getString("country");
+		String province = object.getString("province");
+		String headimgurl = object.getString("headimgurl");		 
+		
+		
+		Member member = new Member(openid, nickname, sex, city, country, province, null, headimgurl, 0, null, null, null, null, null, null, 1);
+		Member member2 = dao.get(Member.class, "openid", openid);//查询数据库看该用户是否存在
+		
+		if (member2==null) {
+			dao.save(member);//保存新用户
+			return dao.get(Member.class, "openid", openid);//从数据库里查询出带ID的用户信息并返回
+		}else {
+			member2.setNickname(nickname);
+			member2.setHeadimgurl(headimgurl);
+			dao.update(member2);
+			return member2;
+		}
+	}
 	
 	public Map<String, Object> qryMembers(int pageNo,int pageSize) {
 		
@@ -78,6 +108,10 @@ public class MemberService {
 	
 	public Member getMember(int id) {
 		return dao.get(Member.class, id);
+	}
+	
+	public Member getMember(String openid) {
+		return dao.get(Member.class, "openid", openid);
 	}
 	
 	public List<String> getPhoneList() {
