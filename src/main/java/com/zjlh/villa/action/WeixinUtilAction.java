@@ -51,11 +51,6 @@ public class WeixinUtilAction extends ActionSupport {
 	
 	
 	private static final String GET = "GET";
-	
-	
-
-
-
 
 	private static final String POST = "POST";
 	
@@ -146,13 +141,17 @@ System.out.println("content="+content);
 			case MessageUtilService.MESSAGE_IMAGE:
 				break;
 				
+			case MessageUtilService.MESSAGE_VIEW:
+				logger.info("点击菜单URL："+map.get("EventKey"));
+				break;
+				
 			case MessageUtilService.MESSAGE_EVNET:
 				
 				String eventType = map.get("Event");//获取时间类型并加以判断
 				switch (eventType) {
 				case MessageUtilService.MESSAGE_SUBSCRIBE://关注事件处理
 					message = MessageUtilService.initText(toUserName, fromUserName, MessageUtilService.menuText());
-					Member member = weixinUtilService.getMemberInfo(fromUserName, weixinUtilService.getAccessToken());
+					Member member = weixinUtilService.getMemberInfoFromFollower(fromUserName);
 					JSONObject obj = JSONObject.fromObject(member);
 					message = messageUtilService.initText(toUserName, fromUserName,"欢迎关注玩够！");
 					
@@ -186,7 +185,7 @@ System.out.println("content="+content);
 
 	
 	@Action("/weixin/create-menu")
-	public void fuck() throws ParseException, IOException{
+	public void createMenu() throws ParseException, IOException{
 		
 		String menu = JSONObject.fromObject(WeixinUtilService.initMenu()).toString();		
 		String token = weixinUtilService.getAccessToken();
@@ -204,30 +203,60 @@ System.out.println("content="+content);
 	}
 	
 	
+	@Action("/weixin/login-web")
+	public void loginWeb() throws ParseException, IOException, ServletException{
+		HttpServletRequest request = ServletActionContext.getRequest();
+	    HttpServletResponse response = ServletActionContext.getResponse();
+	    
+
+	    String code = request.getParameter("code");
+	    String rd = request.getParameter("rd");
+	    logger.info("code= "+code);
+	    logger.info("转跳地址= "+rd);
+	   
+	    
+	    Member member = weixinUtilService.loginFromWeb(code);
+	    request.getSession().setAttribute("member", member);
+		
+	    if (member!=null) {
+	    	 logger.info("网页扫描-用户登陆：ID--"+member.getId()+"--"+member.getNickname());
+		}
+	   
+	    
+	    
+	    response.sendRedirect(rd);
+
+	}
+	
 	@Action("/weixin/login")
 	public void login() throws ParseException, IOException, ServletException{
 		HttpServletRequest request = ServletActionContext.getRequest();
 	    HttpServletResponse response = ServletActionContext.getResponse();
 	    
-	   // String destination = request.getParameter("destination");
+
 	    String code = request.getParameter("code");
 	    String rd = request.getParameter("rd");
+	    logger.info("code= "+code);
 	    logger.info("转跳地址= "+rd);
 	   
 	    
-	    Member member = (Member) request.getSession().getAttribute("member");
-	    
-	    if (member==null) {
-	    	 member = weixinUtilService.login(code);
-	    	 System.out.println(member.getNickname());
+	    Member member = weixinUtilService.loginFromViewBtn(code);
+	    request.getSession().setAttribute("member", member);
+		
+	    if (member!=null) {
+	    	 logger.info("网页扫描-用户登陆：ID--"+member.getId()+"--"+member.getNickname());
 		}
 	   
 	    
-	    logger.info("用户登陆："+member.getId()+" "+member.getNickname());
-	    request.getSession().setAttribute("member", member);
 	    
 	    response.sendRedirect(rd);
 
+	}
+	
+	@Action("/weixin/error")
+	public void error(){
+		
+		int i = Integer.parseInt("ddd");
 	}
 
 	

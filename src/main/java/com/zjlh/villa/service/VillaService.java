@@ -11,19 +11,24 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrBuilder;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zjlh.villa.action.WeixinUtilAction;
 import com.zjlh.villa.dao.VillaDaoHibernate4;
 import com.zjlh.villa.entity.Villa;
+import com.zjlh.villa.service.util.WeixinUtilService;
 
 @Service
 public class VillaService {
 
 	@Autowired
 	private VillaDaoHibernate4 dao;
-	
-/**
+	private static final String AUTHOR_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+	private static final String APPID = "wxdbc2bbdebe5808ab";
+	private static Logger logger = Logger.getLogger(VillaService.class);
+	/**
  * 	新增别墅
  * @param villa
  * @return
@@ -137,9 +142,21 @@ public class VillaService {
 		
 		for (int j = 0; j < list.size(); j++) {
 			Villa v = list.get(j);
+<<<<<<< HEAD
 			String secound_redirect = java.net.URLEncoder.encode("http://zhejianglehua.com/villa/mobile/villa?id="+v.getId(),"UTF-8");
 			String redirect_url = java.net.URLEncoder.encode("http://zhejianglehua.com/villa/weixin/login?rd="+secound_redirect, "UTF-8");
+=======
+			
+			String thired_redirect = java.net.URLEncoder.encode("http://gmc.ngrok.natapp.cn/villa/mobile/villa?id="+v.getId(),"UTF-8");
+			String second_redirect = java.net.URLEncoder.encode("http://gmc.ngrok.natapp.cn/villa/weixin/login-web?rd="+thired_redirect, "UTF-8");
+			String redirect_url = java.net.URLEncoder.encode(AUTHOR_URL.replace("APPID", APPID).replace("SCOPE", "snsapi_userinfo").replace("REDIRECT_URI", second_redirect));
+>>>>>>> final-test-brnch
 			v.setQrcode("http://qr.liantu.com/api.php?w=500&text="+redirect_url);
+			
+			
+			logger.info("\n\nthired_redirect:"+thired_redirect);
+			logger.info("second_redirect:"+second_redirect);
+			logger.info("redirect_url:"+redirect_url+"\n\n");
 		}
 		
 		
