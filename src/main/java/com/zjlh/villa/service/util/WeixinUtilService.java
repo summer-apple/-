@@ -345,62 +345,42 @@ System.out.println("token 不存在或已过期...");
 		
 		
 		Menu menu = new Menu();
-		ViewButton button11 = new ViewButton();
-		button11.setName("别墅预定");
-		button11.setType("view");
-		button11.setUrl(btn1url);
+		ViewButton button1 = new ViewButton();
+		button1.setName("别墅预订");
+		button1.setType("view");
+		button1.setUrl(btn1url);
 		
 		
-		
-		
-		ViewButton button21 = new ViewButton();
-		button21.setName("精品民宿");
-		button21.setType("view");
-		button21.setUrl("http://www.baidu.com");
-		
-		ViewButton button22 = new ViewButton();
-		button22.setName("玩够露营");
-		button22.setType("view");
-		button22.setUrl("http://www.baidu.com");
-		
-		Button button2 = new Button();
-		button2.setName("名宿露营");
-		button2.setSub_button(new Button[]{button21,button22});
+		ViewButton button2 = new ViewButton();
+		button2.setName("精彩活动");
+		button2.setType("view");
+		button2.setUrl("http://www.baidu.com");
 		
 		
 		
 		
 		
 		ViewButton button31 = new ViewButton();
-		button31.setName("生日惊喜");
+		button31.setName("关于轰趴");
 		button31.setType("view");
 		button31.setUrl("http://www.baidu.com");
 		
 		ViewButton button32 = new ViewButton();
-		button32.setName("玩够客服");
+		button32.setName("关于我们");
 		button32.setType("view");
 		button32.setUrl("http://www.baidu.com");
 		
 		ViewButton button33 = new ViewButton();
-		button33.setName("玩够论坛");
+		button33.setName("关于APP");
 		button33.setType("view");
 		button33.setUrl("http://www.baidu.com");
 		
-		ViewButton button34 = new ViewButton();
-		button34.setName("在线商城");
-		button34.setType("view");
-		button34.setUrl("http://www.baidu.com");
-		
-		ViewButton button35 = new ViewButton();
-		button35.setName("商务合作");
-		button35.setType("view");
-		button35.setUrl("http://www.baidu.com");
 		
 		Button button3 = new Button();
-		button3.setName("玩够客服");
-		button3.setSub_button(new Button[]{button31,button32,button33,button34,button35});
+		button3.setName("关于");
+		button3.setSub_button(new Button[]{button31,button32,button33});
 		
-		menu.setButton(new Button[]{button11,button2,button3});
+		menu.setButton(new Button[]{button1,button2,button3});
 		return menu;                  
 	}
 	
