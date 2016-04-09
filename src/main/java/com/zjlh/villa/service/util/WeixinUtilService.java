@@ -339,14 +339,14 @@ System.out.println("token 不存在或已过期...");
 	 * @throws UnsupportedEncodingException 
 	 */
 	public static Menu initMenu() throws UnsupportedEncodingException{
-		String secound_redirect = java.net.URLEncoder.encode("http://gmc.ngrok.natapp.cn/villa/mobile/index","UTF-8");
-		String redirect_url = java.net.URLEncoder.encode("http://gmc.ngrok.natapp.cn/villa/weixin/login?rd="+secound_redirect, "UTF-8");
+		String secound_redirect = java.net.URLEncoder.encode("http://zhejianglehua.com/villa/mobile/index","UTF-8");
+		String redirect_url = java.net.URLEncoder.encode("http://zhejianglehua.com/villa/weixin/login?rd="+secound_redirect, "UTF-8");
 		String btn1url = AUTHOR_URL.replace("APPID", APPID).replace("SCOPE", "snsapi_userinfo").replace("REDIRECT_URI", redirect_url);
 		
 		
 		Menu menu = new Menu();
 		ViewButton button1 = new ViewButton();
-		button1.setName("别墅预订");
+		button1.setName("轰趴预订");
 		button1.setType("view");
 		button1.setUrl(btn1url);
 		
@@ -354,7 +354,7 @@ System.out.println("token 不存在或已过期...");
 		ViewButton button2 = new ViewButton();
 		button2.setName("精彩活动");
 		button2.setType("view");
-		button2.setUrl("http://www.baidu.com");
+		button2.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=500750794&idx=1&sn=58a1a9b6d878cbed4d4e857fbbf13f78#rd");
 		
 		
 		
@@ -363,17 +363,17 @@ System.out.println("token 不存在或已过期...");
 		ViewButton button31 = new ViewButton();
 		button31.setName("关于轰趴");
 		button31.setType("view");
-		button31.setUrl("http://www.baidu.com");
+		button31.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=500750804&idx=1&sn=2c1cc2712d497f189604d5f81d296604#rd");
 		
 		ViewButton button32 = new ViewButton();
 		button32.setName("关于我们");
 		button32.setType("view");
-		button32.setUrl("http://www.baidu.com");
+		button32.setUrl("http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=500750806&idx=1&sn=096b702bfff3dce3c230ec25d85a1dfc#rd");
 		
 		ViewButton button33 = new ViewButton();
 		button33.setName("关于APP");
 		button33.setType("view");
-		button33.setUrl("http://www.baidu.com");
+		button33.setUrl("https://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=500750808&idx=1&sn=122aedd722192cae15b62ed4e8a2a798&scene=0&previewkey=g34lN8P%2FkoV%2BkLn8S0L3pcNS9bJajjJKzz%2F0By7ITJA%3D&key=710a5d99946419d98dba358c39da0ab0034b37ce953eb9b2a639d63a88cc0c26920f842997a4fd09016e04ff9e61502e&ascene=0&uin=MTE3NjI1NzgwMA%3D%3D&devicetype=iMac+MacBookPro9%2C2+OSX+OSX+10.11.4+build(15E61b)&version=11020201&pass_ticket=42G3dXHD8u%2BfwbB1YeeFRKAGhMo1wBKWS5FjgbeVKwvj9n0t3NXwimmDXfsIXo8I");
 		
 		
 		Button button3 = new Button();

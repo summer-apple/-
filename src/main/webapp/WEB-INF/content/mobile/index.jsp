@@ -316,7 +316,7 @@ ul.select-list {
 				<a class="search-icon" href="javascript:void(0);"><span class="fa fa-search"></span></a>
 			</div>
 		<form role="form" id="qry-form" class="qry-form" action="" method="post">
-			<input id="pageNo" name="pageNo" type="hidden" value="0">
+			<input id="pageNo" name="pageNo" type="hidden" value="1">
 			<input id="pageSize" name="pageSize" type="hidden" value="10">
 			<div class="search-box">
 				
@@ -621,18 +621,14 @@ ul.select-list {
 			 $(window).scroll(function() {
                 var amount = $("#amount").val();
                 var pageNo = $("#pageNo").val();
-
-                if (Number(pageNo) <= Number(amount)) {
+				
+                if (Number(amount)>1 && Number(pageNo) <= Number(amount)) {
                 	if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
                    		qry();
                 	}
                 }
                 
             });
-
-
-
-
 
 
 
