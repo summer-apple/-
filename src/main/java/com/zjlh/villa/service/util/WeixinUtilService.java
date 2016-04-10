@@ -332,15 +332,15 @@ System.out.println("token 不存在或已过期...");
 			try {
 				memberDao.save(member);//保存新用户
 			} catch (Exception e) {
-				e.printStackTrace();
-				logger.error("----nick 含义特殊字符-----");
+				logger.error("----nick 含义特殊字符 第一层-----");
 				try {
 					member.setNickname(member.getOpenid().substring(0, 5));//将用户昵称设为openid前六位
 					memberDao.save(member);
 				} catch (Exception e2) {
-					e.printStackTrace();
 					logger.error("----nick 含义特殊字符 第二层-----");
+					e.printStackTrace();
 				}
+				e.printStackTrace();
 			}
 
 			return memberDao.get(Member.class, "openid", openid);//从数据库里查询出带ID的用户信息并返回
@@ -501,9 +501,15 @@ System.out.println("token 不存在或已过期...");
 	}
 
 	public void unSubscribe(String openid) {
-		Member member = memberDao.get(Member.class, "openid", openid);
-		member.setSubscribe(0);
-		memberDao.update(member);
+		try {
+			Member member = memberDao.get(Member.class, "openid", openid);
+			member.setSubscribe(0);
+			memberDao.update(member);
+			logger.info("用户取消关注-该用户信息保留在数据库");
+		} catch (Exception e) {
+			logger.info("用户取消关注-该用户信息未存入数据库");
+		}
+		
 	}
 
 
