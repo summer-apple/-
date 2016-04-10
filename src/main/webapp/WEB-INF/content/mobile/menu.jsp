@@ -9,11 +9,11 @@
 			我的订单<span class="fa fa-angle-right" style="float: right;"></span>
 		</a></li>
 
-		<li><a href="http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=500750806&idx=1&sn=096b702bfff3dce3c230ec25d85a1dfc#rd">
+		<li><a href="#">
 			关于我们<span class="fa fa-angle-right" style="float: right;"></span>
 		</a></li>
 
-		<li><a href="http://mp.weixin.qq.com/s?__biz=MzA3MjYxMzM4OQ==&mid=207590634&idx=1&sn=13995751c140aac7965cbbf887714e05#rd">
+		<li><a href="dashboard/f">
 			联系我们<span class="fa fa-angle-right" style="float: right;"></span>
 		</a></li>
 

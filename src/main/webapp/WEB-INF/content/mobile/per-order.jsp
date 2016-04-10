@@ -565,7 +565,7 @@ img.head-img {
 		       },
 		       function(res){     
 			       
-			       //alert(res.err_code+" "+res.err_msg+" "+res.err_desc)
+			       alert(res.err_code+" "+res.err_msg+" "+res.err_desc)
 		           if(res.err_msg != "get_brand_wcpay_request:ok" ) {
 		           		alert("支付出错，请联系玩够客服。");
 
