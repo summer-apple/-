@@ -19,6 +19,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -303,6 +305,12 @@ System.out.println("token 不存在或已过期...");
 		
 		int subscribe =  Integer.parseInt(jsonObject.getString("subscribe"));
 		String nickname = jsonObject.getString("nickname");
+		
+		logger.info("****nickname:"+nickname);
+		nickname = filterEmoji(nickname);
+		logger.info("****nickname without emoji"+ nickname);
+		
+		
 		Integer sex = jsonObject.getInt("sex");
 		String city = jsonObject.getString("city");
 		String country = jsonObject.getString("country");
@@ -320,7 +328,20 @@ System.out.println("token 不存在或已过期...");
 		Member member2 = memberDao.get(Member.class, "openid", openid);//查询数据库看该用户是否存在
 		
 		if (member2==null) {
-			memberDao.save(member);//保存新用户
+			try {
+				memberDao.save(member);//保存新用户
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("----nick 含义特殊字符-----");
+				try {
+					member.setNickname(member.getOpenid().substring(0, 5));//将用户昵称设为openid前六位
+					memberDao.save(member);
+				} catch (Exception e2) {
+					e.printStackTrace();
+					logger.error("----nick 含义特殊字符 第二层-----");
+				}
+			}
+			
 			return memberDao.get(Member.class, "openid", openid);//从数据库里查询出带ID的用户信息并返回
 		}else {
 			member2.setSubscribe(1);
@@ -331,7 +352,21 @@ System.out.println("token 不存在或已过期...");
 	}
 
 
-	
+	  
+	public static String filterEmoji(String source) {  
+        if(source != null)
+        {
+            Pattern emoji = Pattern.compile ("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE ) ;
+            Matcher emojiMatcher = emoji.matcher(source);
+            if ( emojiMatcher.find()) 
+            {
+                source = emojiMatcher.replaceAll("*");
+                return source ; 
+            }
+        return source;
+       }
+       return source;  
+    }
 	
 	/**
 	 * 组装菜单
