@@ -325,7 +325,7 @@ ul.select-list {
 				<a class="search-icon" href="mobile/index"><span class="fa fa-search"></span></a>
 			</div>
 		<form role="form" id="qry-form" class="qry-form" action="" method="post">
-			<input id="pageNo" name="pageNo" type="hidden" value="0">
+			<input id="pageNo" name="pageNo" type="hidden" value="1">
 			<input id="pageSize" name="pageSize" type="hidden" value="10">
 			
 				<select class="address province-select" id="s1" name="province">
@@ -447,7 +447,7 @@ ul.select-list {
 	                			}
 	                		});
 
-
+	                		/* '<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name.substring(0,7) +'...</a></div>'+ */
 	                		$(".content").append(
 	                			'<div class="villa-warp">'+
 									'<div class="villa-head-warp">'+
@@ -455,7 +455,7 @@ ul.select-list {
 									'</div>'+
 									'<div class="villa-info-warp">'+
 										'<div class="villa-info-line1">'+
-											'<div class="villa-info-left villa-name-info">'+ item.name +'</div>'+
+											'<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name +'</a></div>'+
 											'<div class="villa-info-right order-now-link"><a href="mobile/villa?id='+item.id+'">立即预定</a></div>'+
 										'</div>'+
 										'<div class="villa-info-line2">'+
@@ -490,7 +490,7 @@ ul.select-list {
                 var amount = $("#amount").val();
                 var pageNo = $("#pageNo").val();
 
-                if (Number(pageNo) <= Number(amount)) {
+                if (Number(amount)>1 && Number(pageNo) <= Number(amount)) {
                 	if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
                    		qry();
                 	}
