@@ -131,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		<form role="form" id="qry-form" class="qry-form" action="" method="post">
 			<input id="memberid" name="memberid" type="hidden" value="${member.id}"><!-- ${member.id} -->
-			<input id="pageNo" name="pageNo" type="hidden" value="0">
+			<input id="pageNo" name="pageNo" type="hidden" value="1">
 			<input id="pageSize" name="pageSize" type="hidden" value="10">
 			
 			<input id="amount" type="hidden">
@@ -370,7 +370,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 var amount = $("#amount").val();
                 var pageNo = $("#pageNo").val();
 
-                if (Number(pageNo) <= Number(amount)) {
+                if (Number(amount)>1 && Number(pageNo) <= Number(amount)) {
                 	if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
                    		qry();
                 	}
