@@ -337,7 +337,7 @@ ul.select-list {
 
 			<div class="select-box">
 				<ul class="select-list">
-					<li class="destination-item select-item">目的地 <span class="fa fa-angle-down"></span></li>
+					<li class="destination-item select-item">地  区 <span class="fa fa-angle-down"></span></li>
 					<li class="price-item select-item">价  格 <span class="fa fa-angle-down"></span></li>
 					<li class="bedroom-item select-item">卧室数 <span class="fa fa-angle-down"></span></li>
 				</ul>
@@ -587,7 +587,7 @@ ul.select-list {
 									'</div>'+
 									'<div class="villa-info-warp">'+
 										'<div class="villa-info-line1">'+
-											'<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name +'</a></div>'+
+										'<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name.substring(0,7) +'...</a></div>'+
 											'<div class="villa-info-right order-now-link"><a href="mobile/villa?id='+item.id+'">立即预定</a></div>'+
 										'</div>'+
 										'<div class="villa-info-line2">'+

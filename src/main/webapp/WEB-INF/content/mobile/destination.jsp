@@ -447,7 +447,8 @@ ul.select-list {
 	                			}
 	                		});
 
-	                		/* '<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name.substring(0,7) +'...</a></div>'+ */
+	                		/* 
+											'<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name +'</a></div>'+*/
 	                		$(".content").append(
 	                			'<div class="villa-warp">'+
 									'<div class="villa-head-warp">'+
@@ -455,7 +456,7 @@ ul.select-list {
 									'</div>'+
 									'<div class="villa-info-warp">'+
 										'<div class="villa-info-line1">'+
-											'<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name +'</a></div>'+
+											'<div class="villa-info-left villa-name-info"><a href="mobile/villa?id='+item.id+'">'+ item.name.substring(0,7) +'...</a></div>'+ 
 											'<div class="villa-info-right order-now-link"><a href="mobile/villa?id='+item.id+'">立即预定</a></div>'+
 										'</div>'+
 										'<div class="villa-info-line2">'+
