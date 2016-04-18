@@ -129,6 +129,9 @@ public class VillaAction extends ActionSupport {
 		if (svsString.endsWith(",null")) {
 			svsString = (String) svsString.subSequence(0,svsString.lastIndexOf(","));
 			svs = svsString.split(",");
+		}else if (svsString.equals("null")) {
+			String[] n = new String[0];
+			svs =  n;
 		}else {
 			svs = svsString.split(",");
 		}
@@ -140,9 +143,29 @@ public class VillaAction extends ActionSupport {
 		if (facilityString.endsWith(",null")) {
 			facilityString = (String) facilityString.subSequence(0,facilityString.lastIndexOf(","));
 			facility = facilityString.split(",");
-		}else {
+		}else if (facilityString.endsWith("null")) {
+			String[] n = new String[0];
+			facility = n;
+		}else{
 			facility = facilityString.split(",");
 		}
+		
+		
+		String imgString = img[0];
+		if (imgString.startsWith("null,")) {
+			imgString = imgString.substring(5, imgString.length());
+		}
+		if (imgString.endsWith(",null")) {
+			imgString = (String) imgString.subSequence(0,imgString.lastIndexOf(","));
+			img = imgString.split(",");
+		}else if (imgString.endsWith("null")) {
+			String[] n = new String[0];
+			img = n;
+		}else{
+			img = imgString.split(",");
+		}
+		
+		
 		
 		
 		
