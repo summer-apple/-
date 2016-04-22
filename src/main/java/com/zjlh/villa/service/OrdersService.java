@@ -236,6 +236,72 @@ logger.info(prePayReturn.getSign());
 		dao.update(orders);
 		logger.info("订单状态->支付成功");
 	}
+	
+	
+	
+	public boolean available(Date date1, Date date2, int period1, int period2,int villaid) throws java.text.ParseException{
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date today = sdf1.parse(sdf1.format(new Date()));
+		
+		
+		Map<String, Object> map = qryOrderedOrder(villaid, sdf1.format(today));
+		
+		int amount = (int)map.get("amount");
+		boolean flag = true;
+		
+		if (amount != 0) {//有已预订别墅
+			
+			List<Orders> orders = (List<Orders>) map.get("list");
+			for(Orders o:orders){
+				Date startDay = o.getStartDay();
+				Date endDay = o.getEndDay();
+				int startPeriod = o.getStartPeriod();
+				int endPeriod = o.getEndPeriod();
+				
+				logger.info("用户选择日期："+sdf1.format(date1)+"--"+period1+"  "+sdf1.format(date2)+"--"+period2);
+				logger.info("已预订日期："+sdf1.format(startDay)+"--"+startPeriod+"  "+sdf1.format(endDay)+"--"+endPeriod);
+				
+				
+				int b1 = date2.compareTo(startDay);//==-1 结束日期早于订单日期
+				int b2 = date1.compareTo(endDay);//==1  开始日期晚于订单日期
+				if ( (b1 == -1) || (b2 == 1) ) {
+					logger.info("订单不冲突");
+					continue;
+				}else if(b1 == 0){//结束日期与订单开始日期重合
+					logger.info("结束日期与订单开始日期重合");
+					if(period2 < startPeriod){//早于订单  结束在上午场，，订单开始在下午场，，不冲突
+						logger.info("早于订单  结束在上午场，，订单开始在下午场，，不冲突");
+						continue;
+					}else {
+						logger.info("!!!!!订单冲突 返回false!!!!!!");
+						return false;
+					}
+	
+				}else if(b2 == 0){//开始日期与订单结束日期重合
+					logger.info("开始日期与订单结束日期重合");
+					if(endPeriod < period1){//晚于订单   开始在上午场，，订单结束在下午场，，不冲突
+						logger.info("晚于订单   开始在上午场，，订单结束在下午场，，不冲突");
+						continue;
+					}else {
+						logger.info("!!!!!订单冲突 返回false!!!!!!");
+						return false;
+					}
+	
+				}else {
+					logger.info("!!!!!订单冲突 返回false!!!!!!");
+					return false;//一旦有一个订单冲突，直接返回false
+				}
+				
+			}
+			
+		}
+		
+		return flag;
+		
+	}
+	
+	
+	
 
 	/**
 	 * 

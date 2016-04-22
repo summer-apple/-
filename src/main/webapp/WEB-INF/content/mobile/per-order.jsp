@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<title>ONE GO</title>
 
-		
+
 	<style type="text/css">
 		.head-img-warp {
     width: 100%;
@@ -60,7 +60,7 @@ img.head-img {
 	height: 100%;
 	text-indent: 10px;
 	font-size: 1.1em;
-    
+
 }
 .ordered-warp{
 	display: none;
@@ -126,7 +126,7 @@ img.head-img {
 }
 
 	</style>
-		
+
 	</head>
 	<body>
 		<div id="page">
@@ -177,12 +177,12 @@ img.head-img {
 
 						<div class="ordered-warp">
 							<div  class="order-info-title">不可预订日期:</div>
-							
+
 						</div>
 						<div class="time-warp">
 						<div  class="order-info-title">开始日期:</div>
 							<div class="time-line">
-								
+
 								<input id="startDay" type="date" name="startDay">
 								<div class="period-warp">
 									<input class="startPeriod" type="radio" name="startPeriod" value="0" checked>上午
@@ -191,7 +191,7 @@ img.head-img {
 							</div>
 							<div class="order-info-title">结束日期:</div>
 							<div class="time-line">
-								
+
 								<input id="endDay" type="date" name="endDay">
 								<div class="end-warp">
 									<input class="endPeriod" type="radio" name="endPeriod" value="0" checked>上午
@@ -215,7 +215,7 @@ img.head-img {
 				</div>
 
 
-				
+
 
 			</div>
 
@@ -231,8 +231,8 @@ img.head-img {
 		<link rel="stylesheet" href="resources/css/fonts/fontawesome/css/font-awesome.min.css">
 		<!-- <link rel="stylesheet" href="resources/css/fonts/elusive/css/elusive.css">
 		<link rel="stylesheet" href="resources/css/bootstrap.css"> -->
-		
-		
+
+
 		<script type="text/javascript" src="resources/js/jquery-1.11.1.min.js"></script>
 	<!-- 	<script src="resources/js/jquery-validate/jquery.validate.min.js"></script> -->
 		<script type="text/javascript" src="resources/js/jquery.mmenu.min.all.js"></script>
@@ -264,48 +264,48 @@ img.head-img {
 				});
 			});
 		</script>
-		
+
 		<script type="text/javascript">
 		$().ready(function(){
 
-	
+
 
 			//获取地址栏参数 调用getUrlParam(name)方法
-	
+
 			function getUrlParam(name) {
 				var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
 				var r = window.location.search.substr(1).match(reg);
 				if (r!=null) return unescape(r[2]); return null;
 				}
-			
+
 			var id = getUrlParam("id");
 
 
 
 
 			//获取当前日期
-			Date.prototype.Format = function(fmt){ //author: meizz   
-				  var o = {   
-				    "M+" : this.getMonth()+1,                 //月份   
-				    "d+" : this.getDate(),                    //日   
-				    "h+" : this.getHours(),                   //小时   
-				    "m+" : this.getMinutes(),                 //分   
-				    "s+" : this.getSeconds(),                 //秒   
-				    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
-				    "S"  : this.getMilliseconds()             //毫秒   
-				  };   
-				  if(/(y+)/.test(fmt))   
-				    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-				  for(var k in o)   
-				    if(new RegExp("("+ k +")").test(fmt))   
-				  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
-				  return fmt;   
-				}  
-			
+			Date.prototype.Format = function(fmt){ //author: meizz
+				  var o = {
+				    "M+" : this.getMonth()+1,                 //月份
+				    "d+" : this.getDate(),                    //日
+				    "h+" : this.getHours(),                   //小时
+				    "m+" : this.getMinutes(),                 //分
+				    "s+" : this.getSeconds(),                 //秒
+				    "q+" : Math.floor((this.getMonth()+3)/3), //季度
+				    "S"  : this.getMilliseconds()             //毫秒
+				  };
+				  if(/(y+)/.test(fmt))
+				    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+				  for(var k in o)
+				    if(new RegExp("("+ k +")").test(fmt))
+				  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+				  return fmt;
+				}
 
-			//var time1 = new Date().Format("yyyy-MM-dd HH:mm:ss");     
- 
-			var time2 = new Date().Format("yyyy-MM-dd");    
+
+			//var time1 = new Date().Format("yyyy-MM-dd HH:mm:ss");
+
+			var time2 = new Date().Format("yyyy-MM-dd");
 			$("#startDay,#endDay").val(time2);
 
 
@@ -320,15 +320,15 @@ img.head-img {
 			        myTime: {
 			            /**
 			             * 当前时间戳
-			             * @return <int>        unix时间戳(秒)  
+			             * @return <int>        unix时间戳(秒)
 			             */
 			            CurTime: function(){
 			                return Date.parse(new Date())/1000;
 			            },
-			            /**              
+			            /**
 			             * 日期 转换为 Unix时间戳
-			             * @param <string> 2014-01-01 20:20:20  日期格式              
-			             * @return <int>        unix时间戳(秒)              
+			             * @param <string> 2014-01-01 20:20:20  日期格式
+			             * @return <int>        unix时间戳(秒)
 			             */
 			            DateToUnix: function(string) {
 			                var f = string.split(' ', 2);
@@ -343,11 +343,11 @@ img.head-img {
 			                        parseInt(t[2], 10) || null
 			                        )).getTime() / 1000;
 			            },
-			            /**              
-			             * 时间戳转换日期              
-			             * @param <int> unixTime    待时间戳(秒)              
-			             * @param <bool> isFull    返回完整时间(Y-m-d 或者 Y-m-d H:i:s)              
-			             * @param <int>  timeZone   时区              
+			            /**
+			             * 时间戳转换日期
+			             * @param <int> unixTime    待时间戳(秒)
+			             * @param <bool> isFull    返回完整时间(Y-m-d 或者 Y-m-d H:i:s)
+			             * @param <int>  timeZone   时区
 			             */
 			            UnixToDate: function(unixTime, isFull, timeZone) {
 			                if (typeof (timeZone) == 'number')
@@ -382,13 +382,13 @@ img.head-img {
 
 
 			//日期比较大小
-			function checkEndTime(){  
+			function checkEndTime(){
 				var today = new Date(time2.replace("-", "/").replace("-", "/"));
 
-			    var startDay=$("#startDay").val();  
-			    var start=new Date(startDay.replace("-", "/").replace("-", "/"));  
-			    var endDay=$("#endDay").val();  
-			    var end=new Date(endDay.replace("-", "/").replace("-", "/"));  
+			    var startDay=$("#startDay").val();
+			    var start=new Date(startDay.replace("-", "/").replace("-", "/"));
+			    var endDay=$("#endDay").val();
+			    var end=new Date(endDay.replace("-", "/").replace("-", "/"));
 
 
 
@@ -406,23 +406,23 @@ img.head-img {
 			    }
 
 
-			    if(end<start){  
+			    if(end<start){
 			       alert("开始日期/场次不能晚于结束日期/场次！");
 			       $("#endDay").val(startDay);
 			    }
 
 
 			    if (startDay==endDay) {
-			    	
+
 			    	var startPeriod = $(".startPeriod:checked").val();
 			    	var endPeriod = $(".endPeriod:checked").val();
-			    	
+
 			    	if (startPeriod > endPeriod) {
 			    		$(".startPeriod:first").click();
 			    		//$(".startPeriod:last").removeAttr("checked");
 			    	}
 			    }
-			}  
+			}
 
 
 
@@ -435,7 +435,7 @@ img.head-img {
 					//插入图片
 					var imgs = data.img;
 					$.each(imgs,function(i,item){
-						
+
 						if (i==0) {
 							$(".head-img").attr("src",item.url);
 						}
@@ -457,18 +457,19 @@ img.head-img {
 		    		 //插入villa,store,member
 		    		 $("#villa").val(data.id);
 		    		 $("#store").val(data.store);
-		    		 
+
 
 		    		 //计算价格
 		    		 calculate();
-		    		
 
-					
+
+
 				}
 			});
 
 
 			//价格计算函数
+			var $available = false;
 
 			var calculate = function(){
 				var $normalPrice = $("#normalPrice").val();
@@ -485,16 +486,22 @@ img.head-img {
 					url:"order/calculate",
 					dataType:"json",
 					method:"post",
-					data:{startDay:$startDay,startPeriod:$startPeriod,endDay:$endDay,endPeriod:$endPeriod,normalPrice:$normalPrice,specialPrice:$specialPrice},
+					data:{startDay:$startDay,startPeriod:$startPeriod,endDay:$endDay,endPeriod:$endPeriod,normalPrice:$normalPrice,specialPrice:$specialPrice,villaid:id},
 					success:function(data){
-						$(".money-display").html("￥ "+data);
-						$("#money").val(data);
+						if (data == false) {
+							$(".money-display").html("预定时间冲突，请重新选择！");
+							$available = false;
+						}else{
+							$(".money-display").html("￥ "+data);
+							$("#money").val(data);
+							$available = true;
+						}
 					}
 				});
 
 
 			}
-			
+
 
 			$("#startDay,#endDay,.startPeriod,.endPeriod").change(function(){
 				checkEndTime();
@@ -527,7 +534,7 @@ img.head-img {
 								);
 							});
 						}
-						
+
 					}
 				});
 
@@ -563,24 +570,24 @@ img.head-img {
 				"signType" : "MD5", //微信签名方式:1.sha1
 				"paySign" : $paySign ////微信签名
 		       },
-		       function(res){     
-			       
+		       function(res){
+
 			       //alert(res.err_code+" "+res.err_msg+" "+res.err_desc)
 		           if(res.err_msg != "get_brand_wcpay_request:ok" ) {
 		           		alert("支付出错，请联系玩够客服。");
 
 		           		//查询后台返回结果
 
-		           }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+		           }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
 		       }
-		   ); 
+		   );
 		}
 		function callpay($appId,$timeStamp,$nonceStr,$package,$paySign){
 			if (typeof WeixinJSBridge == "undefined"){
 			   if( document.addEventListener ){
 			       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
 			   }else if (document.attachEvent){
-			       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+			       document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
 			       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
 			   }
 			}else{
@@ -595,42 +602,44 @@ img.head-img {
 		var $paySign = "";
 
 			$(".next-btn").click(function(){
+			//alert($available);
+				if($available){
+						if ($("#id").val()==0) {
 
-				if ($("#id").val()==0) {
+							//获取订单字段
+							var params = $("#order-form").serializeArray();
+				            var j = {};
+				            for (var item in params) {
+				                j[params[item].name] = params[item].value;
+				            }
 
-					//获取订单字段
-					var params = $("#order-form").serializeArray();
-		            var j = {};
-		            for (var item in params) {
-		                j[params[item].name] = params[item].value;
-		            }
+				            $.ajax({
+			                url:'order/createOrder',
+			                data: {data:JSON.stringify(j)},
+			                type:'post',
+			                dataType:'json',
+			                success:function(data){
+			                	if (data==0) {
+			                		alert("请填写完整订单信息！");
+			                	}else{
+			                		$("#id").val(data.orderid);
+				                	$appId = data.appid;
+				                	$timeStamp = data.timestamp;
+				                	$nonceStr = data.nonce_str;
+									$package = "prepay_id=" + data.prepay_id;
+									$paySign = data.sign;
 
-		            $.ajax({
-	                url:'order/createOrder',
-	                data: {data:JSON.stringify(j)},
-	                type:'post',
-	                dataType:'json',
-	                success:function(data){
-	                	if (data==0) {
-	                		alert("请填写完整订单信息！");
-	                	}else{
-	                		$("#id").val(data.orderid);
-		                	$appId = data.appid;
-		                	$timeStamp = data.timestamp;
-		                	$nonceStr = data.nonce_str;
-							$package = "prepay_id=" + data.prepay_id;
-							$paySign = data.sign;
+				                	callpay();
+			                	}
 
-		                	callpay();
-	                	}
-	                	
-	                	//window.location.href="mobile/pay";
-		                }
-		            });
+			                	//window.location.href="mobile/pay";
+				                }
+				            });
 
-				}else{
-					callpay();
-				}
+						}else{
+							callpay();
+						}
+				}//if available
 
 
 			});
@@ -641,7 +650,7 @@ img.head-img {
 
 
 		});
-		
+
 
 	</script>
 	</body>

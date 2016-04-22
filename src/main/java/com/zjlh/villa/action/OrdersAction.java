@@ -147,12 +147,22 @@ public class OrdersAction extends ActionSupport {
 
 		Date startDay = sdf.parse(request.getParameter("startDay"));
 		Date endDayDate = sdf.parse(request.getParameter("endDay"));
+		
+		int villaid = Integer.parseInt(request.getParameter("villaid"));
 
-		String money = os.calculate(startDay, endDayDate, startPeriod,
-				endPeriod, normalPrice, specialPrice);
+		
+		boolean available = os.available(startDay, endDayDate, startPeriod, endPeriod, villaid);
+		
+		String result = "false";
+		
+		if (available) {
+			result = os.calculate(startDay, endDayDate, startPeriod,
+					endPeriod, normalPrice, specialPrice);
+		}
+		
 
 		PrintWriter out = response.getWriter();
-		out.print(money);
+		out.print(result);
 		out.close();
 
 	}
