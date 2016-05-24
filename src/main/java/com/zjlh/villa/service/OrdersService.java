@@ -238,7 +238,16 @@ logger.info(prePayReturn.getSign());
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param date1 选择开始日期
+	 * @param date2 选择结束日期
+	 * @param period1 选择开始时段
+	 * @param period2 选择结束时段
+	 * @param villaid 所选别墅ID
+	 * @return 是否可预订
+	 * @throws java.text.ParseException
+	 */
 	public boolean available(Date date1, Date date2, int period1, int period2,int villaid) throws java.text.ParseException{
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 		Date today = sdf1.parse(sdf1.format(new Date()));
